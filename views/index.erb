@@ -1,0 +1,5 @@
+<ul>
+<% @plays.each do |play| %>
+  <li><a href="<%= url("/plays/#{play.slug}") %>"><%= play.title %></a></li>
+<% end %>
+</ul>

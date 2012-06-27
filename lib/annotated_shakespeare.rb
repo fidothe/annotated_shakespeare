@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'sinatra/base'
+require 'play'
 
 class AnnotatedShakespeare < Sinatra::Base
   set :views, File.expand_path('../../views', __FILE__)
@@ -8,7 +9,7 @@ class AnnotatedShakespeare < Sinatra::Base
 
   get '/' do
     @title = "Plays of William Shakespeare"
-    @plays = {'julius' => 'Julius Caesar', 'richard' => 'Richard II'}
+    @plays = Play.all
     erb :index
   end
 
@@ -17,10 +18,8 @@ class AnnotatedShakespeare < Sinatra::Base
   end
 
   get '/plays/:id' do
-    plays = {'julius' => 'Julius Caesar', 'richard' => 'Richard II'}
-    @play = plays[params[:id]]
-    @title = @play
-    @url_slug = params[:id]
+    @play = Play.find(params[:id])
+    @title = @play.title
     erb :play_index
   end
 
@@ -29,9 +28,9 @@ class AnnotatedShakespeare < Sinatra::Base
   end
 
   get '/plays/:id/act/:act_number' do
-    plays = {'julius' => 'Julius Caesar', 'richard' => 'Richard II'}
-    @play = plays[params[:id]]
-    @act = params[:act_number]
+    @play = Play.find(params[:id])
+    @act = @play.act(params[:act_number])
+    @title = @play.title + ": " + @act.title
     erb :show
   end
 end

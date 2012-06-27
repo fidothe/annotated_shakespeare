@@ -1,2 +1,6 @@
-<h1><%= @play %></h1>
-<p><a href="<%= url("/plays/#{@url_slug}/act/1") %>">Act 1</a></p>
+<h1><%= @play.title %></h1>
+<ol>
+  <% @play.acts.each do |act| %>
+    <li><a href="<%= url("/plays/#{@play.slug}/act/#{act.number}") %>"><%= act.title %></a></li>
+  <% end %>
+</ol>

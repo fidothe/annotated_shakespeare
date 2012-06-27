@@ -1,6 +1,6 @@
 <h1><%= @title %></h1>
 <ul>
-  <% @plays.each do |url_slug, title| %>
-    <li><a href="<%= url("/plays/#{url_slug}") %>"><%= title %></a></li>
-  <% end %>
+<% @plays.each do |play| %>
+  <li><a href="<%= url("/plays/#{play.slug}") %>"><%= play.title %></a></li>
+<% end %>
 </ul>

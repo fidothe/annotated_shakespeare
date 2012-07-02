@@ -31,6 +31,7 @@ class AnnotatedShakespeare < Sinatra::Base
     @play = Play.find(params[:id])
     @act = @play.act(params[:act_number])
     @title = @play.title + ": " + @act.title
+    @comments = []
     erb :show
   end
 end

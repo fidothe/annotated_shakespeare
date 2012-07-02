@@ -2,10 +2,18 @@
 
 require 'sinatra/base'
 require 'play'
+require 'data_mapper'
+require 'comment'
+
+ROOT_DIR = File.expand_path('../../', __FILE__)
+
+DataMapper.setup(:default, "sqlite://#{File.expand_path('db/annotated_shakespeare.db', ROOT_DIR)}")
+
+DataMapper.auto_upgrade!
 
 class AnnotatedShakespeare < Sinatra::Base
-  set :views, File.expand_path('../../views', __FILE__)
-  set :public_folder, File.expand_path('../../public', __FILE__)
+  set :views, File.expand_path('views', ROOT_DIR)
+  set :public_folder, File.expand_path('public', ROOT_DIR)
 
   get '/' do
     @title = "Plays of William Shakespeare"
@@ -31,7 +39,14 @@ class AnnotatedShakespeare < Sinatra::Base
     @play = Play.find(params[:id])
     @act = @play.act(params[:act_number])
     @title = @play.title + ": " + @act.title
-    @comments = []
+    @comments = Comment.for(:act, @act.number)
     erb :show
+  end
+
+  post '/plays/:id/act/:act_number/comments' do
+    @play = Play.find(params[:id])
+    @act = @play.act(params[:act_number])
+    Comment.create!(:body => params['comment-body'], :commentable_type => :act, :commentable_id => @act.number)
+    redirect to("/plays/#{@play.slug}/act/#{@act.number}")
   end
 end

@@ -1,0 +1,22 @@
+.italic {
+    font-style: italic;
+}
+
+.sp {
+    margin-top: 1em;
+}
+
+.stage {
+    margin-top: 1em;
+    border: 1px solid #afafaf;
+    padding: 2px;
+    width: 50%;
+}
+
+.stage span:before {
+    content: "STAGE: ";
+}
+
+.speaker {
+    text-transform: uppercase;
+}

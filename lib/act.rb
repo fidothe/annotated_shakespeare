@@ -13,7 +13,7 @@ class Act
   end
 
   def xsl_path
-    File.expand_path('../../xsl/act.xsl', __FILE__)
+    File.expand_path('../../xsl/tei2html.xsl', __FILE__)
   end
 
   def xslt
@@ -21,6 +21,6 @@ class Act
   end
 
   def html
-    xslt.transform(@play.document, ['act_number', number.to_s])
+    xslt.transform(@play.document, Nokogiri::XSLT.quote_params(['act_number', number.to_s]))
   end
 end

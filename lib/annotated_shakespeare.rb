@@ -38,6 +38,9 @@ class AnnotatedShakespeare < Sinatra::Base
   get '/plays/:id/act/:act_number' do
     @play = Play.find(params[:id])
     @act = @play.act(params[:act_number])
+    @act_number = params[:act_number].to_i
+    @act_count = @play.acts.size
+    @play_slug = params[:id]
     @title = @play.title + ": " + @act.title
     @comments = @act.comments
     erb :show

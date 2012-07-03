@@ -1,5 +1,5 @@
+<a href="/">Home</a> | <a href="/plays/<%= @play_slug %>">Up</a>
 <%= @act.html %>
-
 <section id="comments">
   <form action="<%= url("/plays/#{@play.slug}/act/#{@act.number}/comments") %>" charset="utf-8" method="POST">
     <textarea name="comment-body"></textarea>
@@ -12,3 +12,4 @@
     </div>
   <% end %>
 </section>
+<a href="/">Home</a> | <a href="/plays/<%= @play_slug %>">Up</a>

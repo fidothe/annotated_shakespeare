@@ -8,10 +8,72 @@
 <xsl:output omit-xml-declaration="yes" indent="yes"/>
 <xsl:strip-space elements="*"/>
 
-<xsl:param name="act_number"/>
+<xsl:param name="full_page" select="''"/>
+<xsl:param name="act_number" select="''"/>
 
 <xsl:template match="tei:TEI">
-  <xsl:apply-templates select="//tei:div[position()=$act_number]"/>
+  <xsl:variable name="body">
+    <xsl:choose>
+      <xsl:when test="$act_number = ''">
+        <xsl:apply-templates/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="/tei:TEI/tei:text/tei:body/tei:div[$act_number]"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:choose>
+    <xsl:when test="$full_page = ''">
+      <xsl:copy-of select="$body"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <html>
+        <head>
+          <title>
+            <xsl:value-of select="tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title"/>
+          </title>
+          <link rel="stylesheet" type="text/css" href="tei.css" />
+        </head>
+        <body>
+          <xsl:copy-of select="$body"/>
+        </body>
+      </html>
+    </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+<xsl:template match="tei:teiHeader">
+  <div>
+    <xsl:call-template name="attrs"/>
+    <xsl:apply-templates select="tei:fileDesc"/>
+  </div>
+</xsl:template>
+
+<xsl:template match="tei:fileDesc">
+  <h1>
+    <xsl:apply-templates select="tei:titleStmt/tei:title"/>
+  </h1>
+
+  <xsl:apply-templates select="tei:titleStmt/tei:author"/>
+  <xsl:apply-templates select="tei:publicationStmt/tei:distributor/tei:name"/>
+  <xsl:apply-templates select="tei:publicationStmt/tei:license"/>
+</xsl:template>
+
+<xsl:template match="tei:titleStmt/tei:title">
+  <h1>
+    <xsl:call-template name="attrs"/>
+    <xsl:apply-templates/>
+  </h1>
+</xsl:template>
+
+<xsl:template match="tei:titleStmt/tei:author
+                     |tei:publicationStmt/tei:distributor/tei:name
+                     |tei:publicationStmt/tei:license">
+  <div>
+    <xsl:call-template name="attrs"/>
+    <xsl:apply-templates/>
+  </div>
 </xsl:template>
 
 <xsl:template match="tei:head">
@@ -32,9 +94,7 @@
 <xsl:template match="tei:text|tei:body|tei:div|tei:stage|tei:sp|tei:speaker|tei:ab">
   <div>
     <xsl:call-template name="attrs"/>
-    <span>
-      <xsl:apply-templates/>
-    </span>
+    <xsl:apply-templates/>
   </div>
 </xsl:template>
 

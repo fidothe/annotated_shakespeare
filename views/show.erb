@@ -1,4 +1,11 @@
 <a href="/">Home</a> | <a href="/plays/<%= @play_slug %>">Up</a>
+<% if @act_number > 1 %>
+  | <a href="/plays/<%= @play_slug %>/act/<%= @act_number-1 %>">Prev</a>
+<% end %>
+<% if @act_number < @act_count %>
+  | <a href="/plays/<%= @play_slug %>/act/<%= @act_number+1 %>">Next</a>
+<% end %>
+
 <%= @act.html %>
 <section id="comments">
   <form action="<%= url("/plays/#{@play.slug}/act/#{@act.number}/comments") %>" charset="utf-8" method="POST">
@@ -13,3 +20,10 @@
   <% end %>
 </section>
 <a href="/">Home</a> | <a href="/plays/<%= @play_slug %>">Up</a>
+<% if @act_number > 1 %>
+  | <a href="/plays/<%= @play_slug %>/act/<%= @act_number-1 %>">Prev</a>
+<% end %>
+<% if @act_number < @act_count %>
+  | <a href="/plays/<%= @play_slug %>/act/<%= @act_number+1 %>">Next</a>
+<% end %>
+

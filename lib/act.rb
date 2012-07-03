@@ -23,4 +23,8 @@ class Act
   def html
     xslt.transform(@play.document, ['act_number', number.to_s])
   end
+
+  def comments
+    Comment.for(:act, @number)
+  end
 end

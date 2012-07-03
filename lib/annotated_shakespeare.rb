@@ -39,7 +39,7 @@ class AnnotatedShakespeare < Sinatra::Base
     @play = Play.find(params[:id])
     @act = @play.act(params[:act_number])
     @title = @play.title + ": " + @act.title
-    @comments = Comment.for(:act, @act.number)
+    @comments = @act.comments
     erb :show
   end
 

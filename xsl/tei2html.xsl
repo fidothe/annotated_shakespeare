@@ -15,10 +15,11 @@
   <xsl:variable name="body">
     <xsl:choose>
       <xsl:when test="$act_number = ''">
+        <div id="hello-mum"><xsl:value-of select="$act_number"/></div>
         <xsl:apply-templates/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:apply-templates select="/tei:TEI/tei:text/tei:body/tei:div[$act_number]"/>
+        <xsl:apply-templates select="/tei:TEI/tei:text/tei:body/tei:div[position()=$act_number]"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>

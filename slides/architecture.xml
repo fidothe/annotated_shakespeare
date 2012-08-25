@@ -1,0 +1,58 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Practical Web Applications</title>
+    </head>
+    <body>
+
+        <div class="foil titlefoil">
+            <div class="header">
+              <h1>Practical Web Applications</h1>
+              <h2>September 2012</h2>
+            </div>
+            <div class="body">
+              <h1>Web Architecture</h1>
+              <h2>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</h2>
+            </div>
+        </div>
+
+        <div class="foil">
+            <h1>Latest code &amp; slides</h1>
+            <p>
+            <a href="https://github.com/fidothe/annotated_shakespeare">https://github.com/fidothe/annotated_shakespeare</a>
+            </p>
+<pre>
+$ git clone git://github.com/fidothe/annotated_shakespeare.git
+</pre>
+        </div>
+
+        <div class="foil">
+            <h1>HTTP versus REST</h1>
+            <img src="images/posse.jpg"/>
+        </div>
+
+        <div class="foil">
+            <h1>HTTP Verbs</h1>
+<pre>
+method     safe    idempotent   semantics    resource     cacheable
+          -----------------------------------------------------------
+GET       |  X          X            X           X             X    |
+HEAD      |  X          X            X           X             X    |
+PUT       |             X            X           X                  |
+POST      |                                                    *    |
+DELETE    |             X            X           X                  |
+OPTIONS   |  X          X            X                              |
+          -----------------------------------------------------------
+PROPFIND  |  X          X            X           X             *    |
+PROPPATCH |             X            X           X                  |
+MKCOL     |             *            X           X                  |
+COPY      |             X            X           X                  |
+MOVE      |             ?            X           X                  |
+LOCK      |                          X           X                  |
+UNLOCK    |             X            X           X                  |
+PATCH     |             *            X           X                  |
+          -----------------------------------------------------------
+</pre>
+        </div>
+
+    </body>
+</html>

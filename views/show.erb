@@ -16,7 +16,7 @@
 
   <% @comments.each do |comment| %>
     <div class="comment">
-      <%= comment.body %>
+      <%= ERB::Util.h(comment.body) %>
     </div>
   <% end %>
 </section>

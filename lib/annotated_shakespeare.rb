@@ -4,6 +4,7 @@ require 'sinatra/base'
 require 'play'
 require 'data_mapper'
 require 'comment'
+require 'securerandom'
 
 ROOT_DIR = File.expand_path('../../', __FILE__)
 
@@ -14,6 +15,15 @@ DataMapper.auto_upgrade!
 class AnnotatedShakespeare < Sinatra::Base
   set :views, File.expand_path('views', ROOT_DIR)
   set :public_folder, File.expand_path('public', ROOT_DIR)
+  set :session_secret, "df207bff3e06bba635a9e4f334238801"
+  enable :sessions
+  use Rack::Protection::AuthenticityToken
+
+  helpers do
+    def csrf_token
+      session[:csrf] ||= SecureRandom.hex
+    end
+  end
 
   get '/' do
     @title = "Plays of William Shakespeare"

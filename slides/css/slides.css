@@ -1,5 +1,7 @@
 /* ============================================================ */
 
+@import url("pygments.css");
+
 html {
     font-family: Verdana, Tahoma, Arial, sans-serif;
     font-weight: normal;
@@ -19,6 +21,12 @@ body {
     margin: 0;
     padding: 0;
 }
+
+table tr td,
+table tr th {
+    font-size: 20pt;
+}
+
 
 .foil {
     height: 100%;
@@ -149,6 +157,16 @@ img {
     font-size: 26pt;
     padding-top: 0px;
     padding-bottom: 0.5em;
+    margin-top: 0.5em;
+    margin-bottom: 0px;
+}
+
+.titlefoil .body h3 {
+    font-family: Verdana, Tahoma, Arial, sans-serif;
+    font-weight: normal;
+    font-size: 18pt;
+    padding-top: 0px;
+    padding-bottom: 0.5em;
     margin-top: 0px;
     margin-bottom: 0px;
 }
@@ -232,6 +250,17 @@ pre .const,
 pre .var,
 pre .param {
     color: black;
+}
+
+/* ============================================================ */
+
+.authorgroup {
+    display: table;
+    border-spacing: 1em;
+}
+
+.authorgroup .author {
+    display: table-cell;
 }
 
 /* ============================================================ */

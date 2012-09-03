@@ -90,6 +90,7 @@ PLATFORMS
 DEPENDENCIES
   data_mapper (~> 1.2)
   dm-sqlite-adapter (~> 1.2.0)
+  json
   nokogiri
   omniauth-browserid
   omniauth-twitter

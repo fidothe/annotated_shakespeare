@@ -1,4 +1,5 @@
 <form action="/profile" method="POST">
+  <input name="authenticity_token" value="<%= csrf_token %>" type="hidden">
   <input name="name", value="<%= current_user ? current_user.name : "" %>" type="text">
   <input type="submit" value="Save">
 </form>

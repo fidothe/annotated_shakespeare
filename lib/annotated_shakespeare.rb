@@ -1,11 +1,13 @@
 # encoding: utf-8
 
 require 'sinatra/base'
+require 'json'
 require 'play'
 require 'data_mapper'
 require 'user'
 require 'credential'
 require 'comment'
+require 'annotation'
 require 'securerandom'
 require 'omniauth-browserid'
 
@@ -109,6 +111,7 @@ class AnnotatedShakespeare < Sinatra::Base
     @play_slug = params[:id]
     @title = @play.title + ": " + @act.title
     @comments = @act.comments
+    @annotations = @act.annotations
     erb :show
   end
 
@@ -116,7 +119,16 @@ class AnnotatedShakespeare < Sinatra::Base
     halt 403 unless current_user
     @play = Play.find(params[:id])
     @act = @play.act(params[:act_number])
-    current_user.comments.create!(:body => params['comment-body'], :commentable_type => :act, :commentable_id => @act.number)
+    current_user.comments.create!(:body => params['comment-body'], :commentable_type => :act, :commentable_id => @act.uid)
+    redirect to("/plays/#{@play.slug}/act/#{@act.number}")
+  end
+
+  post '/plays/:id/act/:act_number/annotations' do
+    halt 403 unless current_user
+    @play = Play.find(params[:id])
+    @act = @play.act(params[:act_number])
+    annotation = current_user.annotations.create!(:text => params['annotation-text'], :act_uid => @act.uid, :annotated_id => params['annotation-id'])
+    return [201, {'Content-Type' => 'application/json'}, annotation.to_json] if request.xhr?
     redirect to("/plays/#{@play.slug}/act/#{@act.number}")
   end
 end

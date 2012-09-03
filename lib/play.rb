@@ -32,7 +32,7 @@ class Play
   end
 
   def acts
-    @acts ||= (1..(document.css('div').length)).to_a.collect { |act_number| Act.new(self, act_number) }
+    @acts ||= (1..(document.css('div').length)).to_a.collect { |act_number| Act.new(self, act_number, "#{slug}-#{act_number}") }
   end
 
   def act(act_number)

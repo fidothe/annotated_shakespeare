@@ -27,4 +27,63 @@
 <% if @act_number < @act_count %>
   | <a href="/plays/<%= @play_slug %>/act/<%= @act_number+1 %>">Next</a>
 <% end %>
-
+<script>
+  var annotations = <%= Hash[@annotations.collect { |a| [a.annotated_id, {'text' => a.text, 'user' => a.user.name, 'yours' => a.user == current_user}] }].to_json %>;
+  var new_annotation_form = '<div class="annotation creator">'
+    + '<form action="<%= url("/plays/#{@play.slug}/act/#{@act.number}/annotations") %>" method="POST" charset="utf-8">' 
+    + '<input name="authenticity_token" value="<%= csrf_token %>" type="hidden">'
+    + '<input name="annotation-id" value="" type="hidden">'
+    + '<textarea name="annotation-text"></textarea>'
+    + '<p><input type="submit" value="Add annotation"></p>'
+    + '</form>'
+    + '</div>';
+  var annotation_controls = '<p class="annotation controls"><a href="#show" class="show">Show</a><a href="#add" class="add">+</a></p>'
+  var annotations_html = '<div class="annotations"></div>'
+  var annotation_html = '<div class="annotation"><p></p><p class="author"></p></div>'
+  $(document).ready(function() {
+    $('.sp').each(function() {
+      var annotated_node = $(this);
+      var annotation_form_node = $(new_annotation_form).appendTo(annotated_node);
+      annotation_form_node.find('input[name=annotation-id]').val(this.id);
+      var annotation_controls_node = $(annotation_controls).prependTo(annotated_node)
+      annotation_controls_node.find('.show').toggle(function() { annotated_node.find('.annotations').show() }, function() { annotated_node.find('.annotations').hide(); });
+      annotation_controls_node.find('.show').hide();
+      annotation_controls_node.find('.add').click(function() { annotation_form_node.show() });
+      annotated_node.find('.annotations').hide();
+      annotation_form_node.hide();
+      annotation_form_node.find('form').submit(function(e) { 
+        e.preventDefault(); 
+        $.post(this.action, $(this).serialize(), function(data, text_status, jq_xhr) {
+          if (annotated_node.find('.annotations').length == 0) {
+            annotated_node.append(annotations_html);
+          }
+          var annotation_node = $(annotation_html);
+          annotation_node.find('p:first').text(data.text);
+          annotation_node.find('p.author').text(data.author);
+          annotation_node.addClass('mine');
+          annotated_node.find('.annotations').append(annotation_node);
+          annotation_form_node.hide();
+          annotation_controls_node.find('.show').show();
+        });
+      });
+    });
+    $.each(annotations, function(id, data) { 
+      console.log('#'+id);
+      var annotated_node = $('#' + id);
+      console.log(annotated_node);
+      if (annotated_node) {
+        if (annotated_node.find('.annotations').length == 0) {
+          annotated_node.append(annotations_html);
+        }
+        var annotation_node = $(annotation_html);
+        annotation_node.find('p:first').text(data.text);
+        annotation_node.find('p.author').text(data.author);
+        if (data.yours) {
+          annotation_node.addClass('mine');
+        }
+        annotated_node.find('.annotations').append(annotation_node);
+        annotated_node.find('.annotation.controls .show').show();
+      }
+    });
+  });
+</script>

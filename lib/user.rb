@@ -8,6 +8,7 @@ class User
 
   has n, :credentials
   has n, :comments
+  has n, :annotations
 
   def self.from_auth_provider(provider, token)
     credential = Credential.first(:provider => provider, :token => token)

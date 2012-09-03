@@ -1,11 +1,12 @@
 require 'nokogiri'
 
 class Act
-  attr_reader :number
+  attr_reader :number, :uid
 
-  def initialize(play, act_number)
+  def initialize(play, act_number, uid)
     @play = play
     @number = act_number
+    @uid = uid
   end
 
   def title
@@ -25,6 +26,10 @@ class Act
   end
 
   def comments
-    Comment.for(:act, @number)
+    Comment.for(:act, @uid)
+  end
+
+  def annotations
+    Annotation.for(@uid)
   end
 end

@@ -15,20 +15,28 @@ DataMapper.setup(:default, "sqlite://#{File.expand_path('db/annotated_shakespear
 
 DataMapper.auto_upgrade!
 
+class OAAwareAuthenticityToken < Rack::Protection::AuthenticityToken
+  def accepts?(env)
+    return true if safe?(env)
+    return true if env['omniauth.auth']
+    super(env)
+  end
+end
+
 class AnnotatedShakespeare < Sinatra::Base
   set :views, File.expand_path('views', ROOT_DIR)
   set :public_folder, File.expand_path('public', ROOT_DIR)
   set :session_secret, "df207bff3e06bba635a9e4f334238801"
   enable :sessions
-  use Rack::Protection::AuthenticityToken
-
   use OmniAuth::Builder do
     provider :browser_id, :verify_url => 'https://verifier.login.persona.org/verify'
   end
+  use OAAwareAuthenticityToken
 
   # Support both GET and POST for OmniAuth callbacks
   [:get, :post].each do |method|
     send(method, "/auth/:provider/callback") do
+      session.clear
       if user = User.from_auth_provider(params[:provider], env['omniauth.auth']['uid'])
         destination = '/'
       else

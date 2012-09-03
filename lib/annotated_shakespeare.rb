@@ -3,8 +3,11 @@
 require 'sinatra/base'
 require 'play'
 require 'data_mapper'
+require 'user'
+require 'credential'
 require 'comment'
 require 'securerandom'
+require 'omniauth-browserid'
 
 ROOT_DIR = File.expand_path('../../', __FILE__)
 
@@ -19,9 +22,54 @@ class AnnotatedShakespeare < Sinatra::Base
   enable :sessions
   use Rack::Protection::AuthenticityToken
 
+  use OmniAuth::Builder do
+    provider :browser_id, :verify_url => 'https://verifier.login.persona.org/verify'
+  end
+
+  # Support both GET and POST for OmniAuth callbacks
+  [:get, :post].each do |method|
+    send(method, "/auth/:provider/callback") do
+      if user = User.from_auth_provider(params[:provider], env['omniauth.auth']['uid'])
+        destination = '/'
+      else
+        user = User.create_from_auth_provider(params[:provider], env['omniauth.auth']['uid'])
+        destination = '/profile'
+      end
+      session['user'] = user.id
+      redirect to(destination)
+    end
+  end
+
   helpers do
     def csrf_token
       session[:csrf] ||= SecureRandom.hex
+    end
+
+    def current_user
+      if session['user']
+        @user ||= User.get(session['user'])
+      end
+    end
+  end
+
+  get '/profile' do
+    halt 403 unless current_user
+    erb :profile
+  end
+
+  post '/profile' do
+    halt 403 unless current_user
+    current_user.name = params[:name]
+    current_user.save!
+    redirect to('/')
+  end
+
+  get '/logout' do
+    if current_user
+      session.clear
+      redirect to('logout')
+    else
+      erb :logout
     end
   end
 
@@ -57,9 +105,10 @@ class AnnotatedShakespeare < Sinatra::Base
   end
 
   post '/plays/:id/act/:act_number/comments' do
+    halt 403 unless current_user
     @play = Play.find(params[:id])
     @act = @play.act(params[:act_number])
-    Comment.create!(:body => params['comment-body'], :commentable_type => :act, :commentable_id => @act.number)
+    current_user.comments.create!(:body => params['comment-body'], :commentable_type => :act, :commentable_id => @act.number)
     redirect to("/plays/#{@play.slug}/act/#{@act.number}")
   end
 end

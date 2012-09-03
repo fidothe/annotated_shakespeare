@@ -5,8 +5,14 @@
     <link type="text/css" rel="stylesheet" href="/tei.css" />
     <link rel="stylesheet" href="/main.css">
     <title><%= @title %></title>
+    <script src="//javascripts/jquery-1.8.1.min.js" type="text/javascript"></script>
   </head>
   <body>
+    <% if current_user %>
+      <p>Welcome back, <%= current_user.name %></p>
+    <% else %>
+      <p>Log in (or sign up) with <a href="/auth/browser_id">Mozilla Persona</a>.</p>
+    <% end %>
     <%= yield %>
   </body>
 </html>

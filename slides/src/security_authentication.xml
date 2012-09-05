@@ -1,0 +1,583 @@
+<?dbhtml pygments="true"?>
+<slides xml:lang="en" xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <info>
+    <title>Practical Web Applications</title>
+    <subtitle>Session One</subtitle>
+    <!-- authors are alphabetical by first name (I get sick of being listed last all the time, 
+so I always do this if I can) -->
+    <authorgroup>
+      <author>
+        <personname>
+          <firstname>Lauren</firstname>
+          <surname>Wood</surname>
+        </personname>
+        <affiliation>
+          <orgname>Textuality Services, Inc.</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Matt</firstname>
+          <surname>Patterson</surname>
+        </personname>
+        <affiliation>
+          <orgname>Constituent Parts, Ltd.</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Norman </firstname>
+          <surname>Walsh</surname>
+        </personname>
+        <affiliation>
+          <orgname>MarkLogic</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Paul</firstname>
+          <surname>Downey</surname>
+        </personname>
+        <affiliation>
+          <orgname>Whatfettle</orgname>
+        </affiliation>
+      </author>
+    </authorgroup>
+    <releaseinfo role="version">Version 1.0</releaseinfo>
+    <legalnotice>
+      <para>Alpha by first name</para>
+    </legalnotice>
+    <pubdate>2012-09-20</pubdate>
+    <copyright>
+      <year>2012</year>
+      <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
+    </copyright>
+  </info>
+  <foilgroup>
+    <title>Identity Concepts</title>
+    <foil>
+      <title>Facets of Identity</title>
+      <itemizedlist>
+        <listitem>
+          <para>Who am I today? Or now?</para>
+        </listitem>
+        <listitem>
+          <para>Role I’m playing right now </para>
+        </listitem>
+        <listitem>
+          <para>Identity depends on what I’m doing </para>
+        </listitem>
+        <listitem>
+          <para>Anonymous vs pseudonymous vs Real Names</para>
+        </listitem>
+      </itemizedlist>
+      <speakernotes>
+        <para>Identity: the overarching “who am I” – or rather, what persona am I using for this
+          purpose? Identity is multi-faceted – checking my personal mail, or auditing the financial
+          records for a large corporation are manifestations of different identities, even if I’m
+          the same person carrying out both activities. I may have to use a real name for some
+          activities, for others I can use a pseudonym, for others I can use a one-off “handle” or
+          no label at all. </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Authentication</title>
+      <para>Am I talking to the person I think I’m talking to? </para>
+      <para>Is it the person, or someone using their computer? </para>
+      <para>How sure do I have to be that it’s the right person? </para>
+      <para>Levels of identification and authentication depend on application. </para>
+      <para>“Something you are, something you have, something you know” </para>
+      <para>Identity verification (proofing) - digital version of notaries?</para>
+      <speakernotes>
+        <para>who am I really talking to? Note the associated issues of is it really the person, or
+          is it someone using that person’s credentials? In real life we have notaries who will
+          check your identification and assert as a trusted third party that it was really you; in
+          the digital arena we don’t have anything with the same level of guarantee. The trinity of
+          “something you have (e.g., token, card), something you know (e.g., password), something
+          you are (e.g., biometric)” helps, as each separate item requires a separate check of the
+          authentication. Identity verification is separate to authentication. Also called identity
+          proofing. This is mapping a digitally-used identity back to a real person. Every time the
+          person shows up with the digital id, want to prove they do go back to the real person. US
+          gov tries to add trust, chain of custody that’s strong enough to go back to the real world
+          – can you make the proof strong enough if someone did something wrong etc. </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Authorisation</title>
+      <para>Is this person allowed to do what they want to do? </para>
+      <itemizedlist>
+        <listitem>
+          <para>as an individual </para>
+        </listitem>
+        <listitem>
+          <para>as a member of a group </para>
+          <para>static name list of all allowed to do “X”</para>
+        </listitem>
+        <listitem>
+          <para>with a particular role </para>
+          <para>assign role to person; everyone with that role allowed to do “Y”</para>
+        </listitem>
+      </itemizedlist>
+      <speakernotes>
+        <para>Typically used in enterprises; the big problem is trying to minimise the number of
+          roles so you don’t have each person having their own role! Groups are static, but a good
+          first step to figuring out the roles.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>And the rest</title>
+      <para>Confidentiality</para>
+      <itemizedlist>
+        <listitem>
+          <para>only the right people can see this</para>
+        </listitem>
+      </itemizedlist>
+      <para>Auditing </para>
+      <itemizedlist>
+        <listitem>
+          <para>track who accessed the system and what they did </para>
+        </listitem>
+      </itemizedlist>
+      <para>Integrity</para>
+      <itemizedlist>
+        <listitem>
+          <para>did the information arrive whole and untouched?</para>
+        </listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>Trust and other nebulous aspects</title>
+      <para>Technical aspects </para>
+      <itemizedlist>
+        <listitem>
+          <para>exchange public keys and metadata </para>
+        </listitem>
+      </itemizedlist>
+      <para>Legal level </para>
+      <itemizedlist>
+        <listitem>
+          <para>contracts, agreements </para>
+        </listitem>
+      </itemizedlist>
+      <para>Policy</para>
+      <itemizedlist>
+        <listitem>
+          <para>what are the conditions for our working together?</para>
+        </listitem>
+      </itemizedlist>
+      <para>Non-repudiation</para>
+      <itemizedlist>
+        <listitem>
+          <para>how do we make orders irrevocable?</para>
+        </listitem>
+      </itemizedlist>
+      <speakernotes>
+        <para>trust (how do I know I can trust you or your system?), policy (have we actually agreed
+          that we can work together?), and non-repudiation (so they can’t claim afterwards it wasn’t
+          them sending the request). Non-repudiation needs a high level of assurance that the
+          authentication is accurate, and depends on the integrity of the data to make sure fake
+          data wasn’t sent or received. </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Summary</title>
+      <informaltable>
+        <tr>
+          <th>Requirement</th>
+          <th>Technologies</th>
+        </tr>
+        <tr>
+          <td>Authentication</td>
+          <td> Username/password, key-based digital signing, challenge-response, biometrics, smart
+            cards </td>
+        </tr>
+        <tr>
+          <td>Authorisation</td>
+          <td> Policy engines, directory attributes, access control, digital rights management,
+            active directory </td>
+        </tr>
+        <tr>
+          <td>Auditing</td>
+          <td> Secure logging + analysis </td>
+        </tr>
+        <tr>
+          <td>Integrity</td>
+          <td> Message digest, authenticated with a digital signature </td>
+        </tr>
+        <tr>
+          <td>Confidentiality</td>
+          <td> Key-based digital encryption and decryption </td>
+        </tr>
+        <tr>
+          <td>Non-repudiation</td>
+          <td> Key-based digital signing and signature verification, message reliability,
+            legal/contractual agreements </td>
+        </tr>
+        <tr>
+          <td>Trust</td>
+          <td>Setting up parameters for all the above </td>
+        </tr>
+      </informaltable>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>Outsourcing identity</title>
+    <foil>
+      <title>Why?</title>
+      <para>Best principle for keeping user data around:</para>
+      <para>DON’T</para>
+      <itemizedlist>
+        <listitem>
+          <para>Treat PII as radioactive, keep as little as possible.</para>
+        </listitem>
+        <listitem>
+          <para>Pushing responsibility onto someone else helps.</para>
+        </listitem>
+        <listitem>
+          <para>They might implement higher security (two or three-factor).</para>
+        </listitem>
+        <listitem>
+          <para>Your users may use Google/Twitter/Facebook anyway.</para>
+        </listitem>
+      </itemizedlist>
+      <para>But...</para>
+      <itemizedlist>
+        <listitem>
+          <para>what happens if that company closes down?</para>
+        </listitem>
+        <listitem>
+          <para>what happens if that company does something bad?</para>
+        </listitem>
+        <listitem>
+          <para>what happens if that company changes its terms of use?</para>
+        </listitem>
+      </itemizedlist>
+      <speakernotes>
+        <para>If you’re creating a web-based application, or web site that has users you want to be
+          able to identify or disambiguate in some way (whether or not you require real names or
+          anything that looks like a real name), the standard rule is to treat all personally
+          identifiable information as if it were radioactive. I.e., keep as little as possible for
+          as short a time as possible. Depending on what your application does, or who your probable
+          users are, it might be a good idea to “outsource” your authentication by asking the user
+          to sign in with Twitter, or Facebook, or a Google account. This can have its downsides –
+          can I be sure that Twitter won’t somehow misuse the information? What happens when/if
+          they’re bought or close down? In the meantime, however, it’s not a bad model and saves
+          having to handle those lost password queries. </para>
+        <para>company may also change TOC and not let you access its user database any more, e.g.,
+          twitter if you have too many users.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>The Roles</title>
+      <mediaobject>
+        <alt>roles - identity provider, relying party, user</alt>
+        <imageobject>
+          <imagedata fileref="../images/outsource_identity.png"/>
+        </imageobject>
+      </mediaobject>
+      <para>Tokens (credentials) are exchanged between the actors representing either the actor or
+        the authentication/authorisation. These credentials (such as username and password, or
+        public/private key pair) may be encrypted or signed, depending on the protocol, or it may be
+        expected that all information is passed via TLS/SSL.</para>
+      <speakernotes>
+        <para>There are a number of different systems for this; I'll introduce a couple of them, and
+          then we'll add one to our application. </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Sign in with...</title>
+      <informaltable>
+        <tr>
+          <th>Specification</th>
+          <th>Who uses it</th>
+          <th>Notes</th>
+        </tr>
+        <tr>
+          <td>OAuth 1</td>
+          <td>Twitter, LinkedIn.</td>
+          <td>Incompatible with, and (theoretically) obsoleted by, OAuth 2. </td>
+        </tr>
+        <tr>
+          <td>OAuth 2</td>
+          <td>Facebook, github, Salesforce, lots of others</td>
+          <td>Became an RFC in July 2012. Designed for authorising access to resources, rather than
+            for outsourcing authentication, but widely used for authentication, e.g., <link
+              xlink:href="https://developers.facebook.com/docs/authentication">Facebook</link>.
+            Increasingly important, so we'll get into more detail a bit later.</td>
+        </tr>
+        <tr>
+          <td>OpenID</td>
+          <td>Google, Paypal as IdPs, many websites accept it for sign-in</td>
+          <td> The user can register at any provider (including their own website), then use that
+            login to log in at any site that accepts those registrations. UI issues make it
+            inconvenient. Original use case was for blog comments to prevent spam, so original
+            design had security issues. Some of these security issues were fixed in OpenID 2, which
+            Google and Paypal support. </td>
+        </tr>
+        <tr>
+          <td>Persona (was browserID)</td>
+          <td>Mozilla (persona.org)</td>
+          <td>Uses user's email address (provided by a primary identity authority) to authenticate
+            to a third-party identity provider (called an implementation provider, or secondary
+            identity authority). This may be in the web browser (e.g., Firefox) or server
+            (persona.org). Not widely implemented, some confusion with OpenID, some (perceived?)
+            security issues around identity spoofing and other concerns focussing on email
+            lifetimes.</td>
+        </tr>
+      </informaltable>
+      <speakernotes>
+        <para>Twitter uses OAuth as the protocol. Facebook uses OAuth 2. Mozilla started Persona
+          (browserID), but this is not taking off all that fast and doesn't seem to work for mobile
+          apps. Google mail (for example) should be able to support it as a primary identity
+          authority, but I haven't found it documented anywhere that it actually does.</para>
+        <para>Some other services use OpenID. Like OAuth, OpenID uses the standard HTTP
+          request-response mechanism to ask for authentication. The user can register at any
+          provider, then use that login to log in at any site that accepts those registrations. The
+          original use case was to provide some sort of way to allow blog comments from people and
+          cut down on the spam. The user just has to remember one username/password and can log in
+          at multiple places. And you don’t need to trust that shiny new site with any personal
+          information (other than your username and which OP you use) that you have stored at your
+          OpenID Provider, you can decide yourself how much information to let it have.
+          Persona/browserID is similar, but uses an email address rather than a URL for
+          identification.</para>
+        <para>The IdP is the authoritative source for information about the user, not just the place
+          where the user stores some resource. In a sense, we now want to use the service provider
+          as a source of metadata, not just data (if you think of info about the user as being
+          metadata, and what they have there is the data). E.g., Twitter stores your name, your
+          email, the city you live in, and a description that you supply. An application can use
+          some of that and theoretically doesn’t need to store it itself. Google allows this through
+          the OpenID attribute exchange protocol.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>OpenID flow</title>
+      <mediaobject>
+        <alt>OpenID flow</alt>
+        <imageobject>
+          <imagedata fileref="../images/OpenID-flow.png"/>
+        </imageobject>
+      </mediaobject>
+    </foil>
+    <foil><title>OAuth 2</title>
+    <itemizedlist>
+      <listitem><para></para></listitem>
+      <listitem><para></para></listitem>
+      <listitem><para></para></listitem>
+      <listitem><para></para></listitem>
+      <listitem><para></para></listitem>
+      <listitem><para></para></listitem>
+      <listitem><para></para></listitem>
+    </itemizedlist></foil>
+  </foilgroup>
+  <foilgroup>
+    <title>Security</title>
+    <subtitle>Connection-based security, message-based security, and some relevant
+      standards</subtitle>
+    <foil>
+      <title>Connection-based security</title>
+      <para>Secures the path between two end-points. </para>
+      <para>Security is transient, only for the data in motion. </para>
+      <para>Relatively simple to use, high performance. </para>
+      <para>Point to point solution, doesn’t work across middle points.</para>
+      <speakernotes>
+        <para>Connection based security (like SSL) just secures the path between two endpoints. The
+          security is transient in that it’s only active while a message is being transferred. Once
+          a message is received it’s no longer encrypted. The advantage is that you can use this
+          type of security for lots of different types of messages, it’s relatively high
+          performance, and simple to use. The disadvantage is that you have to figure out how to
+          secure the information (if it needs to be secured) once it’s arrived, and you can’t pass
+          on the secure message as is, complete with its encryption. connection security as name is
+          better than channel or transport. Protecting data in motion vs at rest.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>HTTPS/TLS/SSL</title>
+      <para>Adds encryption, signing, records, and session tracking to the basic HTTP </para>
+      <orderedlist>
+        <listitem>
+          <para>browser sends request to port 443 with session ID, encryption algorithms it likes,
+            random string, and requested website </para>
+        </listitem>
+        <listitem>
+          <para>web site sends back server name, session ID, encryption algorithm, server version of
+            the string, and server certificate </para>
+        </listitem>
+        <listitem>
+          <para>browser decides whether to trust the certificate, checks the host name </para>
+        </listitem>
+        <listitem>
+          <para>exchange tokens (secrets) to encrypt the data </para>
+        </listitem>
+        <listitem>
+          <para>start exchanging encrypted data with session IDs and sequence numbers</para>
+        </listitem>
+      </orderedlist>
+      <speakernotes>
+        <para>This is often called SSL/TLS. SSL (Secure Sockets Layer) was the first name, and it
+          was developed by Netscape. Eventually the IETF took over, and released a new version in
+          1999, renamed Transport Layer Security (TLS). TLS is a record-based request-response
+          format, with records of different types depending on where you are in the session. Instead
+          of sending the request message as is to port 80 on a web server as for HTTP, the browser
+          (client) kicks off the TLS session by sending a handshake to port 443. This is the
+          handshake record, saying what time it is, which session ID (if any) this session ID has,
+          which encryption algorithms the client supports (in order of preference), and which
+          website the client is trying to reach (for the case that the IP address given supports
+          multiple websites). It also includes 28 random bytes (we’ll get to those later). The web
+          site responds, and let’s assume agrees with the requests, so the server sends back the
+          server time, a session ID, and the encryption algorithm it will use, along with a server
+          version of the 28 random bytes. It also sends the SSL Server Certificate, the basis of the
+          trust system. Then the client decides whether (or not) to trust the certificate. The
+          certificate is signed by a Certification authority (a company such as Verisign) using
+          their private key. The client (browser) has a list of Certification authorities that it
+          trusts, and that’s the basis of the trust that you put in the little lock sign on your
+          browser. Once the client decides to approve that certificate, it checks whether the host
+          name you sent the request to is the same as the name listed in the certificate. This is to
+          prevent man-in-the-middle attacks, where someone sitting in between your client and the
+          server you’re trying to reach can forge credentials. With the Certification authority
+          signing the certificate, you can trust that the certificate is real (well, assuming you
+          can trust that Certification authority). You can also add certificates that you trust
+          yourself (hopefully for good reason!) to your list. </para>
+        <para>http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html</para>
+        <para>OK, so we’re sure that we’ve reached the server and web site we wanted, and know which
+          encryption algorithm they’ll use. We even have a session ID so we can avoid the handshake
+          step for the rest of our session at that site. The client sends what’s called a
+          “pre-master secret” to the server, a value that’s meant to be random and secret. Getting
+          this value to be effectively random is hard and a number of implementers have discovered
+          this the hard way, introducing security holes that were exploited. The pre-master secret
+          should only be used for this one session as well. Then the client encrypts a padded
+          version of the pre-master secret, and sends that to the server. The server calculates the
+          master secret from the pre-master secret and the two random 28-byte values that the client
+          and the server exchanged in the first handshake. These two secrets are used to derive all
+          the session keys that are used to encrypt the actual HTTP request-response messages. There
+          is also a sequence number, so that an attacked can’t simply copy one of the messages,
+          change it, and resend (this is called a “replay” attack). The HTTP system acts as normal,
+          and doesn’t need to worry about the encryption. It’s the TLS layer underneath that does
+          all the work. The connection is closed when one side sends “closure alert” message. One
+          point – you can use the same TLS system for other protocols, such as FTP, since it does
+          sit underneath the protocol layer, but for this course we’re mostly interested in the
+          HTTPS usage. </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>What is a Certificate?</title>
+      <itemizedlist>
+        <listitem>
+          <para>Electronic document, typically in X.509 format</para>
+        </listitem>
+        <listitem>
+          <para>Used in PKI (public key infrastructure) systems</para>
+        </listitem>
+        <listitem>
+          <para>Includes a public key</para>
+        </listitem>
+        <listitem>
+          <para>Includes identity information for person or corporation</para>
+        </listitem>
+        <listitem>
+          <para>Includes hostname if intended to be used for TLS</para>
+        </listitem>
+        <listitem>
+          <para>Digitally signed</para>
+        </listitem>
+        <listitem>
+          <para>Signature attests that identity information and public key belong together</para>
+        </listitem>
+        <listitem>
+          <para>Signature usually comes from a Certification Authority </para>
+        </listitem>
+      </itemizedlist>
+      <speakernotes>
+        <para>The certificate also commonly includes a serial number, algorithm used to create the
+          digital signature, validity dates (from and to), the algorithm used to hash the
+          certificate, the hash itself that proves the certificate has not been tampered with, and
+          the purpose of the public key. Verisign (one of the big Certificate Authorities) has a
+          number of classes of certificates, ranging from those used by individuals, to
+          organizations, servers (these ones require independent verification), online business
+          transactions, and governments. The EU has its own set of requirements for certificates,
+          which are similar in concept. </para>
+        <para>There are a number of issues with certificates, which I’m not going to go into here.
+          Wikipedia has links to get you started.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Certificate Authorities</title>
+      <para>An aside on certificate authorities </para>
+      <itemizedlist>
+        <listitem>
+          <para>ultimate source of the trust in the system</para>
+        </listitem>
+        <listitem>
+          <para>the authority signs the certificate</para>
+        </listitem>
+        <listitem>
+          <para> what happens if the authority is hacked?</para>
+        </listitem>
+        <listitem>
+          <para>what happens if the certificate authority is not trustworthy?</para>
+        </listitem>
+      </itemizedlist>
+      <speakernotes>
+        <para>While we’re on the subject, certificates can be revoked. When this happens, you should
+          delete them from your “trusted” list. Unfortunately, few people know about this and even
+          fewer check their certificates regularly to see if they have been revoked!</para>
+        <para>Once the client decides to approve that certificate, it checks whether the host name
+          you sent the request to is the same as the name listed in the certificate. This is to
+          prevent man-in-the-middle attacks, where someone sitting in between your client and the
+          server you’re trying to reach can forge credentials. With the Certification authority
+          signing the certificate, you can trust that the certificate is real (well, assuming you
+          can trust that Certification authority). You can also add certificates that you trust
+          yourself (hopefully for good reason!) to your list.</para>
+        <para>The main problem with certificates is that it’s turtles all the way up (or down). The
+          certificate is signed by someone whose authority is attested to by another certificate,
+          etc. Eventually you get to the top level, and there is a set of certificates that are
+          built in as being fully trusted. These are usually issued by governments or organizations
+          trusted by governments, or trusted by the browser or operating system manufacturer. In the
+          DigiNotar case, they were sloppy and were hacked. Even though they were trusted by the
+          Dutch government. The only solution is to completely distrust any certificates signed by
+          them, as they may not actually have been signed by DigiNotar, but by the hacker.</para>
+        <para>And there are alleged to be some certificate authorities in autocratic countries that
+          are proxy-in-the-middle points, capable of passing on information to their governments.
+          The solution to this is for the browser to not trust those authorities - but they have to
+          know who they are first (some are known).</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Message-based security</title>
+      <para>Ties the security to the message</para>
+      <itemizedlist>
+        <listitem>
+          <para>protects the data at rest</para>
+        </listitem>
+        <listitem>
+          <para>remains secure once it’s received</para>
+        </listitem>
+        <listitem>
+          <para>can use intermediaries who can’t read it</para>
+        </listitem>
+        <listitem>
+          <para>tied to a particular format</para>
+        </listitem>
+        <listitem>
+          <para>computationally expensive</para>
+        </listitem>
+        <listitem>
+          <para>difficult to implement and use</para>
+        </listitem>
+      </itemizedlist>
+      <speakernotes>
+        <para>Message based security ties the security to the actual message so it remains secure
+          even once it’s been received (we’re ignoring some security accelerators that strip out the
+          security on the way for performance reasons). The security is persistent so that you can
+          store the message (or part of the message; you don’t need to encrypt the whole thing) in
+          its secured form and still see who signed it two years later. You can also implement a
+          system where the message is sent via intermediaries, knowing they can’t read it. The
+          disadvantage of message-based security is that it is typically tied to a particular
+          message format (such as SOAP+WS-Security or S/MIME), is computationally expensive and
+          often relatively complex to implement and use. It’s especially complicated if you want
+          long-running message conversations, where you need to figure out how to correlate the
+          messages. </para>
+      </speakernotes>
+    </foil>
+  </foilgroup>
+</slides>

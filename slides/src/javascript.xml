@@ -1,0 +1,606 @@
+<?dbhtml pygments="true"?>
+<slides xml:lang="en"
+        xmlns="http://docbook.org/ns/docbook"
+        xmlns:h="http://www.w3.org/1999/xhtml"
+        xmlns:xi="http://www.w3.org/2001/XInclude"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
+<info>
+  <title>JavaScript</title>
+  <subtitle>Practical Web Applications</subtitle>
+  <author>
+    <personname>
+      <firstname>Norman</firstname>
+      <surname>Walsh</surname>
+    </personname>
+    <affiliation>
+      <jobtitle>Lead Engineer</jobtitle>
+      <orgname>MarkLogic Corporation</orgname>
+    </affiliation>
+    <email>norman.walsh@marklogic.com</email>
+  </author>
+  <releaseinfo role="version">Version 1.0</releaseinfo>
+  <pubdate>2012-09-20</pubdate>
+  <copyright>
+    <year>2012</year>
+    <holder>MarkLogic Corporation</holder>
+  </copyright>
+  <h:script type="text/javascript" src="js/halma-localstorage.js"/>
+  <h:script type="text/javascript" src="js/halma.js"/>
+  <h:script type="text/javascript" src="js/webtech.js"/>
+  <h:script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"/>
+  <h:script type="text/javascript" src="js/geoloc.js"/>
+  <h:link rel="stylesheet" type="text/css" href="css/webtech.css" />
+  <h:link rel="stylesheet" type="text/css" href="css/pygments.css" />
+  <h:meta name="timer" content="true"/>
+  <h:meta name="countdown" content="180:00"/>
+</info>
+
+<foilgroup>
+<title>JavaScript</title>
+
+<foil>
+<title>JavaScript</title>
+
+<itemizedlist>
+<listitem>
+<para>JavaScript is the defacto standard programming language for web
+applications; browsers expose significant JavaScript APIs (<foreignphrase>n.b.</foreignphrase>: it is
+also popular in other contexts)</para>
+</listitem>
+<listitem>
+<para>Although it started as a slow, limited, odd little language, it has grown into a quite
+substantial and robust (if still a bit odd) language supported on some very fast virtual
+machines</para>
+</listitem>
+<listitem>
+<para>Technically, it is an object-oriented language that uses prototypes; it is a dynamic language
+with first-class and nested functions supporting closures</para>
+</listitem>
+<listitem>
+<para>JavaScript utilizes (or supports) a mixture of object-oriented, imperative, and functional
+programming styles</para>
+</listitem>
+<listitem>
+<para>Syntactically, it's from the C/Java school</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>JavaScript Syntax</title>
+
+<para>In lieu of several hours of JavaScript instruction…some examples</para>
+
+<programlisting language="javascript">/* comment */
+return 3+4;
+
+var x = 3;
+var y = 4;
+return x+y // 7, in case you weren't sure
+
+function f(n) {
+  var total = 0; // local variable
+  total += n;
+  return total;
+}
+</programlisting>
+</foil>
+
+<foil>
+<title>JavaScript Syntax (continued)</title>
+<programlisting language="javascript">// More examples
+
+var produce = { "apple":      { "color": "red",
+                                "fruit": true },
+                "plum":       { "color": "purple",
+                                "fruit": true },
+                "strawberry": { "color": "red",
+                                "fruit": false } };
+
+produce["plum"]["color"] // "purple"
+produce.strawberry.fruit // false
+
+return obj.b().c()
+</programlisting>
+</foil>
+
+<foil>
+<title>JavaScript and CSS</title>
+
+<para>Combining JavaScript and CSS makes interactive applications easy and efficient.</para>
+
+<itemizedlist>
+<listitem>
+<para>Respond to events (user input, mouse motion, server actions)</para>
+</listitem>
+<listitem>
+<para>Locate HTML elements in the browser</para>
+</listitem>
+<listitem>
+<para>Update the CSS associated with those elements (highlight, hide, show, move, resize, etc.)</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>JavaScript and AJAX</title>
+
+<para>One of the things that reinvigorated interest in JavaScript a few years ago
+was the (re)discovery of AJAX: “Asynchronous JavaScript and XML”.</para>
+
+<itemizedlist>
+<listitem>
+<para>JavaScript running in the browser send an HTTP request to a server.</para>
+</listitem>
+<listitem>
+<para>It establishes a callback function for the result and returns control to the browser.</para>
+</listitem>
+<listitem>
+<para>When the server responds, the callback function is automatically called</para>
+</listitem>
+<listitem>
+<para>This leads to fast, dynamic applications</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>JavaScript and JSON</title>
+
+<para>Many AJAX services these days use JSON instead of XML:</para>
+
+<programlisting language="javascript">{
+    "name": {
+        "first": "John",
+        "last": "Smith"
+    },
+    "age": 45,
+    "phones": [
+        "+1-413-555-1212",
+        "+44-1603633522"
+    ]
+}</programlisting>
+
+<itemizedlist>
+<listitem>
+<para>JSON encodes simple data values: objects (hash tables), arrays, numbers, strings, boolean “true”,
+boolean “false”, and “null”.</para>
+</listitem>
+<listitem>
+<para>Objects and arrays can be nested</para>
+</listitem>
+<listitem>
+<para>This syntax fits naturally into the JavaScript programming language</para>
+</listitem>
+<listitem>
+<para>JSON offers <emphasis>no practical</emphasis> way to represent mixed content</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>JavaScript Frameworks</title>
+
+<para>JavaScript frameworks offer many advantages:</para>
+
+<itemizedlist>
+<listitem>
+<para>Conceal browser differences
+</para>
+</listitem>
+<listitem>
+<para>Offer APIs more consistent with JavaScript programming
+</para>
+</listitem>
+<listitem>
+<para>Provide syntactic conveniences (by using the underlying prototype nature of JavaScript's object
+system to extend the language)
+</para>
+</listitem>
+</itemizedlist>
+
+<para>Use a framework.</para>
+</foil>
+
+<foil>
+<title>Popular JavaScript Frameworks</title>
+
+<itemizedlist>
+<listitem>
+<para>Dojo</para>
+</listitem>
+<listitem>
+<para>jQuery</para>
+</listitem>
+<listitem>
+<para>MochiKit</para>
+</listitem>
+<listitem>
+<para>Prototype/script.aculo.us</para>
+</listitem>
+<listitem>
+<para>YUI</para>
+</listitem>
+</itemizedlist>
+
+<para>See <link xlink:href="http://en.wikipedia.org/wiki/Comparison_of_JavaScript_frameworks">Comparison
+of JavaScript frameworks</link>.</para>
+
+<para>In the examples that follow, I'll be using jQuery.</para>
+</foil>
+
+<foil>
+<title>Unobtrusive JavaScript</title>
+
+<para>The name “unobtrusive javascript” is a label for a set of best practices.</para>
+
+<itemizedlist>
+<listitem>
+<para>Keep your JavaScript out of your HTML.</para>
+</listitem>
+<listitem>
+<para>Fail gracefully.</para>
+</listitem>
+<listitem>
+<para>Don't interfere with accessibility: deliver useful information
+even in the face of missing or failing JavaScript.</para>
+</listitem>
+</itemizedlist>
+
+<para>Let's consider an example…</para>
+</foil>
+
+<foil>
+<title>Unobtrusive Example</title>
+
+<para>The name “unobtrusive javascript” is a label for a set of best practices.</para>
+
+<programlisting language="xml"><xi:include href="ex/unobtrusive.xml" parse="text"/></programlisting>
+
+<itemizedlist>
+<title>Be unobtrusive</title>
+<listitem>
+<para>Keep your JavaScript out of your HTML.</para>
+</listitem>
+<listitem>
+<para>Fail gracefully.</para>
+</listitem>
+<listitem>
+<para>Don't interfere with accessibility.</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil condition="web">
+<title>Unobtrusive Example (continued)</title>
+
+<para>The name “unobtrusive javascript” is a label for a set of best practices.</para>
+
+<itemizedlist role="details">
+<title>Be unobtrusive</title>
+<listitem>
+<para>Keep your JavaScript out of your HTML.</para>
+</listitem>
+<listitem>
+<para>Fail gracefully.</para>
+</listitem>
+<listitem>
+<para>Don't interfere with accessibility.</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>Unobtrusive Example Explained 1/4</title>
+
+<para>HTML:</para>
+
+<programlisting language="html"><![CDATA[<head>
+  ...
+  <script type="text/javascript"
+          src="js/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript"
+          src="js/webtech.js"></script>
+</head>]]></programlisting>
+</foil>
+
+<foil>
+<title>Unobtrusive Example Explained 2/4</title>
+
+<para>JavaScript:</para>
+
+<programlisting language="javascript">$(document).ready(function(){
+    beUnobtrusive();
+});
+
+function beUnobtrusive() {
+    // If we get here, we have JavaScript and JQuery. Duh.
+    $("div.details").each(processDetails);
+}
+
+function processDetails() {
+    $(this).children("div").each(processDiv);
+}
+
+function processDiv() {
+    $(this).css("font-weight", "bold")
+        .addClass("toggleClosed")
+        .click(toggleList);
+}
+
+function toggleList() {
+    $(this).toggleClass("toggleClosed")
+        .toggleClass("toggleOpen");
+}</programlisting>
+</foil>
+
+<foil>
+<title>Unobtrusive Example Explained 3/4</title>
+
+<para>CSS:</para>
+
+<programlisting language="css">.toggleClosed:before {
+    content: "\25B6 ";
+}
+
+.toggleOpen:before {
+    content: "\25BC ";
+}
+
+.toggleClosed ~ ul {
+    display: none;
+}</programlisting>
+</foil>
+
+<foil>
+<title>Unobtrusive Example Explained 4/4</title>
+
+<para>Alternate JavaScript:</para>
+
+<programlisting language="javascript">function beUnobtrusive() {
+    // If we get here, we have JavaScript and JQuery. Duh.
+    $("div.details").each(function() {
+        $(this).children("div").each(function () {
+            $(this).css("font-weight", "bold")
+                .addClass("toggleClosed");
+            $(this).click(function() {
+                $(this).toggleClass("toggleClosed")
+                    .toggleClass("toggleOpen");
+            });
+        });
+    });
+}</programlisting>
+</foil>
+
+<!-- ============================================================ -->
+
+<foil condition="web">
+<title>Alternate Example</title>
+<programlisting language="xml"><xi:include href="ex/details.xml" parse="text"/></programlisting>
+<xi:include href="ex/details.xml"/>
+</foil>
+
+<!-- ============================================================ -->
+
+<foil condition="web">
+<title>Progressive enhancement</title>
+<para>Remember our birthday example?</para>
+<programlisting language="xml"><xi:include href="ex/birthday.xml" parse="text"/></programlisting>
+<para>Try it out:</para>
+<xi:include href="ex/birthday.xml"/>
+<para xml:id="datetest"></para>
+</foil>
+
+<!--
+<foil>
+<title>Progressive enhancement</title>
+<para>Remember our birthday example?</para>
+<programlisting language="xml"><xi:include href="ex/birthday.xml" parse="text"/></programlisting>
+<para>Try it out:</para>
+<xi:include href="ex/birthday.xml"/>
+<para xml:id="datetest"></para>
+</foil>
+-->
+
+<!-- ============================================================ -->
+
+<foil>
+<title>Progressive enhancement: How?</title>
+
+<programlisting language="html"><![CDATA[<head>
+  ...
+  <link type="text/css"
+        href="css/ui/jquery-ui-1.8.16.css"
+        rel="stylesheet" />
+  <script type="text/javascript"
+          src="js/jquery-ui-1.8.16.min.js"></script>
+  <script type="text/javascript"
+          src="js/webtech.js"></script>
+</head>]]></programlisting>
+
+<para><filename>js/webtech.js:</filename></para>
+
+<programlisting language="javascript"><![CDATA[$(document).ready(function(){
+    var datetest = document.createElement("input");
+    datetest.setAttribute("type", "date");
+    if (datetest.type == "text") {
+        // This browser doesn't support the date type
+        $("#birthday").datepicker(
+          { dateFormat: "yy-mm-dd" }
+        );
+    }
+});]]></programlisting>
+</foil>
+
+<foil>
+<title>“Modernizing” Toolkits</title>
+
+<itemizedlist>
+<listitem>
+<para>Supporting the date input type was a good example of progressive enhancement, but
+in reality you don't have to code it yourself.</para>
+</listitem>
+<listitem>
+<para>There are toolkits for exactly this purpose.
+</para>
+<itemizedlist>
+<listitem>
+<para><link xlink:href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills">HTML5
+Cross Browser Polyfills</link>
+</para>
+</listitem>
+<listitem>
+<para><link xlink:href="http://www.modernizr.com/">Modernizr</link>
+</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>JavaScript APIs</title>
+<itemizedlist>
+<listitem>
+<para><link xlink:href="http://www.w3.org/TR/geolocation-API/">Geolocation</link></para>
+</listitem>
+<listitem>
+<para><link xlink:href="http://www.w3.org/TR/webstorage/">Web Storage</link></para>
+</listitem>
+<listitem>
+<para><link xlink:href="http://www.w3.org/TR/widgets-apis/">Widget Interface</link></para>
+</listitem>
+<listitem>
+<para><link xlink:href="http://www.w3.org/TR/battery-status/">Battery Status</link></para>
+</listitem>
+<listitem>
+<para><link xlink:href="http://www.w3.org/TR/vibration/">Vibration</link></para>
+</listitem>
+<listitem>
+<para><link xlink:href="http://www.w3.org/TR/workers/">Web Workers</link></para>
+</listitem>
+<listitem>
+<para>User, resource, and high-resolution timing.</para>
+</listitem>
+<listitem>
+<para>Etc., etc., etc.</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>Geolocation API</title>
+<itemizedlist>
+<listitem>
+<para>The
+<link xlink:href="http://dev.w3.org/geo/api/spec-source.html">Geolocation API</link> is
+part of HTML5 and answers the question “where are you?”</para>
+</listitem>
+<listitem>
+<para>Many mobile devices have a GPS. Desktop and laptop browsers may be able to use other
+mechanisms (IP address, nearby wifi access points)</para>
+</listitem>
+<listitem>
+<para>Recent browsers support the standard, older browsers may have proprietary APIs.
+</para>
+</listitem>
+<listitem>
+<para>Getting a users geolocation requires their consent.</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<!-- ============================================================ -->
+
+<foil condition="web">
+<title>Welcome to Oxford</title>
+<para xml:id="whereareyou">Where are you?
+<h:input type="button" id="updateMap" value="Update location"/></para>
+<xi:include href="ex/oxfordmap.xml"/>
+</foil>
+
+<foil>
+<title>Geolocation API</title>
+<programlisting language="javascript"><xi:include href="ex/geo.js" parse="text"/></programlisting>
+</foil>
+
+<!-- ============================================================ -->
+
+<foil>
+<title>Local storage</title>
+
+<itemizedlist>
+<listitem>
+<para>HTML5 <link xlink:href="http://dev.w3.org/html5/webstorage/">Web Storage</link> is
+a simple API for storing data locally</para>
+</listitem>
+<listitem>
+<para>Think about applications that you might want to run when you're disconnected.
+</para>
+</listitem>
+<listitem>
+<para>If they can store data locally, they may be able to restart without a net connection.
+</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>Local storage API</title>
+
+<para>There are just three things to know:</para>
+
+<itemizedlist>
+<listitem>
+<para>Missing API: <code>typeof localStorage === "undefined"</code>
+</para>
+</listitem>
+<listitem>
+<para>Save a value: <code>localStorage.setItem("key", value)</code>
+</para>
+</listitem>
+<listitem>
+<para>Retrieve a value: <code>localStorage.getItem("key")</code>
+</para>
+</listitem>
+</itemizedlist>
+<para>It is possible to run out of storage, so some error checking is also in order.</para>
+</foil>
+
+<foil>
+<title>What about my code?</title>
+
+<para>Local storage of data is fine, but how do I save my HTML, JavaScript, CSS, images,
+and other files locally?</para>
+
+<orderedlist>
+<listitem>
+<para>Add a manifest to your <tag>html</tag> element:</para>
+<programlisting language="xml"><![CDATA[<html manifest="myapp.appcache">
+   ...]]></programlisting>
+</listitem>
+<listitem>
+<para>Create a manifest file, <filename>myapp.appcache</filename> listing the
+files that you want to have cached locally:</para>
+<programlisting>CACHE MANIFEST
+app.html
+app.js
+app.css
+images/banner.png</programlisting>
+</listitem>
+<listitem>
+<para>Make sure that the manifest is served with the media type
+“<code>text/cache-manifest</code>”.
+</para>
+</listitem>
+</orderedlist>
+</foil>
+
+</foilgroup>
+
+<foil>
+<title>Q&amp;A</title>
+<para condition="web">Thanks!</para>
+</foil>
+
+</slides>

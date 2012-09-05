@@ -1,0 +1,10 @@
+<details xmlns="http://www.w3.org/1999/xhtml">
+  <summary>Be unobtrusive</summary>
+  <ul>
+    <li><p>Keep your JavaScript out of your HTML.
+    </p></li>
+    <li><p>Fail gracefully.</p></li>
+    <li><p>Don't interfere with accessibility</p>
+    </li>
+  </ul>
+</details>

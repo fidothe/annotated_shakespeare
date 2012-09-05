@@ -1,0 +1,9 @@
+<details open="open">
+  <summary>Task summary</summary>
+  <dl>
+    <dt>Detail 1</dt>
+    <dt>Detail 2</dt>
+    <dt>Detail 3</dt>
+  </dl>
+</details>
+

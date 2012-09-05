@@ -1,0 +1,4 @@
+<p xmlns="http://www.w3.org/1999/xhtml">When
+were you born?
+<input id="birthday" type="date" size="16"/>
+</p>

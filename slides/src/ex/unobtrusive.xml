@@ -1,0 +1,10 @@
+<div class="details">
+  <div class="title">Be unobtrusive</div>
+  <ul>
+    <li><p>Keep your JavaScript out of your HTML.
+    </p></li>
+    <li><p>Fail gracefully.</p></li>
+    <li><p>Don't interfere with accessibility</p>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,18 @@
+<article>
+  <header>
+    <hgroup>
+      <h1>Article Title</h1>
+      <h2>Article subtitle</h2>
+    </hgroup>
+  </header>
+  <p>Article content…</p>
+  <section>
+    <header>
+      <h1>Section header</h1>
+    </header>
+    <p>Section content…</p>
+  </section>
+  <footer>
+    <p>Footer content</p>
+  </footer>
+</article>

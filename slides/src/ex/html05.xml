@@ -1,0 +1,10 @@
+<div>
+<p><video src="funnyclip.webm" autoplay="autoplay"
+          controls="controls" onerror="failed(event)">
+  <track kind="subtitles" src="funnyclip.en.vtt"
+         srclang="en" label="English"/>
+  <track kind="subtitles" src="funnyclip.fr.vtt"
+         srclang="fr" label="Français"/>
+</video></p>
+<p><a href="funnyclip.webm">Download the video</a>.</p>
+</div>

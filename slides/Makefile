@@ -9,6 +9,8 @@ TARGETS+=css.html
 TARGETS+=javascript.html
 TARGETS+=security_authentication.html
 
+PYTHONPATH := lib/python2.6/site-packages/Pygments-1.5-py2.6.egg:lib/jython-2.5.2/Lib:__classpath__:__pyclasspath__/
+
 all: $(TARGETS)
 
 clean::
@@ -25,5 +27,6 @@ architecture.html: src/architecture.xml style/slides.xsl
 .xml.html: style/dbslides.xsl
 	@echo Building $@
 	@java -cp $(CP) \
+             -Dpython.path=$(PYTHONPATH) \
              -Djavax.xml.transform.TransformerFactory=net.sf.saxon.TransformerFactoryImpl \
              com.xmlcalabash.drivers.Main -isource=$< -oresult=$@ style/dbslides.xpl

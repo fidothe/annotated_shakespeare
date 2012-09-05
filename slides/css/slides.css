@@ -45,7 +45,6 @@ table tr th {
 .header {
     background-color: #fffc84;
     height: 125px;
-    padding-left: 200px;
     text-align: center;
     background-image: url(../images/xmlss-1024.png);
     background-repeat: no-repeat;
@@ -120,12 +119,43 @@ img {
     background-position: 0 120;
 }
 
+.titlefoil .page {
+    background-image: url(../images/xmlssw-1024.png);
+    background-repeat: no-repeat;
+    background-position: 10 20;
+}
+
+.titlefoil .header {
+    margin-left: 200px;
+    background-color: white;
+    background-image: none;
+}
+
+.titlefoil .mlheader {
+    margin-left: 200px;
+    background-color: white;
+    background-image: url(../images/marklogic-logo.gif);
+    background-repeat: no-repeat;
+    background-position: 470 40;
+}
+
+/*
+.titlefoil {
+    background-image: url(../images/radcliff.png);
+    background-repeat: no-repeat;
+    background-position: 0 120;
+}
+
+.titlefoil .page {
+}
+
 .titlefoil .header {
     background-color: white;
     background-image: url(../images/xmlssw-1024.png);
     background-repeat: no-repeat;
     background-position: 10 20;
 }
+*/
 
 .titlefoil .header h1 {
     padding-top: 20px;

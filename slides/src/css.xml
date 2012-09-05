@@ -1,4 +1,4 @@
-<?dbhtml pygments="true"?>
+<?dbhtml pygments="true" marklogic="true"?>
 <slides xml:lang="en"
         xmlns="http://docbook.org/ns/docbook"
         xmlns:h="http://www.w3.org/1999/xhtml"

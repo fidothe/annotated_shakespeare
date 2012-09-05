@@ -79,8 +79,11 @@
 </xsl:template>
 
 <xsl:template match="db:slides/db:info">
+  <xsl:variable name="marklogic"
+                select="f:pi(/processing-instruction('dbhtml'), 'marklogic')"/>
+
   <div class="page">
-    <div class="header">
+    <div class="header{if ($marklogic = 'true') then ' mlheader' else ''}">
       <h1><xsl:apply-templates select="db:title/node()"/></h1>
       <h2><xsl:value-of select="format-date(xs:date(db:pubdate), '[D01] [MNn] [Y0001]')"/></h2>
     </div>
@@ -115,29 +118,6 @@
 
 <xsl:template match="db:speakernotes">
   <!-- ignored -->
-</xsl:template>
-
-
-<xsl:template match="db:foil">
-  <div class="foil">
-    <div class="page">
-      <div class="header">
-        <h1>
-          <xsl:apply-templates select="db:title/node()"/>
-        </h1>
-      </div>
-      <div class="body">
-        <xsl:apply-templates select="*[not(self::db:title)]"/>
-      </div>
-    </div>
-    <div class="footer">
-      <xsl:sequence select="($license, $footer-text)"/>
-      <div class="foilnumber">
-        <xsl:text>Slide </xsl:text>
-        <xsl:value-of select="count(preceding::db:foil)+1"/>
-      </div>
-    </div>
-  </div>
 </xsl:template>
 
 <xsl:template match="db:tag[@class='xmlpi']">

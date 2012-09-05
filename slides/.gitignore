@@ -1,3 +1,5 @@
 *~
 *.html
-lib/cachedir
+/lib/cachedir
+*.class
+

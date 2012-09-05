@@ -5,20 +5,42 @@
                 exclude-result-prefixes="tei"
                 version="1.0">
 
+<xsl:output omit-xml-declaration="yes" indent="yes"/>
 <xsl:strip-space elements="*"/>
 
+<xsl:param name="full_page" select="''"/>
+<xsl:param name="act_number" select="''"/>
+
 <xsl:template match="tei:TEI">
-  <html>
-    <head>
-      <title>
-        <xsl:value-of select="tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title"/>
-      </title>
-      <link rel="stylesheet" type="text/css" href="tei.css" />
-    </head>
-    <body>
-      <xsl:apply-templates/>
-    </body>
-  </html>
+  <xsl:variable name="body">
+    <xsl:choose>
+      <xsl:when test="$act_number = ''">
+        <xsl:apply-templates/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:apply-templates select="/tei:TEI/tei:text/tei:body/tei:div[position()=$act_number]"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:choose>
+    <xsl:when test="$full_page = ''">
+      <xsl:copy-of select="$body"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <html>
+        <head>
+          <title>
+            <xsl:value-of select="tei:teiHeader/tei:fileDesc/tei:titleStmt/tei:title"/>
+          </title>
+          <link rel="stylesheet" type="text/css" href="tei.css" />
+        </head>
+        <body>
+          <xsl:copy-of select="$body"/>
+        </body>
+      </html>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 <xsl:template match="tei:teiHeader">
@@ -72,9 +94,7 @@
 <xsl:template match="tei:text|tei:body|tei:div|tei:stage|tei:sp|tei:speaker|tei:ab">
   <div>
     <xsl:call-template name="attrs"/>
-    <span>
-      <xsl:apply-templates/>
-    </span>
+    <xsl:apply-templates/>
   </div>
 </xsl:template>
 
@@ -123,8 +143,35 @@
     </xsl:choose>
   </xsl:attribute>
   <xsl:attribute name="id">
-    <xsl:value-of select="generate-id($node)"/>
+    <xsl:call-template name="xptr-id">
+      <xsl:with-param name="node" select="$node"/>
+    </xsl:call-template>
   </xsl:attribute>
+</xsl:template>
+
+<xsl:template name="xptr-id">
+  <xsl:param name="node"/>
+
+  <xsl:choose>
+    <xsl:when test="$node/@xml:id">
+      <xsl:value-of select="$node/@xml:id"/>
+    </xsl:when>
+    <xsl:when test="$node/@id">
+      <xsl:value-of select="$node/@id"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:choose>
+        <xsl:when test="not($node/parent::*)">R.</xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="xptr-id">
+            <xsl:with-param name="node" select="$node/parent::*"/>
+          </xsl:call-template>
+          <xsl:text>.</xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:value-of select="count($node/preceding-sibling::*)+1"/>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

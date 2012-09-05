@@ -15,7 +15,6 @@
   <xsl:variable name="body">
     <xsl:choose>
       <xsl:when test="$act_number = ''">
-        <div id="hello-mum"><xsl:value-of select="$act_number"/></div>
         <xsl:apply-templates/>
       </xsl:when>
       <xsl:otherwise>
@@ -144,8 +143,35 @@
     </xsl:choose>
   </xsl:attribute>
   <xsl:attribute name="id">
-    <xsl:value-of select="generate-id($node)"/>
+    <xsl:call-template name="xptr-id">
+      <xsl:with-param name="node" select="$node"/>
+    </xsl:call-template>
   </xsl:attribute>
+</xsl:template>
+
+<xsl:template name="xptr-id">
+  <xsl:param name="node"/>
+
+  <xsl:choose>
+    <xsl:when test="$node/@xml:id">
+      <xsl:value-of select="$node/@xml:id"/>
+    </xsl:when>
+    <xsl:when test="$node/@id">
+      <xsl:value-of select="$node/@id"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:choose>
+        <xsl:when test="not($node/parent::*)">R.</xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="xptr-id">
+            <xsl:with-param name="node" select="$node/parent::*"/>
+          </xsl:call-template>
+          <xsl:text>.</xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:value-of select="count($node/preceding-sibling::*)+1"/>
+    </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

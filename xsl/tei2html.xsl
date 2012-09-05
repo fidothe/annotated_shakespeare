@@ -159,12 +159,12 @@
     </xsl:when>
     <xsl:otherwise>
       <xsl:choose>
-        <xsl:when test="not($node/parent::*)">R.</xsl:when>
+        <xsl:when test="not($node/parent::*)">R-</xsl:when>
         <xsl:otherwise>
           <xsl:call-template name="xptr-id">
             <xsl:with-param name="node" select="$node/parent::*"/>
           </xsl:call-template>
-          <xsl:text>.</xsl:text>
+          <xsl:text>-</xsl:text>
         </xsl:otherwise>
       </xsl:choose>
       <xsl:value-of select="count($node/preceding-sibling::*)+1"/>

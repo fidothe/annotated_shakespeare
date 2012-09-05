@@ -413,19 +413,19 @@ etc.</para>
 <variablelist>
 <varlistentry><term>Firefox 14.0.1</term>
 <listitem>
-<mediaobject><imageobject><imagedata fileref="../images/firefox.png"/></imageobject></mediaobject>
+<mediaobject><imageobject><imagedata fileref="../images/html_firefox.png"/></imageobject></mediaobject>
 <para>(Nothing)</para>
 </listitem>
 </varlistentry>
 <varlistentry><term>Chrome 21.0.1180.82</term>
 <listitem>
-<mediaobject><imageobject><imagedata fileref="../images/chrome.png"/></imageobject></mediaobject>
+<mediaobject><imageobject><imagedata fileref="../images/html_chrome.png"/></imageobject></mediaobject>
 <para>(An editable field with a pull-down calendar)</para>
 </listitem>
 </varlistentry>
 <varlistentry><term>Opera 11.50</term>
 <listitem>
-<mediaobject><imageobject><imagedata fileref="../images/opera.png"/></imageobject></mediaobject>
+<mediaobject><imageobject><imagedata fileref="../images/html_opera.png"/></imageobject></mediaobject>
 <para>(A full calendar widget)</para>
 </listitem>
 </varlistentry>

@@ -768,48 +768,256 @@ so I always do this if I can) -->
     <foil>
       <title>Example code</title>
       <programlisting role="other" language="SQL">
-         
-
-      <phrase role="kw">String</phrase> <varname>query</varname> = 
-        "<phrase role="kw">SELECT</phrase> * <phrase role="kw">FROM</phrase>
-        <varname>accounts</varname> <phrase role="kw">WHERE</phrase>
-        <varname>custID</varname> = '" + request.getParameter("id") +"'";
-
-    </programlisting>
-      <para>The attacker changes the query URL to http://example.com/app/accountView?id=' or '1'='1
-        which leads to the complete query being</para>
+<phrase role="kw">String</phrase> <varname>query</varname> = "<phrase role="kw">SELECT</phrase> * <phrase role="kw">FROM</phrase> <varname>accounts</varname> <phrase role="kw">WHERE</phrase> <varname>custID</varname> = 
+'" + request.getParameter("id") +"'";
+</programlisting>
+      <para>The attacker changes the query URL to <code>http://example.com/app/accountView?id=' or
+          '1'='1</code> which leads to the complete query being</para>
       <programlisting role="other" language="SQL">
-      <phrase role="kw">SELECT</phrase> * <phrase role="kw">FROM</phrase>
-        <varname>accounts</varname> <phrase role="kw">WHERE</phrase>
-        <varname>custID ='' or  '1'='1'</varname>
-    </programlisting>
-      <para>'1'='1' is always true, so the query returns the entire account list.</para>
+<phrase role="kw">SELECT</phrase> * <phrase role="kw">FROM</phrase> <varname>accounts</varname> <phrase role="kw">WHERE</phrase> <varname>custID ='' or  '1'='1'</varname>
+</programlisting>
+      <para><code>'1'='1'</code> is always true, so the query returns the entire account
+        list.</para>
+    </foil>
+    <foil>
+      <title>Preventing SQL Injection Attacks</title>
+      <itemizedlist>
+        <listitem>
+          <para>Stop writing dynamic queries and/or </para>
+        </listitem>
+        <listitem>
+          <para>Ensure malicious user-supplied input can’t do anything <itemizedlist>
+              <listitem>
+                <para>use prepared statements </para>
+              </listitem>
+              <listitem>
+                <para>use stored procedures </para>
+              </listitem>
+              <listitem>
+                <para>escape user-supplied input </para>
+              </listitem>
+              <listitem>
+                <para>principle of least privilege </para>
+              </listitem>
+              <listitem>
+                <para>principle of white list input validation </para>
+              </listitem>
+            </itemizedlist>
+          </para>
+        </listitem>
+      </itemizedlist>
+      <para>Check the OWASP SQL Injection Cheat Sheet for more details</para>
+      <speakernotes>
+        <para>There are variations on this theme of course, but they all involve data that shouldn’t
+          be trusted but is. There’s a scary web site at
+          http://www.unixwiz.net/techtips/sql-injection.html that shows just how easy it is to gain
+          access to some databases where input hasn’t been properly sanitized. There are a number of
+          methods to try to stop SQL injection attacks. The safest method for all injection attacks
+          is to be paranoid and only allow the data you need to. </para>
+        <para>Prepared statements (also called parameterized queries) force the developer to first
+          define all the SQL code, and then pass in each parameter to the query later. This coding
+          style allows the database to distinguish between code and data, regardless of what user
+          input is supplied. In the example previously, the system would look for a customer id that
+          is literally “' or '1'='1” which won’t find anything. </para>
+        <para>Stored procedures are similar, but the code is stored in the database. </para>
+        <para>For escaping user input, you take advantage of the fact that each DBMS supports one or
+          more character escaping schemes specific to certain kinds of queries. If you then escape
+          all user supplied input using the proper escaping scheme for the database you are using,
+          the DBMS will not confuse that input with SQL code written by the developer, thus avoiding
+          any possible SQL injection vulnerabilities. </para>
+        <para>Least privilege is basic security: minimise what the account doing the work is allowed
+          to do. If your app only looks at data in the database, it doesn’t need to be allowed to
+          add data, so make sure the account it runs under doesn’t have that privilege. </para>
+        <para>White-list is similarly a basic security principle: only allow what you have to. If
+          your app doesn’t need to allow certain characters (e.g., for user names, you may choose to
+          not allow semi-colons in the name), don’t. n particular, screening out non-printing
+          characters is a good step for most text fields. </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>XSS attacks</title>
+      <para>Cross-site scripting (aka CSS) </para>
+      <itemizedlist>
+        <listitem>
+          <para>Malicious script tricks user’s browser into thinking it comes from a trusted source
+          </para>
+        </listitem>
+        <listitem>
+          <para>Can access cookies, security tokens, etc, as fully trusted </para>
+        </listitem>
+      </itemizedlist>
+      <para>Example: </para>
+      <itemizedlist>
+        <listitem>
+          <para>comment site allows full HTML </para>
+        </listitem>
+        <listitem>
+          <para>attacking comment includes javascript that runs when victim loads the page </para>
+        </listitem>
+        <listitem>
+          <para>comment is on same site, so can access cookies etc defined by that site, including,
+            e.g., login info </para>
+        </listitem>
+      </itemizedlist>
+      <speakernotes>
+        <para>OWASP calls this the most prevalent web application security flaw. It’s another case
+          where the application wrongly trusts some attacker-supplied data, and the cure, as for the
+          SQL injection attack we just talked about, is to make sure any user-supplied data is
+          validated or appropriately escaped, in case it’s really a malicious script. The web pages
+          today aren’t just static HTML. They are more dynamic, including scripts that change the
+          page in the user’s browser, without the server being involved. That means that a malicious
+          script that can trick the browser into thinking it came from the server originally will be
+          trusted, and can then change any part of the page, hijack the unsuspecting user’s browser,
+          or redirect the victim to a phishing or spoof site. Because the victim’s browser thinks
+          the malicious script comes from a trusted source, it lets it do anything - access cookies
+          or security tokens, for example. It’s called cross-site scripting because the original
+          versions attacked the target site from a different attack site. </para>
+        <para>The basic idea is best explained using a comment system. Let’s say the attacker goes
+          to a web site that allows comments with HTML. The attacker carefully crafts a comment to
+          include some javascript that runs when the victim loads the page in their browser. Since
+          the victim is on the trusted site, the attack code can steal cookies or other information
+          that is usually sand-boxed, including, for example, login information if the victim is
+          logged in at the trusted site. </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Variations of XSS</title>
+      <itemizedlist>
+        <listitem>
+          <para>Attacker crafts query URI and cons the victim into clicking on it from email </para>
+        </listitem>
+        <listitem>
+          <para>Attacker (mis)uses some HTML element <itemizedlist>
+              <listitem>
+                <para>script element, to load external script </para>
+              </listitem>
+              <listitem>
+                <para>add onload attribute to body element </para>
+              </listitem>
+              <listitem>
+                <para>put a script in the src attribute of an img element </para>
+              </listitem>
+              <listitem>
+                <para>put script in rel=”stylesheet” attribute of link element </para>
+              </listitem>
+              <listitem>
+                <para>put script in background attribute of table element</para>
+              </listitem>
+            </itemizedlist></para>
+        </listitem>
+      </itemizedlist>
+      <speakernotes>
+        <para>Another example is when the attacker crafts a query URL and cons the victim into
+          clicking on it (e.g., from an attack site or email); the victim goes to the trusted site
+          and doesn’t notice the odd characters after the “?” in the URL – which carry sufficient
+          code to steal the same information. </para>
+        <para>Variations of this attack exist using lots of different HTML elements. The best known
+          is the script element (as an external script that’s loaded, for example, or the comment
+          form changes above), but attacks can also work by changing the body element to include an
+          onload event or background attribute, putting a script in the src attribute of an image
+          element, putting a script in the rel = “stylesheet” attribute of a link element instead of
+          a stylesheet, or putting a script in the background attribute of a table element. </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Preventing XSS attacks</title>
+      <para>Multi-layer prevention is best </para>
+      <itemizedlist>
+        <listitem>
+          <para>only allow characters that make sense in the context <itemizedlist>
+              <listitem>
+                <para>e.g., don’t allow input into a script </para>
+              </listitem>
+              <listitem>
+                <para>don’t allow non-printable characters in name fields </para>
+              </listitem>
+            </itemizedlist></para>
+        </listitem>
+        <listitem>
+          <para>ensure input data can’t change the HTML DOM tree </para>
+        </listitem>
+        <listitem>
+          <para>escape all HTML/XML significant characters with entities, e.g., &lt; </para>
+        </listitem>
+        <listitem>
+          <para>consider escaping all “special” characters with the right character or numeric
+            entity (ASCII code under 256) </para>
+        </listitem>
+        <listitem>
+          <para>escape JavaScript, CSS, and URIs appropriately </para>
+        </listitem>
+      </itemizedlist>
+      <para>Check the OWASP XSS Prevention Cheat Sheet</para>
+      <speakernotes>
+        <para>Injecting UP: The most common way is to close the current context and start a new code
+          context. For example, this is what you do when you close an HTML attribute with a "> and
+          start a new &lt;script> tag. This attack closes the original context (going up in the
+          hierarchy) and then starts a new tag that will allow script code to execute. Remember that
+          you may be able to skip many layers up in the hierarchy when trying to break out of your
+          current context. For example, a &lt;/script> tag may be able to terminate a script block
+          even if it is injected inside a quoted string inside a method call inside the script. This
+          happens because the HTML parser runs before the JavaScript parser. </para>
+        <para>Injecting DOWN: The less common way to perform XSS injection is to introduce a code
+          subcontext without closing the current context. For example, if the attacker is able to
+          change &lt;img src="...UNTRUSTED DATA HERE..." /&gt; into &lt;img
+          src="javascript:alert(document.cookie)" /&gt; they do not have to break out of the HTML
+          attribute context. Instead, they introduce a subcontext that allows scripting within the
+          src attribute (in this case a javascript url). Another example is the expression()
+          functionality in CSS properties. Even though you may not be able to escape a quoted CSS
+          property to inject up, you may be able to introduce something like
+          xss:expression(document.write(document.cookie)) without ever leaving the current context.
+        </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>CSRF Attacks</title>
+      <para>Cross-Site Request Forgery </para>
+      <itemizedlist>
+        <listitem>
+          <para>victim is logged in somewhere </para>
+        </listitem>
+        <listitem>
+          <para>attacker convinces victim to run a script </para>
+        </listitem>
+        <listitem>
+          <para>script action is carried out, since victim is logged in </para>
+        </listitem>
+      </itemizedlist>
+      <para>Prevention: complicated </para>
+      <para>Good measures to not become a victim </para>
+      <itemizedlist>
+        <listitem>
+          <para>log out of your bank site when you’re finished </para>
+        </listitem>
+        <listitem>
+          <para>don’t automatically save usernames and passwords to sensitive sites </para>
+        </listitem>
+      </itemizedlist>
+      <speakernotes>
+        <para>This one is also wide-spread, perhaps not quite as nasty as the other two, but worth
+          knowing about. It’s an exploit where the server carries out some action on behalf of the
+          victim because it trusts the victim, or, more to the point, trusts the victim’s browser.
+          The victim is authenticated at a site and is then tricked into sending a request to the
+          server to carry out the action. It’s also called session riding. As an example – the
+          victim carried out some business at their bank, and the authentication is still valid.
+          Let’s assume the authentication information is in a cookie. And the bank has a simple way
+          to move money from one account to another, something like </para>
+        <para>http://example.com/move?from=victim&amp;amount=1000&amp;to=attacker </para>
+        <para>Then if the attacker can convince the victim to click on an appropriate link, or view
+          an image where the source is a script, the action will be carried out because the victim
+          is still logged in and still has a valid cookie. There are defences against this attack,
+          but it’s more difficult than for the others, so it’s still a good idea to sign out of your
+          bank account or other high-security web site before browsing random forums or unknown web
+          sites that could be affected. And, to top it off, XSS is often used to introduce a CSRF
+          attack.  Rhetorical question: are you paranoid enough yet? Let’s fix one of these issues
+          in our sample application. </para>
+        <para>Rhetorical question: are you paranoid enough yet? Let’s fix one of these issues in our
+          sample application.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Exercise</title>
+      <para>Identify and fix security issues in sample application</para>
     </foil>
   </foilgroup>
-  <foil>
-    <title>OWASP Top Ten</title>
-    <mediaobject role="center">
-      <alt>application architecture components</alt>
-      <imageobject>
-        <imagedata fileref="../images/httpbasicauth.svg"/>
-      </imageobject>
-    </mediaobject>
-    <itemizedlist>
-      <listitem>
-        <para/>
-      </listitem>
-      <listitem>
-        <para/>
-      </listitem>
-      <listitem>
-        <para/>
-      </listitem>
-      <listitem>
-        <para/>
-      </listitem>
-      <listitem>
-        <para/>
-      </listitem>
-    </itemizedlist>
-  </foil>
 </slides>

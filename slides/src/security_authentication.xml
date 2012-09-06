@@ -470,9 +470,9 @@ so I always do this if I can) -->
       <title>OpenID flows</title>
       <para>Designed for outsourcing identity. Original use case: for using with blog comments or
         similar (i.e., not high security)</para>
-      <mediaobject>
+      <mediaobject role="center">
         <alt>More roles</alt>
-        <imageobject role="center">
+        <imageobject>
           <imagedata fileref="../images/OpenId-flow.png"/>
         </imageobject>
       </mediaobject>
@@ -498,9 +498,9 @@ so I always do this if I can) -->
     <foil>
       <title>More roles</title>
       <para>Role proliferation</para>
-      <mediaobject>
+      <mediaobject role="center">
         <alt>More roles</alt>
-        <imageobject role="center">
+        <imageobject>
           <imagedata fileref="../images/more_identity_roles.svg"/>
         </imageobject>
       </mediaobject>
@@ -513,9 +513,9 @@ so I always do this if I can) -->
     </foil>
     <foil>
       <title>BrowserID roles</title>
-      <mediaobject>
+      <mediaobject role="center">
         <alt>BrowserID roles</alt>
-        <imageobject role="center">
+        <imageobject>
           <imagedata fileref="../images/browseridroles.svg"/>
         </imageobject>
       </mediaobject>
@@ -532,8 +532,28 @@ so I always do this if I can) -->
           HTML 5.</para>
       </speakernotes>
     </foil>
-    <foil><title>BrowserID</title>
-    <para>$$$$TODO$$$$$</para></foil>
+    <foil>
+      <title>BrowserID/Persona implementation</title>
+      <para>Simple, but assumes user has a browser with JavaScript, and has signed up at
+        persona.org.</para>
+      <orderedlist>
+        <listitem>
+          <para>Include the persona Javascript library (as link to persona.org).</para>
+        </listitem>
+        <listitem>
+          <para>Add <guibutton>login</guibutton> and <guibutton>logout</guibutton> buttons, and code
+            with <function>onclick</function> functions.</para>
+        </listitem>
+        <listitem>
+          <para>Set up a <function>watch</function> function to watch for those actions.</para>
+        </listitem>
+        <listitem>
+          <para>Verify the credentials (called identity assertions) by POSTing to persona.org.
+          </para>
+        </listitem>
+      </orderedlist>
+      <para>There are a number of best practices for security.</para>
+    </foil>
     <foil>
       <title>Exercise</title>
       <para>Try it out!</para>
@@ -707,6 +727,41 @@ so I always do this if I can) -->
           resource server. This means not all clients can talk to all resource servers; clients have
           to be configured to work with any given authorization server and/or resource server.
         </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Real life implementation</title>
+      <para>Our exercises are simplified. In real life you need to</para>
+      <itemizedlist>
+        <listitem>
+          <para>secure any information you store on disk (e.g., access tokens) </para>
+        </listitem>
+        <listitem>
+          <para>provide a trusted callback URI for the IdP to return the user to </para>
+        </listitem>
+        <listitem>
+          <para>protect that URI with TLS/HTTPS to secure it </para>
+        </listitem>
+      </itemizedlist>
+      <para>Where possible, reuse trusted libraries </para>
+      <itemizedlist>
+        <listitem>
+          <para>they’ve been debugged</para>
+        </listitem>
+      </itemizedlist>
+      <speakernotes>
+        <para>For this exercise we’re not going to go to the bother of encrypting all the access
+          tokens etc for storage as we would do in a real application – just like you would encrypt
+          a password before storing it in a database, you should encrypt all secrets and tokens, not
+          just when they’re being transferred from one place to another, but also for storage. We
+          are, however, going to reuse an existing library rather than develop from scratch, not
+          only because of time constraints, but also because getting the details right is hard.
+          Where possible, reuse trusted libraries for your development. You also need to protect
+          (with SSL/HTTPS) the callback endpoint and preregister it with servers (which is what
+          Twitter does). The client has to have a callback URL where the server returns the user at
+          the end of the authorization process. Ensure that this endpoint is protected with SSL/TLS
+          and preregister it so that servers won’t mistakenly follow a endpoint dynamically provided
+          by a rogue client.</para>
       </speakernotes>
     </foil>
   </foilgroup>
@@ -1214,5 +1269,4 @@ so I always do this if I can) -->
       <para>Identify and fix security issues in sample application</para>
     </foil>
   </foilgroup>
-  
 </slides>

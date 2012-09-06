@@ -467,6 +467,35 @@ so I always do this if I can) -->
       </speakernotes>
     </foil>
     <foil>
+      <title>OpenID flows</title>
+      <para>Designed for outsourcing identity. Original use case: for using with blog comments or
+        similar (i.e., not high security)</para>
+      <mediaobject>
+        <alt>More roles</alt>
+        <imageobject role="center">
+          <imagedata fileref="../images/OpenId-flow.png"/>
+        </imageobject>
+      </mediaobject>
+      <speakernotes>
+        <para>OpenID was only semi-successful – when we implemented it at Sun we had very few people
+          sign up, and even those who signed up seldom used it. One of the big reasons was simply
+          that it adds an extra layer. Every time you wanted to go to some web site and do
+          something, you had to sign in again, doing the authentication dance, for not much benefit.
+          The security in OpenID 1.0 was also not very good (for example, it’s easy to phish for
+          information, but see also https://sites.google.com/site/openidreview/issues) so that Sun
+          (as an example) couldn’t recommend people use it for anything sensitive or important. Some
+          of those issues were fixed with OpenID 2 (or at least detailed so implementers could
+          choose to fix them) and through more awareness of the issues. In general OAuth has taken
+          over and is a lot more widely implemented. </para>
+        <para>This doesn’t mean the OpenID is dead: many companies still support it, such as Google.
+          Google uses OpenID for Google Apps support. They have a hybrid OAuth/OpenID for login.
+          OpenID Connect, which is more or less OpenID on top of OAuth. Google has been
+          strategically backing OpenID as they put money in it. Paypal also uses OpenID, so
+          depending on where you want to outsource your information to, you may need to support it.
+        </para>
+      </speakernotes>
+    </foil>
+    <foil>
       <title>More roles</title>
       <para>Role proliferation</para>
       <mediaobject>
@@ -503,16 +532,181 @@ so I always do this if I can) -->
           HTML 5.</para>
       </speakernotes>
     </foil>
+    <foil><title>BrowserID</title>
+    <para>$$$$TODO$$$$$</para></foil>
+    <foil>
+      <title>Exercise</title>
+      <para>Try it out!</para>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>OAuth 2</title>
+    <foil>
+      <title>Use Case for OAuth</title>
+      <para>Hybrid authentication/authorisation </para>
+      <itemizedlist>
+        <listitem>
+          <para>Allow applications to do things on my behalf </para>
+        </listitem>
+        <listitem>
+          <para>Application doesn’t get my user name and password </para>
+        </listitem>
+        <listitem>
+          <para>I can revoke access </para>
+        </listitem>
+      </itemizedlist>
+      <para>Basis for OpenID Connect</para>
+      <itemizedlist>
+        <listitem>
+          <para> user logs in, gets an artifact (OAuth token) </para>
+        </listitem>
+        <listitem>
+          <para>artifact is exchanged for identity data at the IdP</para>
+        </listitem>
+      </itemizedlist>
+      <speakernotes>
+        <para>OAuth came about so that if I have a system where I want an application to do
+          something on my behalf (e.g., tweet when I’ve posted a new blog entry, or have some other
+          app print some of my photos from Flickr), I don’t have to give that application my Twitter
+          username and password. As the user, I authenticate to Twitter and authorise this
+          application to tweet on my behalf. Twitter gives the application token credentials (also
+          called access token and access secret) to use when tweeting on my behalf, and that’s all
+          the application has. So it can’t use my username and password for anything else. </para>
+        <para>Note here we're using OAuth 2, which is incompatible with OAuth 1.</para>
+      </speakernotes>
+    </foil>
     <foil>
       <title>OAuth 2 roles</title>
-      <mediaobject>
-        <alt>BrowserID roles</alt>
+      <mediaobject role="center">
+        <alt>OAuth 2 roles</alt>
         <imageobject role="center">
           <imagedata fileref="../images/oauth2roles.svg"/>
         </imageobject>
       </mediaobject>
       <speakernotes>
-        <para>OAuth 2 wasn't designed for authentication, but rather for authorisation. </para>
+        <para>The specification defines four roles: the resource owner (often the end-user), the
+          client (the application asking for the resource), the resource server (where the protected
+          resource is stored), and the authorization server. You will see all of these terms. Other
+          terms you will see are identity provider, which is the same as the authorization server,
+          and relying party, which is the resource server that is relying on the authentication
+          provided by the identity provider.</para>
+        <para>On the web, you can think of it as being the client (browser) accessing resources on
+          the server on behalf of the end-user (who owns those resources), after getting
+          authorisation from the authorisation server.</para>
+        <para>In our example: if you want to add a comment or annotation to the play, you need to be
+          authorised to do so, based on the authentication that you are you. We outsource the
+          authorisation to alphagov (maybe, or maybe github). When you see a “sign in with” notice,
+          some system (Google, Twitter, Facebook) is being used as the authorisation server. </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>OAuth 2 flows</title>
+      <mediaobject role="center">
+        <alt>OAuth 2 flows</alt>
+        <imageobject role="center">
+          <imagedata fileref="../images/oauth_protocol_flow.svg"/>
+        </imageobject>
+      </mediaobject>
+      <speakernotes>
+        <para>The client is the application, which has already registered at the various servers.
+          The flow starts with the client asking the user (resource owner) to allow the client to
+          access some protected resource. The user agrees, and the process sends a token called the
+          authorisation grant.</para>
+        <para>The client sends this authorisation grant on to the authorisation server which in some
+          sense controls access to where the resources are hosted, and gets back an access
+          token.</para>
+        <para>The client sends this access token to the resource server, which then returns the
+          protected resource itself.</para>
+        <para>The various credentials that are passed around are crucial – they are what determine
+          whether the client can access resources, and under what conditions. To start the whole
+          ball rolling, the authorisation server needs to know what the client is, and some of its
+          capabilities. So the client has to register with the authorisation server, providing the
+          information the authorisation server requires, and it is given some form of client
+          credentials. One is the client identifier, which isn’t secret. The client is also given
+          some authentication credential such as a password, public/private key pair, or a string
+          call a client secret, which are meant to be kept secret. </para>
+        <para>The authorisation grant (authorization grant in American) is a credential that
+          represents the resource owner’s authorisation to access those protected resources. It can
+          take different forms, depending on the scenario. </para>
+        <para>The access tokens are the credentials that the client (e.g., the browser) uses to
+          actually access those protected resources. This is a string that that contains information
+          on the scope of the access (e.g., only certain pages) and the duration (one day, one year,
+          forever). The token may even define that the client has to go through some additional
+          authentication process. There are different types of access tokens, defined by the
+          resource server. This means not all clients can talk to all resource servers; clients have
+          to be configured to work with any given authorization server and/or resource server.
+        </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>OAuth 2 clients</title>
+      <para>Client: application wanting access to the resources on the user's behalf. Comes in two
+        types.</para>
+      <itemizedlist>
+        <listitem>
+          <para>confidential: can be trusted to keep credentials secret, and have to authenticate
+            themselves to the authorisation server</para>
+        </listitem>
+        <listitem>
+          <para>public: the rest</para>
+        </listitem>
+      </itemizedlist>
+      <para>Expected to use TLS/SSL for authentication (OAuth 1 signed everything instead).</para>
+      <speakernotes>
+        <para>Clients come in two types. Confidential clients can be trusted to keep all the
+          information for accessing the authorisation server secret, and have to authenticate
+          themselves to the authorisation server. Public clients can’t be trusted to keep their
+          client credentials secret, in other words they could be spoofed in some way. So although
+          they may authenticate to the authorisation server, it’s not as trustworthy as a
+          confidential client doing so. In general, all mobile applications and browser-based
+          applications are public clients, since they could be hacked, or the information might be
+          stored in clear text somewhere. The sort of credential we’re talking about is the client
+          secret or client password. </para>
+        <para>OAuth 2 expects that everyone uses TLS/SSL, both the server and client, so that all
+          the traffic goes over a secure connection. This was controversial, and not all clients
+          support TLS, in which case they’re meant to warn you (but may not). In particular,
+          confidential clients must use TLS if they use passwords to authenticate at the
+          authorisation server. OAuth 1 required that everyone use cryptographic signatures instead,
+          which is a heavy burden on many implementers of client applications.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>OAuth 2 client profiles</title>
+      <para>Specific use cases for OAuth 2</para>
+      <itemizedlist>
+        <listitem>
+          <para>web application</para>
+          <para>Confidential client running on a web server. All credentials are stored on the web
+            server. Resource owners access the client via the web (e.g., browser).</para>
+        </listitem>
+        <listitem>
+          <para>user-agent-based application</para>
+          <para>Public client where code is downloaded to user's system (e.g., runs in the browser).
+            Credentials are often visible to the user, and could be hacked.</para>
+        </listitem>
+        <listitem>
+          <para>native application</para>
+          <para>Public client installed as native application on user's device. Client credentials
+            can probably be exposed; dynamic access tokens may be safe.</para>
+        </listitem>
+      </itemizedlist>
+      <para>Our sample application is a web application.</para>
+      <para>Let's add some code to our app for OAuth 2.</para>
+      <speakernotes>
+        <para>Reminder: The client has some authentication credential such as a password,
+          public/private key pair, or a string call a client secret, which are meant to be kept
+          secret. </para>
+        <para>The authorisation grant (authorization grant in American) is a dynamic credential that
+          represents the resource owner’s authorisation to access those protected resources. It can
+          take different forms, depending on the scenario.</para>
+        <para>The access tokens are the credentials that the client (e.g., the browser) uses to
+          actually access those protected resources. This is a string that that contains information
+          on the scope of the access (e.g., only certain pages) and the duration (one day, one year,
+          forever). The token may even define that the client has to go through some additional
+          authentication process. There are different types of access tokens, defined by the
+          resource server. This means not all clients can talk to all resource servers; clients have
+          to be configured to work with any given authorization server and/or resource server.
+        </para>
       </speakernotes>
     </foil>
   </foilgroup>
@@ -1020,4 +1214,5 @@ so I always do this if I can) -->
       <para>Identify and fix security issues in sample application</para>
     </foil>
   </foilgroup>
+  
 </slides>

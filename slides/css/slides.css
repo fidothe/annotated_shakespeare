@@ -313,6 +313,11 @@ ul.toc a:visited {
     text-decoration: none;
 }
 
+.center {
+    text-align: center;
+}
+
+
 /* ============================================================ */
 
 .clicknav {

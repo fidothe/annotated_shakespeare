@@ -3,7 +3,7 @@
   xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
   <info>
     <title>Practical Web Applications</title>
-    <subtitle>Session One</subtitle>
+    <subtitle>Security and Authentication</subtitle>
     <!-- authors are alphabetical by first name (I get sick of being listed last all the time, 
 so I always do this if I can) -->
     <authorgroup>
@@ -182,7 +182,7 @@ so I always do this if I can) -->
     </foil>
     <foil>
       <title>Summary</title>
-      <informaltable>
+      <informaltable border="1" cellpadding="1">
         <tr>
           <th>Requirement</th>
           <th>Technologies</th>
@@ -222,20 +222,134 @@ so I always do this if I can) -->
     </foil>
   </foilgroup>
   <foilgroup>
+    <title>HTTP-based authentication</title>
+    <foil>
+      <title>HTTP Basic authentication</title>
+      <para>Basic authentication - HTTP 1.0, 1999, RFC 2617</para>
+      <itemizedlist>
+        <listitem>
+          <para>widely implemented </para>
+        </listitem>
+        <listitem>
+          <para>not secure, password sent in clear text </para>
+        </listitem>
+        <listitem>
+          <para>protects resources in authentication realm </para>
+        </listitem>
+      </itemizedlist>
+      <mediaobject role="center">
+        <alt>application architecture components</alt>
+        <imageobject>
+          <imagedata fileref="../images/httpbasicauth.svg"/>
+        </imageobject>
+      </mediaobject>
+      <speakernotes>
+        <para> isn’t particularly secure, but it is easy to implement. The page(s) that require the
+          password are said to be in an authentication realm, which is usually all the pages in a
+          particular directory on the web site. When the browser asks to be shown one of those
+          pages, the HTTP server responds with a 401 code (Unauthorized) and typically the name of
+          the authentication realm. The browser typically then puts up a dialog box, asking for the
+          username and password. The credentials are concatenated, base64-encoded (for ease of
+          handling, not security), and sent to the server. If the credentials are accepted, the
+          server sends the page back to the browser for display. The big security hole with this one
+          is that the username and password are sent as plain text (base-64 encoding doesn’t add any
+          security as it’s trivial to decode the string). If you use SSL or some other method to
+          secure the channel (the way the information is sent from point A to point B), then this is
+          ok. If you don’t, then someone sitting in between the two end-points could pick up the
+          information. </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>HTTP Digest authentication</title>
+      <itemizedlist>
+        <listitem>
+          <para>Encrypts the password using cryptographic hash aka digest</para>
+        </listitem>
+        <listitem>
+          <para>Cryptographic hash is effectively impossible to break</para>
+        </listitem>
+        <listitem>
+          <para>Quick to compute the digest from the string</para>
+        </listitem>
+        <listitem>
+          <para>Security further improved by using a nonce (random number, generated on server, that
+            changes each time the client gets the 401)</para>
+        </listitem>
+        <listitem>
+          <para>Easier to implement/use HTTP Basic over SSL/TLS than HTTP Digest</para>
+        </listitem>
+      </itemizedlist>
+      <speakernotes>
+        <para>encrypts the password using a cryptographic hash system. A cryptographic hash function
+          is a procedure that takes some data (the message) and gives you back a fixed-size string,
+          called a cryptographic hash, message digest, or digest (hence the name of HTTP Digest).
+          The idea of the cryptographic hash is that it’s incredibly hard to create a message with a
+          given digest, it’s incredibly hard to modify a message without changing the digest, and
+          it’s incredibly hard to find two messages that have the same digest. “Incredibly hard” is
+          often called “infeasible”, or “effectively impossible”. So if you store (or pass) your
+          password in digest form, it should be effectively impossible to break the digest to figure
+          out the password. But it’s quick to compute the digest for a password the user inputs, and
+          compare that to the stored digest. HTTP Digest uses a standard cryptographic hash
+          function, called MD5, which generates a 32-digit hexadecimal number. It’s not perfect and
+          in fact was considered to be broken in 2004-5, but it is still widely used outside of
+          government applications. The security can be improved by using a “nonce” (number used
+          once), which is a random number generated on the server that is changed each time the
+          client receives that 401 code we discussed previously. So now the client has to take the
+          username, the authentication realm name, the password, and the nonce, and create the MD5
+          hash of all of that information to send to the server. This is more secure than the plain
+          text version! And for additional security, the client may also generate a nonce, hashing
+          it with all the other information. As always, there are more details and I’ve skimmed over
+          most of the finer points. And in practice, most sites use HTTP Basic over SSL/TLS rather
+          than implementing HTTP Digest. </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Summary: HTTP authentication</title>
+      <para>Based on password authentication </para>
+      <itemizedlist>
+        <listitem>
+          <para>weak authentication (only one factor) </para>
+        </listitem>
+        <listitem>
+          <para>people tend to forget their passwords </para>
+        </listitem>
+        <listitem>
+          <para>solutions to forgetting often not secure </para>
+        </listitem>
+        <listitem>
+          <para>easy to implement </para>
+        </listitem>
+        <listitem>
+          <para>suitable for “don’t need much protection” resources </para>
+        </listitem>
+        <listitem>
+          <para>Digest more secure but harder to use </para>
+        </listitem>
+        <listitem>
+          <para>Use Basic over SSL for reasonable security</para>
+        </listitem>
+        <listitem>
+          <para>Encrypt your passwords in storage</para>
+        </listitem>
+      </itemizedlist>
+    </foil>
+  </foilgroup>
+  <foilgroup>
     <title>Outsourcing identity</title>
     <foil>
       <title>Why?</title>
       <para>Best principle for keeping user data around:</para>
-      <para>DON’T</para>
+      <para role="center"><emphasis>DON’T</emphasis></para>
       <itemizedlist>
         <listitem>
           <para>Treat PII as radioactive, keep as little as possible.</para>
         </listitem>
         <listitem>
-          <para>Pushing responsibility onto someone else helps.</para>
+          <para>Push responsibility (and support costs for lost passwords) onto someone else.</para>
         </listitem>
         <listitem>
-          <para>They might implement higher security (two or three-factor).</para>
+          <para>They might even implement higher security (two or three-factor
+            authentication).</para>
         </listitem>
         <listitem>
           <para>Your users may use Google/Twitter/Facebook anyway.</para>
@@ -247,7 +361,7 @@ so I always do this if I can) -->
           <para>what happens if that company closes down?</para>
         </listitem>
         <listitem>
-          <para>what happens if that company does something bad?</para>
+          <para>what happens if that company misuses the information?</para>
         </listitem>
         <listitem>
           <para>what happens if that company changes its terms of use?</para>
@@ -269,25 +383,8 @@ so I always do this if I can) -->
       </speakernotes>
     </foil>
     <foil>
-      <title>The Roles</title>
-      <mediaobject>
-        <alt>roles - identity provider, relying party, user</alt>
-        <imageobject>
-          <imagedata fileref="../images/outsource_identity.png"/>
-        </imageobject>
-      </mediaobject>
-      <para>Tokens (credentials) are exchanged between the actors representing either the actor or
-        the authentication/authorisation. These credentials (such as username and password, or
-        public/private key pair) may be encrypted or signed, depending on the protocol, or it may be
-        expected that all information is passed via TLS/SSL.</para>
-      <speakernotes>
-        <para>There are a number of different systems for this; I'll introduce a couple of them, and
-          then we'll add one to our application. </para>
-      </speakernotes>
-    </foil>
-    <foil>
       <title>Sign in with...</title>
-      <informaltable>
+      <informaltable border="1" cellpadding="1">
         <tr>
           <th>Specification</th>
           <th>Who uses it</th>
@@ -304,16 +401,16 @@ so I always do this if I can) -->
           <td>Became an RFC in July 2012. Designed for authorising access to resources, rather than
             for outsourcing authentication, but widely used for authentication, e.g., <link
               xlink:href="https://developers.facebook.com/docs/authentication">Facebook</link>.
-            Increasingly important, so we'll get into more detail a bit later.</td>
+          </td>
         </tr>
         <tr>
           <td>OpenID</td>
           <td>Google, Paypal as IdPs, many websites accept it for sign-in</td>
           <td> The user can register at any provider (including their own website), then use that
             login to log in at any site that accepts those registrations. UI issues make it
-            inconvenient. Original use case was for blog comments to prevent spam, so original
-            design had security issues. Some of these security issues were fixed in OpenID 2, which
-            Google and Paypal support. </td>
+            inconvenient. Original use case was for blog comments to prevent spam; original design
+            had security issues. Some of these security issues were fixed in OpenID 2, which Google
+            and Paypal support. </td>
         </tr>
         <tr>
           <td>Persona (was browserID)</td>
@@ -321,16 +418,16 @@ so I always do this if I can) -->
           <td>Uses user's email address (provided by a primary identity authority) to authenticate
             to a third-party identity provider (called an implementation provider, or secondary
             identity authority). This may be in the web browser (e.g., Firefox) or server
-            (persona.org). Not widely implemented, some confusion with OpenID, some (perceived?)
-            security issues around identity spoofing and other concerns focussing on email
-            lifetimes.</td>
+            (persona.org). Not widely implemented, some confusion with OpenID, some security
+            issues.</td>
         </tr>
       </informaltable>
       <speakernotes>
         <para>Twitter uses OAuth as the protocol. Facebook uses OAuth 2. Mozilla started Persona
           (browserID), but this is not taking off all that fast and doesn't seem to work for mobile
           apps. Google mail (for example) should be able to support it as a primary identity
-          authority, but I haven't found it documented anywhere that it actually does.</para>
+          authority, but I haven't found it documented anywhere that it actually does. We're going
+          to use it in our app, but more because it's easy than because it's better.</para>
         <para>Some other services use OpenID. Like OAuth, OpenID uses the standard HTTP
           request-response mechanism to ask for authentication. The user can register at any
           provider, then use that login to log in at any site that accepts those registrations. The
@@ -351,27 +448,76 @@ so I always do this if I can) -->
       </speakernotes>
     </foil>
     <foil>
-      <title>OpenID flow</title>
-      <mediaobject>
-        <alt>OpenID flow</alt>
+      <title>The "classic" roles</title>
+      <mediaobject role="center">
+        <alt>Roles - identity provider, relying party, user</alt>
         <imageobject>
-          <imagedata fileref="../images/OpenID-flow.png"/>
+          <imagedata fileref="../images/three_identity_roles.svg"/>
         </imageobject>
       </mediaobject>
+      <para>In these flows, there are three roles (parties) - the identity provider, the relying
+        party, and the user.</para>
+      <para>Tokens (credentials) are exchanged between the actors representing either the actor or
+        the authentication/authorisation.</para>
+      <speakernotes>
+        <para>These credentials (such as username and password, or public/private key pair) may be
+          encrypted or signed, depending on the protocol, or it may be expected that all information
+          is passed via TLS/SSL. There are a number of different systems for this; I'll introduce a
+          couple of them, and then we'll add one to our application. </para>
+      </speakernotes>
     </foil>
-    <foil><title>OAuth 2</title>
-    <itemizedlist>
-      <listitem><para></para></listitem>
-      <listitem><para></para></listitem>
-      <listitem><para></para></listitem>
-      <listitem><para></para></listitem>
-      <listitem><para></para></listitem>
-      <listitem><para></para></listitem>
-      <listitem><para></para></listitem>
-    </itemizedlist></foil>
+    <foil>
+      <title>More roles</title>
+      <para>Role proliferation</para>
+      <mediaobject>
+        <alt>More roles</alt>
+        <imageobject role="center">
+          <imagedata fileref="../images/more_identity_roles.svg"/>
+        </imageobject>
+      </mediaobject>
+      <speakernotes>
+        <para>The top four are for OAuth 2, the bottom three are for browserID. Note the different
+          names for each. The flows aren't shown here, as basically everything talks to everything
+          at some stage, passing tokens back and forth, so it gets complicated. More details as we
+          get to them. BrowserID is up next, then OAuth 2.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>BrowserID roles</title>
+      <mediaobject>
+        <alt>BrowserID roles</alt>
+        <imageobject role="center">
+          <imagedata fileref="../images/browseridroles.svg"/>
+        </imageobject>
+      </mediaobject>
+      <speakernotes>
+        <para>Primary Identity Authorities (primary) - Services that directly provide the user with
+          an identity in the form of an email address. Example primaries include Yahoo! mail or
+          gmail, except they don't support this.</para>
+        <para>Implementation Provider (or IP) - This may be the user's web browser if native support
+          for BrowserID exists, otherwise browserid.org or login.persona.org. These implement the
+          client portion of the system. In addition to key management and implementation, the IP
+          also serves as a Secondary Identity Authority. </para>
+        <para>The system has some security concerns, we'll talk more about that in the next phase.
+          it's implemented with JavaScript and relies on cross-document messaging, an API defined in
+          HTML 5.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>OAuth 2 roles</title>
+      <mediaobject>
+        <alt>BrowserID roles</alt>
+        <imageobject role="center">
+          <imagedata fileref="../images/oauth2roles.svg"/>
+        </imageobject>
+      </mediaobject>
+      <speakernotes>
+        <para>OAuth 2 wasn't designed for authentication, but rather for authorisation. </para>
+      </speakernotes>
+    </foil>
   </foilgroup>
   <foilgroup>
-    <title>Security</title>
+    <title>Web security basics</title>
     <subtitle>Connection-based security, message-based security, and some relevant
       standards</subtitle>
     <foil>
@@ -580,4 +726,90 @@ so I always do this if I can) -->
       </speakernotes>
     </foil>
   </foilgroup>
+  <foilgroup>
+    <title>Securing Web Applications</title>
+    <subtitle>Important threats and how to guard against them</subtitle>
+    <foil>
+      <title>OWASP Top Ten</title>
+      <para>List of the top ten attacks, how they work, how to prevent them. We’ll concentrate on
+        three important attacks: </para>
+      <itemizedlist>
+        <listitem>
+          <para>SQL Injection </para>
+        </listitem>
+        <listitem>
+          <para>Cross-Site Scripting (XSS) </para>
+        </listitem>
+        <listitem>
+          <para>Cross-Site Request Forgery (CSRF)</para>
+        </listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>SQL Injection</title>
+      <mediaobject role="center">
+        <alt>Little Bobby Drop Table</alt>
+        <imageobject>
+          <imagedata fileref="../images/xkcd327.png"/>
+        </imageobject>
+        <caption><para>http://xkcd.com/327/</para></caption>
+      </mediaobject>
+      <speakernotes>
+        <para>Injection attacks, including SQL injection attacks. The attacker manages to send some
+          data to the system that is malicious and the system acts on that data. Any part of the
+          system can be attacked, so there are attacks using SQL queries, XPath or XQuery, or plain
+          XML. The injection can add unwanted data to a database, including giving the attacker
+          administrator privileges on your system. One way in which this can occur is when the
+          server trusts information from a form, or a query string on a URL. The attacker simply
+          adds some data to the form that changes the meaning of the query. E.g., the standard SQL
+          injection attack: </para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Example code</title>
+      <programlisting role="other" language="SQL">
+         
+
+      <phrase role="kw">String</phrase> <varname>query</varname> = 
+        "<phrase role="kw">SELECT</phrase> * <phrase role="kw">FROM</phrase>
+        <varname>accounts</varname> <phrase role="kw">WHERE</phrase>
+        <varname>custID</varname> = '" + request.getParameter("id") +"'";
+
+    </programlisting>
+      <para>The attacker changes the query URL to http://example.com/app/accountView?id=' or '1'='1
+        which leads to the complete query being</para>
+      <programlisting role="other" language="SQL">
+      <phrase role="kw">SELECT</phrase> * <phrase role="kw">FROM</phrase>
+        <varname>accounts</varname> <phrase role="kw">WHERE</phrase>
+        <varname>custID ='' or  '1'='1'</varname>
+    </programlisting>
+      <para>'1'='1' is always true, so the query returns the entire account list.</para>
+    </foil>
+  </foilgroup>
+  <foil>
+    <title>OWASP Top Ten</title>
+    <mediaobject role="center">
+      <alt>application architecture components</alt>
+      <imageobject>
+        <imagedata fileref="../images/httpbasicauth.svg"/>
+      </imageobject>
+    </mediaobject>
+    <itemizedlist>
+      <listitem>
+        <para/>
+      </listitem>
+      <listitem>
+        <para/>
+      </listitem>
+      <listitem>
+        <para/>
+      </listitem>
+      <listitem>
+        <para/>
+      </listitem>
+      <listitem>
+        <para/>
+      </listitem>
+    </itemizedlist>
+  </foil>
 </slides>

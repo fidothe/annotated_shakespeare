@@ -55,7 +55,7 @@ so I always do this if I can) -->
     </copyright>
   </info>
   <foilgroup>
-    <title>HTTP and friends</title>
+    <title>What is HTTP?</title>
     <foil>
       <title>HTTP flows</title>
       <para>Core HTTP protocol </para>
@@ -68,7 +68,7 @@ so I always do this if I can) -->
             headers</para>
         </listitem>
       </itemizedlist>
-      <mediaobject>
+      <mediaobject role="center">
         <alt>application architecture components</alt>
         <imageobject>
           <imagedata fileref="../images/httpcore.svg"/>
@@ -89,113 +89,124 @@ so I always do this if I can) -->
           body. The HTTP server response is a status code (e.g., HTTP/1.1 200 OK) and potentially
           other header information such as the content-length and/or last-modified date, as well as
           the body, containing potentially the resource, an error message, or other information. The
-          list of headers is in a number of specifications, or in a more readable form in wikipedia
+          list of headers is in a number of specifications, or in a more readable form in wikipedia.
         </para>
       </speakernotes>
     </foil>
+    <foil>
+      <title>HTTP tools</title>
+      <itemizedlist>
+        <listitem>
+          <para>curl</para>
+        </listitem>
+      </itemizedlist>
+    </foil>
   </foilgroup>
-  <foil>
-    <title>Framework architecture</title>
-    <informaltable>
-      <tr>
-        <td align="center"><mediaobject>
-            <alt>application architecture components</alt>
-            <imageobject>
-              <imagedata fileref="../images/app_architecture.png"/>
-            </imageobject>
-          </mediaobject></td>
-        <td>&#160;</td>
-        <td align="center"><mediaobject>
-            <alt>application architecture components - the template piece</alt>
-            <imageobject>
-              <imagedata fileref="../images/app_architecture_template.jpg"/>
-            </imageobject>
-          </mediaobject></td>
-      </tr>
-      <tr>
-        <td>A simplified view of the pieces - Sinatra (Ruby) code, templating system, static files
-          (images, styles), variable content.</td>
-        <td>&#160;</td>
-        <td>We'll start with how to display HTML files. This uses the templating mechanism.</td>
-      </tr>
-    </informaltable>
-    <speakernotes>
-      <para>we'll get to the bits one at a time. Let's start with where we could put a basic,
-        static, piece of HTML that we want the browser to show. </para>
-      <para>To start with, we have some sinatra (ruby) code, and some HTML in a file in the ./views
-        directory. It isn't a .html file; we'll get to the reasons why in a bit. First, let's look
-        at what the code looks like for this.</para>
-    </speakernotes>
-  </foil>
-  <foil>
-    <title>Session one code</title>
-    <informaltable>
-      <tr>
-        <td><mediaobject>
-            <alt>code</alt>
-            <imageobject>
-              <imagedata fileref="../images/session_one.jpg"/>
-            </imageobject>
-          </mediaobject></td>
-        <td>&#160;</td>
-        <td><itemizedlist>
-            <listitem>
-              <simpara><filename>layout.erb</filename> provides the overall structure of the HTML,
-                the stuff that stays the same from page to page</simpara>
-            </listitem>
-            <listitem>
-              <simpara><filename>index.erb</filename> provides the content that changes on each page
-                (here the index page)</simpara>
-            </listitem>
-          </itemizedlist></td>
-      </tr>
-    </informaltable>
-  </foil>
-  <foil>
-    <title>Linkages</title>
-    <informaltable>
-      <tr>
-        <td><mediaobject>
-            <alt>code</alt>
-            <imageobject>
-              <imagedata fileref="../images/annotated_session_one.jpg"/>
-            </imageobject>
-          </mediaobject></td>
-        <td>&#160;</td>
-        <td> the arrows show where the parameters are replaced by content </td>
-      </tr>
-    </informaltable>
-    <para/>
-  </foil>
-  <foil>
-    <title>Ruby code dissection</title>
-    <programlisting role="other" language="ruby">
+  <foilgroup>
+    <title>Web application architecture</title>
+    <foil>
+      <title>Framework architecture</title>
+      <informaltable>
+        <tr>
+          <td align="center"><mediaobject>
+              <alt>application architecture components</alt>
+              <imageobject>
+                <imagedata fileref="../images/app_architecture.png"/>
+              </imageobject>
+            </mediaobject></td>
+          <td>&#160;</td>
+          <td align="center"><mediaobject>
+              <alt>application architecture components - the template piece</alt>
+              <imageobject>
+                <imagedata fileref="../images/app_architecture_template.jpg"/>
+              </imageobject>
+            </mediaobject></td>
+        </tr>
+        <tr>
+          <td>A simplified view of the pieces - Sinatra (Ruby) code, templating system, static files
+            (images, styles), variable content.</td>
+          <td>&#160;</td>
+          <td>We'll start with how to display HTML files. This uses the templating mechanism.</td>
+        </tr>
+      </informaltable>
+      <speakernotes>
+        <para>we'll get to the bits one at a time. Let's start with where we could put a basic,
+          static, piece of HTML that we want the browser to show. </para>
+        <para>To start with, we have some sinatra (ruby) code, and some HTML in a file in the
+          ./views directory. It isn't a .html file; we'll get to the reasons why in a bit. First,
+          let's look at what the code looks like for this.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Session one code</title>
+      <informaltable>
+        <tr>
+          <td><mediaobject>
+              <alt>code</alt>
+              <imageobject>
+                <imagedata fileref="../images/session_one.jpg"/>
+              </imageobject>
+            </mediaobject></td>
+          <td>&#160;</td>
+          <td><itemizedlist>
+              <listitem>
+                <simpara><filename>layout.erb</filename> provides the overall structure of the HTML,
+                  the stuff that stays the same from page to page</simpara>
+              </listitem>
+              <listitem>
+                <simpara><filename>index.erb</filename> provides the content that changes on each
+                  page (here the index page)</simpara>
+              </listitem>
+            </itemizedlist></td>
+        </tr>
+      </informaltable>
+    </foil>
+    <foil>
+      <title>Linkages</title>
+      <informaltable>
+        <tr>
+          <td><mediaobject>
+              <alt>code</alt>
+              <imageobject>
+                <imagedata fileref="../images/annotated_session_one.jpg"/>
+              </imageobject>
+            </mediaobject></td>
+          <td>&#160;</td>
+          <td> the arrows show where the parameters are replaced by content </td>
+        </tr>
+      </informaltable>
+      <para/>
+    </foil>
+    <foil>
+      <title>Ruby code dissection</title>
+      <programlisting role="other" language="ruby">
       <phrase role="kw">get</phrase> '/' <phrase role="kw">do</phrase>
         <varname>@title</varname> = "Index"
         <phrase role="kw">erb</phrase> :index
       <phrase role="kw">end</phrase>
     </programlisting>
-    <orderedlist>
-      <listitem>
-        <para>The browser requests the URL '/' (i.e., index.html)</para>
-      </listitem>
-      <listitem>
-        <para>Get the contents of the file 'index.erb' that is in the ./views directory. </para>
-      </listitem>
-      <listitem>
-        <para>Set the content of the parameter (@title) to 'Index'.</para>
-      </listitem>
-      <listitem>
-        <para>Combine the content of the layout.erb and index.erb files, after replacing appropriate
-          content.</para>
-      </listitem>
-      <listitem>
-        <para>Send that complete file to the browser.</para>
-      </listitem>
-    </orderedlist>
-  </foil>
-  <foil>
-    <title>Let's try it out</title>
-    <para/>
-  </foil>
+      <orderedlist>
+        <listitem>
+          <para>The browser requests the URL '/' (i.e., index.html)</para>
+        </listitem>
+        <listitem>
+          <para>Get the contents of the file 'index.erb' that is in the ./views directory. </para>
+        </listitem>
+        <listitem>
+          <para>Set the content of the parameter (@title) to 'Index'.</para>
+        </listitem>
+        <listitem>
+          <para>Combine the content of the layout.erb and index.erb files, after replacing
+            appropriate content.</para>
+        </listitem>
+        <listitem>
+          <para>Send that complete file to the browser.</para>
+        </listitem>
+      </orderedlist>
+    </foil>
+    <foil>
+      <title>Let's try it out</title>
+      <para/>
+    </foil>
+  </foilgroup>
 </slides>

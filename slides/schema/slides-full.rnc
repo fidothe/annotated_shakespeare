@@ -516,11 +516,7 @@ db._info.title.onlyreq =
   (db._title.onlyreq, db.titleforbidden.info?) | db.titleonlyreq.info
 db._info.title.forbidden = db.titleforbidden.info?
 db.all.inlines =
-  (text
-   | db.ubiq.inlines
-   | db.general.inlines
-   | db.domain.inlines
-   | db.extension.inlines)
+  (text | db.ubiq.inlines | db.general.inlines | db.domain.inlines)
   | db.xi.include
 db.general.inlines =
   db.publishing.inlines
@@ -581,7 +577,6 @@ db.graphic.inlines = db.inlinemediaobject
 db.indexing.inlines = notAllowed | db.indexterm
 db.link.inlines =
   (db.xref | db.link | db.olink | db.anchor) | db.biblioref
-db.extension.inlines = notAllowed
 db.nopara.blocks =
   (db.list.blocks
    | db.formal.blocks
@@ -598,7 +593,7 @@ db.nopara.blocks =
   | db.admonition.blocks
 db.para.blocks = db.anchor | db.para | db.formalpara | db.simpara
 db.all.blocks =
-  (db.nopara.blocks | db.para.blocks | db.extension.blocks)
+  (db.nopara.blocks | db.para.blocks)
   | db.annotation
   | db.xi.include
   | sl.speakernotes
@@ -629,7 +624,6 @@ db.verbatim.blocks =
   (db.screen | db.literallayout)
   | (db.programlistingco | db.screenco)
   | (db.programlisting | db.synopsis)
-db.extension.blocks = notAllowed
 db.info.extension = db._any
 db.info.elements =
   (db.abstract
@@ -674,6 +668,7 @@ db.info.elements =
   | db.itermset
   | (db.productname | db.productnumber)
   | db.xi.include
+  | sl._any.html
 db.bibliographic.elements =
   db.info.elements
   | db.publishing.inlines
@@ -3080,7 +3075,6 @@ div {
 }
 db.cover.contentmodel =
   (db.para.blocks
-   | db.extension.blocks
    | db.list.blocks
    | db.informal.blocks
    | db.publishing.blocks
@@ -4559,7 +4553,7 @@ db.xlink.locator.type.attribute =
         "\x{a}" ~
         "               "
         s:assert [
-          test = "not(parent::*[@xlink:type='extended'])"
+          test = "parent::*[@xlink:type='extended']"
           "An XLink locator type element must occur as the direct child of an XLink extended type element."
         ]
         "\x{a}" ~
@@ -4615,7 +4609,7 @@ db.xlink.resource.type.attribute =
         "\x{a}" ~
         "               "
         s:assert [
-          test = "not(parent::*[@xlink:type='extended'])"
+          test = "parent::*[@xlink:type='extended']"
           "An XLink resource type element must occur as the direct child of an XLink extended type element."
         ]
         "\x{a}" ~
@@ -4644,7 +4638,7 @@ db.xlink.title.type.attribute =
         "               "
         s:assert [
           test =
-            "not(parent::*[@xlink:type='extended']) and not(parent::*[@xlink:type='locator']) and not(parent::*[@xlink:type='arc'])"
+            "parent::*[@xlink:type='extended'] or parent::*[@xlink:type='locator'] or parent::*[@xlink:type='arc']"
           "An XLink title type element must occur as the direct child of an XLink extended, locator, or arc type element."
         ]
         "\x{a}" ~
@@ -10703,3 +10697,8 @@ div {
     ## Speaker notes
     element speakernotes { sl.speakernotes.attlist, db.all.blocks+ }
 }
+sl._any.html =
+  element html:* {
+    (attribute * { text }
+     | text)*
+  }

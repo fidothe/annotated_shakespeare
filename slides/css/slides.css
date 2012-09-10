@@ -111,6 +111,10 @@ img {
     height: 0px;
 }
 
+.footer .foilnumber:before {
+  content: " Slide ";
+}
+
 /* ============================================================ */
 
 .titlefoil {
@@ -215,6 +219,23 @@ img {
     padding-top: 0px;
     overflow: auto;
     font-size: 20pt;
+}
+
+/* ============================================================ */
+
+.foilinset {
+    border: solid black 1px;
+    padding: 1em;
+    margin-left: 3em;
+    width: 40%;
+    float: right;
+    font-size: 10pt;
+}
+
+/* ============================================================ */
+
+.helpdialog {
+    font-size: 12pt;
 }
 
 /* ============================================================ */
@@ -330,6 +351,37 @@ ul.toc a:visited {
     position: absolute;
     top: 0;
     right: 0;
+}
+
+/* ============================================================ */
+
+.Xtimer {
+    position: relative;
+    top: 21;
+    left: 794;
+    height: 0px;
+    width: 40px;
+    font-size: 10pt;
+    font-weight: medium;
+}
+
+.timer {
+    position: relative;
+    top: 35;
+    left: 732;
+    height: 0px;
+    width: 40px;
+    font-size: 10px;
+    font-weight: medium;
+}
+
+.overtime {
+    color: red;
+    font-style: normal;
+}
+
+.lowtime {
+    font-style: italic;
 }
 
 /* ============================================================ */

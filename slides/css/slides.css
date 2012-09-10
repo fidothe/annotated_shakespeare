@@ -264,6 +264,10 @@ pre {
     color: #9E0000;
 }
 
+.wide {
+    font-size: 0.75em;
+}
+
 .hideli {
     display: none;
 }

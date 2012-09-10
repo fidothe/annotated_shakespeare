@@ -1,0 +1,39 @@
+code.red {
+  background-color: #FFAAAA;
+}
+span.ex > span:nth-child(2):before {
+  content: " [ ";
+  background-color: #AAFFAA;
+}
+span.ex > span:nth-child(2):after {
+  content: " ] ";
+  background-color: #AAFFAA;
+}
+
+.ui-datepicker {
+    font-size: 10pt;
+}
+
+.ui-datepicker tr td {
+    font-size: 10pt;
+}
+
+.toggleClosed:before {
+    content: "\25B6 ";
+}
+
+.toggleOpen:before {
+    content: "\25BC ";
+}
+
+.toggleClosed ~ ul {
+    display: none;
+}
+
+#oxfordmap {
+    width: 640px;
+    height: 480px;
+    position: relative;
+    background-color: rgb(229, 227, 223);
+    overflow: hidden;
+}

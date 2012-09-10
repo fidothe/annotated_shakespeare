@@ -72,7 +72,6 @@
   <div class="footer">
     <xsl:sequence select="($license, $footer-text)"/>
     <div class="foilnumber">
-      <xsl:text>Slide </xsl:text>
       <xsl:value-of select="f:slideno(.)"/>
     </div>
   </div>

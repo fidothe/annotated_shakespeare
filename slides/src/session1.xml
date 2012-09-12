@@ -55,6 +55,32 @@ so I always do this if I can) -->
     </copyright>
   </info>
   <foilgroup>
+    <title>What is HTML?</title>
+    <foil>
+      <title>Hypertext Markup Langauge</title>
+      <itemizedlist>
+        <listitem>
+          <para>An XMLish document markup language</para>
+        </listitem>
+      </itemizedlist>
+      <programlisting language="xml"><xi:include href="ex/barebones_html.xml" parse="text"/></programlisting>
+      <speakernotes>
+        <para>Lets begin by looking very quickly at HTML, the document part of the web.
+          I imagine most of you are familiar with HTML, but we'll quickly go over the basics 
+          again.
+        </para>
+        <para>HTML began life as an SGML dialect, had a brief dalliance with XML in the form of 
+          XHTML, and most recently, after 10 years of schema stagnation, has been revived with
+          the addition of new elements and new core-browser features, all gathered together under
+          the banner of HTML 5, which isn't really SGML anymore either.
+        </para>
+        <para>The core document model is very simple: a root _html_ element, containing a _head_ 
+          element with document metadata, and a _body_ element containing the content.
+        </para>
+      </speakernotes>
+    </foil>
+  </foilgroup>
+  <foilgroup>
     <title>What is HTTP?</title>
     <foil>
       <title>HTTP flows</title>
@@ -105,6 +131,45 @@ so I always do this if I can) -->
   <foilgroup>
     <title>Web application architecture</title>
     <foil>
+      <title>Web application components</title>
+      <itemizedlist>
+        <listitem>
+          <para>HTTP Server</para>
+        </listitem>
+        <listitem>
+          <para>Application code</para>
+        </listitem>
+        <listitem>
+          <para>Static resources</para>
+        </listitem>
+      </itemizedlist>
+      <mediaobject role="center">
+        <alt>web application components</alt>
+        <imageobject>
+          <imagedata fileref="../images/http-client-server.svg"/>
+        </imageobject>
+      </mediaobject>
+      <speakernotes>
+        <para>Let's take the static HTML file that we've already loaded from disk into the browser and
+          instead serve it to the browser from our HTTP server.</para>
+        <para>To start with, we have some sinatra (ruby) code, and some HTML in a file in the
+          ./public directory. Let's look at how this works.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Serving static HTML</title>
+      <para>We're using a application server called Sinatra, which we need to configure so that it knows
+        where to find static files it should serve</para>
+      <programlisting language="ruby"><xi:include href="ex/static_only_app.rb" parse="text"/></programlisting>
+      <para>We run the application using the <code>shotgun</code> command</para>
+      <programlisting language="bash"><xi:include href="ex/invoke_shotgun.sh" parse="text"/></programlisting>
+      <para>Now visit <code>http://localhost:9393/</code></para>
+    </foil>
+    <foil>
+      <title>Let's try it out</title>
+      <para/>
+    </foil>
+    <foil>
       <title>Framework architecture</title>
       <informaltable>
         <tr>
@@ -126,7 +191,7 @@ so I always do this if I can) -->
           <td>A simplified view of the pieces - Sinatra (Ruby) code, templating system, static files
             (images, styles), variable content.</td>
           <td>&#160;</td>
-          <td>We'll start with how to display HTML files. This uses the templating mechanism.</td>
+          <td>We'll start with rendering basic HTML output. This uses the templating mechanism.</td>
         </tr>
       </informaltable>
       <speakernotes>
@@ -138,7 +203,51 @@ so I always do this if I can) -->
       </speakernotes>
     </foil>
     <foil>
-      <title>Session one code</title>
+      <title>Session one code: rendering a template</title>
+      <para>The code in <code>lib/annotated_shakespeare.rb</code> should look like:</para>
+      <programlisting language="ruby"><xi:include href="ex/render_static_equiv_app.rb" parse="text"/></programlisting>
+    </foil>
+    <foil>
+      <title>Ruby code dissection</title>
+      <programlisting role="other" language="ruby">
+      <phrase role="kw">get</phrase> '/' <phrase role="kw">do</phrase>
+        <phrase role="kw">erb</phrase> :index
+      <phrase role="kw">end</phrase>
+    </programlisting>
+      <orderedlist>
+        <listitem>
+          <para>The browser requests the URL '/' (i.e., index.html)</para>
+        </listitem>
+        <listitem>
+          <para>Get the contents of the file 'index.erb' that is in the ./views directory. </para>
+        </listitem>
+        <listitem>
+          <para>Send that to the browser.</para>
+        </listitem>
+      </orderedlist>
+    </foil>
+    <foil>
+      <title>Session one code: outputting variable data</title>
+      <informaltable>
+        <tr>
+          <td><mediaobject>
+              <alt>code</alt>
+              <imageobject>
+                <imagedata fileref="../images/session_one.jpg"/>
+              </imageobject>
+            </mediaobject></td>
+          <td>&#160;</td>
+          <td><itemizedlist>
+              <listitem>
+                <simpara><filename>index.erb</filename> provides the content that changes on each
+                  page (here the index page)</simpara>
+              </listitem>
+            </itemizedlist></td>
+        </tr>
+      </informaltable>
+    </foil>
+    <foil>
+      <title>Session one code: layouts</title>
       <informaltable>
         <tr>
           <td><mediaobject>
@@ -152,10 +261,6 @@ so I always do this if I can) -->
               <listitem>
                 <simpara><filename>layout.erb</filename> provides the overall structure of the HTML,
                   the stuff that stays the same from page to page</simpara>
-              </listitem>
-              <listitem>
-                <simpara><filename>index.erb</filename> provides the content that changes on each
-                  page (here the index page)</simpara>
               </listitem>
             </itemizedlist></td>
         </tr>

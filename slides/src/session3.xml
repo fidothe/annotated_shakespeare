@@ -55,27 +55,48 @@ so I always do this if I can) -->
     </copyright>
   </info>
   <foilgroup>
-    <title>Modelling Plays and Acts for our app</title>
+    <title>Modelling Plays for our app</title>
     <foil>
-      <title></title>
+      <title>What's in a play?</title>
+    </foil>
+    <foil>
+      <title>The simplest possible Play &amp; Act objects</title>
     </foil>
   </foilgroup>
   <foilgroup>
     <title>Designing the URLs</title>
     <foil>
-      <title></title>
+      <title>What resources are there?</title>
+    </foil>
+    <foil>
+      <title>How should they be exposed?</title>
+    </foil>
+    <foil>
+      <title>The URLs</title>
     </foil>
   </foilgroup>
   <foilgroup>
-    <title>Extracting data from the play XML with Nokogiri</title>
+    <title>Extracting data from the Play XML with Nokogiri</title>
     <foil>
-      <title></title>
+      <title>Extracting the Play and Act titles</title>
     </foil>
   </foilgroup>
   <foilgroup>
     <title>Generating HTML for an Act using XSLT</title>
     <foil>
-      <title></title>
+      <title>Running an XSLT</title>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>Wiring everything together</title>
+    <foil>
+      <title>Generating a page listing Plays</title>
+    </foil>
+    <foil>
+      <title>Listing a Play's Acts</title>
+    </foil>
+    <foil>
+      <title>Showing a whole Act</title>
     </foil>
   </foilgroup>
 </slides>

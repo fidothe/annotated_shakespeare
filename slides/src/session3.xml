@@ -1,0 +1,82 @@
+<?dbhtml pygments="true"?>
+<slides xml:lang="en" xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <info>
+    <title>Practical Web Applications</title>
+    <subtitle>Session Three</subtitle>
+    <!-- authors are alphabetical by first name (I get sick of being listed last all the time, 
+so I always do this if I can) -->
+    <authorgroup>
+      <author>
+        <personname>
+          <firstname>Lauren</firstname>
+          <surname>Wood</surname>
+        </personname>
+        <affiliation>
+          <orgname>Textuality Services, Inc.</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Matt</firstname>
+          <surname>Patterson</surname>
+        </personname>
+        <affiliation>
+          <orgname>Constituent Parts, Ltd.</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Norman </firstname>
+          <surname>Walsh</surname>
+        </personname>
+        <affiliation>
+          <orgname>MarkLogic</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Paul</firstname>
+          <surname>Downey</surname>
+        </personname>
+        <affiliation>
+          <orgname>Whatfettle</orgname>
+        </affiliation>
+      </author>
+    </authorgroup>
+    <releaseinfo role="version">Version 1.0</releaseinfo>
+    <legalnotice>
+      <para>Alpha by first name</para>
+    </legalnotice>
+    <pubdate>2012-09-20</pubdate>
+    <copyright>
+      <year>2012</year>
+      <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
+    </copyright>
+  </info>
+  <foilgroup>
+    <title>Modelling Plays and Acts for our app</title>
+    <foil>
+      <title></title>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>Designing the URLs</title>
+    <foil>
+      <title></title>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>Extracting data from the play XML with Nokogiri</title>
+    <foil>
+      <title></title>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>Generating HTML for an Act using XSLT</title>
+    <foil>
+      <title></title>
+    </foil>
+  </foilgroup>
+</slides>
+

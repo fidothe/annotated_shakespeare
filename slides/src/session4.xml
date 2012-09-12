@@ -1,0 +1,120 @@
+<?dbhtml pygments="true"?>
+<slides xml:lang="en" xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <info>
+    <title>Practical Web Applications</title>
+    <subtitle>Session Four</subtitle>
+    <!-- authors are alphabetical by first name (I get sick of being listed last all the time, 
+so I always do this if I can) -->
+    <authorgroup>
+      <author>
+        <personname>
+          <firstname>Lauren</firstname>
+          <surname>Wood</surname>
+        </personname>
+        <affiliation>
+          <orgname>Textuality Services, Inc.</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Matt</firstname>
+          <surname>Patterson</surname>
+        </personname>
+        <affiliation>
+          <orgname>Constituent Parts, Ltd.</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Norman </firstname>
+          <surname>Walsh</surname>
+        </personname>
+        <affiliation>
+          <orgname>MarkLogic</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Paul</firstname>
+          <surname>Downey</surname>
+        </personname>
+        <affiliation>
+          <orgname>Whatfettle</orgname>
+        </affiliation>
+      </author>
+    </authorgroup>
+    <releaseinfo role="version">Version 1.0</releaseinfo>
+    <legalnotice>
+      <para>Alpha by first name</para>
+    </legalnotice>
+    <pubdate>2012-09-20</pubdate>
+    <copyright>
+      <year>2012</year>
+      <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
+    </copyright>
+  </info>
+  <foilgroup>
+    <title>What do we need in order to allow people to comment on an Act?</title>
+    <foil>
+      <title>An idea of what goes into a Comment</title>
+    </foil>
+    <foil>
+      <title>A way of storing the Comment</title>
+    </foil>
+    <foil>
+      <title>A way of getting a Comment back</title>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>Modelling comments</title>
+    <foil>
+      <title>Intrinsic features</title>
+    </foil>
+    <foil>
+      <title>Relationships</title>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>Introducing DataMapper</title>
+    <foil>
+      <title>Object persistence patterns</title>
+    </foil>
+    <foil>
+      <title>Setting up DataMapper</title>
+    </foil>
+    <foil>
+      <title>Defining the Comment model</title>
+    </foil>
+    <foil>
+      <title>Creating the database</title>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>POSTing data back to the app</title>
+    <foil>
+      <title>HTML forms</title>
+    </foil>
+    <foil>
+      <title>Nested params</title>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>Processing POST data</title>
+    <foil>
+      <title>Param parsing</title>
+    </foil>
+    <foil>
+      <title>Creating a Comment</title>
+    </foil>
+    <foil>
+      <title>Redirecting</title>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>Displaying the results</title>
+    <foil>
+      <title>Showing Comments</title>
+    </foil>
+  </foilgroup>
+</slides>

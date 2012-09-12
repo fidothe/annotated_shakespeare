@@ -6,6 +6,7 @@ VPATH=src
 TARGETS=session1.html
 TARGETS+=architecture.html
 TARGETS+=session3.html
+TARGETS+=session4.html
 TARGETS+=html.html
 TARGETS+=css.html
 TARGETS+=javascript.html

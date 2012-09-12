@@ -119,8 +119,10 @@ so I always do this if I can) -->
       <title>HTTP tools</title>
       <itemizedlist>
         <listitem>
-          <para>curl</para>
+          <para>Curl</para>
         </listitem>
+        <listitem><para>Chrome</para></listitem>
+        <listitem><para>Others (demo)</para></listitem>
       </itemizedlist>
     </foil>
   </foilgroup>
@@ -159,7 +161,7 @@ so I always do this if I can) -->
       <programlisting language="ruby"><xi:include href="ex/static_only_app.rb" parse="text"/></programlisting>
       <para>We run the application using the <code>shotgun</code> command</para>
       <programlisting language="bash"><xi:include href="ex/invoke_shotgun.sh" parse="text"/></programlisting>
-      <para>Now visit <code>http://localhost:9393/</code></para>
+      <para>Now visit <code>http://localhost:9393/basic.html</code></para>
     </foil>
     <foil>
       <title>Let's try it out</title>

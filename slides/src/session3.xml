@@ -58,21 +58,130 @@ so I always do this if I can) -->
     <title>Modelling Plays for our app</title>
     <foil>
       <title>What's in a play?</title>
+      <para>Let's consider what the most basic parts of the play are:</para>
+      <itemizedlist>
+        <listitem>
+          <para>The title of the play</para>
+        </listitem>
+        <listitem>
+          <para>Who wrote it</para>
+        </listitem>
+        <listitem>
+          <para>How it's broken up into acts and scenes</para>
+        </listitem>
+        <listitem>
+          <para>Characters</para>
+        </listitem>
+        <listitem>
+          <para>The text itself</para>
+        </listitem>
+      </itemizedlist>
+      <para>What does the data we have make easier for us?</para>
+      <speakernotes>
+        <para>Before we begin just blindly throwing things around, we should stop and consider
+          what data we actually have to hand, how it's structured, what we want from it, and
+          how easy it is to get things out of it.</para>
+        <para>The play XML gives us some things twice, like the title and author. We need to
+          pick one, but it's pretty clear what they are.</para>
+        <para>The structure of the play is less clear, because the markup is primarily aimed
+          at preserving the printed characteristics of the manuscript. If we look closely
+          we can see that although there are no explicit 'Act' or 'Scene' elements the &lt;head&gt;
+          element is only used to mark the title of the play (its third appearance) and 
+          what look like Act or Scene titles.</para>
+        <para>Characters are called out, but just as strings: not with ID refs or anything 
+          unambiguous. For ease, I think we'll have to ignore those.</para>
+        <para>The XML contains element and text content for all the various bits of metadata 
+          and elizabethan typesetting notes, but the play's text is unambigously within the
+          &lt;text&gt; element, and the metadata's all outside that, so that's alright.</para>
+      </speakernotes>
     </foil>
     <foil>
       <title>The simplest possible Play &amp; Act objects</title>
+      <para>After looking at it, the simplest useful data model probably looks like this:</para>
+      <itemizedlist>
+        <listitem>
+          <para>The play</para>
+          <itemizedlist>
+            <listitem>
+              <para>The title</para>
+            </listitem>
+            <listitem>
+              <para>The author</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+        <listitem>
+          <para>An act</para>
+          <itemizedlist>
+            <listitem>
+              <para>Act number</para>
+            </listitem>
+            <listitem>
+              <para>Title</para>
+            </listitem>
+            <listitem>
+              <para>Act text</para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>As Ruby</title>
+      <programlisting language="ruby"><xi:include href="ex/simplest_models.rb" parse="text"/></programlisting>
     </foil>
   </foilgroup>
   <foilgroup>
     <title>Designing the URLs</title>
     <foil>
       <title>What resources are there?</title>
+      <para>At first glance</para>
+      <itemizedlist>
+        <listitem>
+          <para>Play</para>
+        </listitem>
+        <listitem>
+          <para>Act</para>
+        </listitem>
+      </itemizedlist>
     </foil>
     <foil>
       <title>How should they be exposed?</title>
+      <para>We actually need more than we thought</para>
+      <itemizedlist>
+        <listitem>
+          <para>A list of all Plays</para>
+        </listitem>
+        <listitem>
+          <para>An individual Play</para>
+        </listitem>
+        <listitem>
+          <para>An Act of a Play</para>
+        </listitem>
+      </itemizedlist>
     </foil>
     <foil>
       <title>The URLs</title>
+      <itemizedlist>
+        <listitem>
+          <para><code>/</code></para>
+        </listitem>
+        <listitem>
+          <para><code>/plays/:id</code></para>
+        </listitem>
+        <listitem>
+          <para><code>/plays/:id/act/:act_number</code></para>
+        </listitem>
+      </itemizedlist>
+      <para>With the holes that leaves in the URL space, we probably also need:</para>
+      <itemizedlist>
+        <listitem>
+          <para><code>/plays</code></para>
+        </listitem>
+        <listitem>
+          <para><code>/plays/:id/act</code></para>
+        </listitem>
+      </itemizedlist>
     </foil>
   </foilgroup>
   <foilgroup>

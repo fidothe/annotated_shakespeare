@@ -167,12 +167,27 @@ so I always do this if I can) -->
           <para><code>/</code></para>
         </listitem>
         <listitem>
-          <para><code>/plays/:id</code></para>
+          <para><code>/plays/caesar</code></para>
         </listitem>
         <listitem>
-          <para><code>/plays/:id/act/:act_number</code></para>
+          <para><code>/plays/caesar/act/1</code></para>
         </listitem>
       </itemizedlist>
+    </foil>
+    <foil>
+      <title>Routing in Sinatra</title>
+      <programlisting language="ruby"><xi:include href="ex/base_routes.rb" parse="text"/></programlisting>
+      <speakernotes>
+        <para>Sinatra uses methods named for HTTP methods to declare routes.</para>
+        <para>These are all GET routes. The <code>:param_name</code> sections in the URL 
+          patterns are placeholders for variable parts of the URL, e.g. <code>/plays/caesar</code>
+          or <code>/plays/hamlet</code> will both match <code>get "/plays/:id"</code>, and
+          <code>caesar</code> or <code>hamlet</code> will be accessible as a parameter named
+          <code>:id</code>.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Holes in the URI space</title>
       <para>With the holes that leaves in the URL space, we probably also need:</para>
       <itemizedlist>
         <listitem>
@@ -182,30 +197,121 @@ so I always do this if I can) -->
           <para><code>/plays/:id/act</code></para>
         </listitem>
       </itemizedlist>
+      <speakernotes>
+        <para>Before we add these extra routes in, it's worth trying out the first set.</para>
+        <para>If you were to put the URL <code>/plays/caesar/act/1</code> in to your browser
+          and start to hack off chunks of the URL then you'll see 404s at
+          <code>/plays/caesar/act</code> and <code>/plays</code>.</para>
+        <para>These extra routes avoid that by redirecting the browser to the next level up</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Routing in Sinatra</title>
+      <programlisting language="ruby"><xi:include href="ex/routes_plus_redirects.rb" parse="text"/></programlisting>
     </foil>
   </foilgroup>
   <foilgroup>
     <title>Extracting data from the Play XML with Nokogiri</title>
     <foil>
       <title>Extracting the Play and Act titles</title>
+      <para>Nokogiri provides with a Ruby API around the GNOME libxml2 library.</para>
+      <para>The Ruby API is nice and easy to use:</para>
+      <programlisting language="ruby"><xi:include href="ex/nokogiri-css_and_xpath_search.rb" parse="text"/></programlisting>
+    </foil>
+    <foil>
+      <title>The Play object</title>
+      <para>Let's revisit the Play class and actually extract the data</para>
+      <programlisting language="ruby"><xi:include href="ex/nokogiri-play_with_title.rb" parse="text"/></programlisting>
     </foil>
   </foilgroup>
   <foilgroup>
     <title>Generating HTML for an Act using XSLT</title>
     <foil>
       <title>Running an XSLT</title>
+      <para>Nokogiri is also a wrapper around GNOME libxslt1.1.</para>
+      <programlisting language="ruby"><xi:include href="ex/nokogiri-xslt.rb" parse="text"/></programlisting>
+    </foil>
+    <foil>
+      <title>The Act object</title>
+      <programlisting language="ruby"><xi:include href="ex/nokogiri-act_with_data.rb" parse="text"/></programlisting>
     </foil>
   </foilgroup>
   <foilgroup>
     <title>Wiring everything together</title>
     <foil>
       <title>Generating a page listing Plays</title>
+      <para>What do we need?</para>
+      <itemizedlist>
+        <listitem>
+          <para>HTML template</para>
+        </listitem>
+        <listitem>
+          <para>Ability to find all the Plays</para>
+        </listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>HTML template</title>
+      <programlisting language="erb"><xi:include href="ex/plays-index.erb" parse="text"/></programlisting>
+    </foil>
+    <foil>
+      <title>Finding all the plays</title>
+      <programlisting language="ruby"><xi:include href="ex/get-all-plays-controller.rb" parse="text"/></programlisting>
+      <programlisting language="ruby"><xi:include href="ex/get-all-plays-model.rb" parse="text"/></programlisting>
     </foil>
     <foil>
       <title>Listing a Play's Acts</title>
+      <para>What do we need?</para>
+      <itemizedlist>
+        <listitem>
+          <para>Ability to generate a unique URL slug for a Play</para>
+        </listitem>
+        <listitem>
+          <para>HTML template</para>
+        </listitem>
+        <listitem>
+          <para>Ability to get a Play object</para>
+        </listitem>
+        <listitem>
+          <para>Ability to work out what Acts a Play has</para>
+        </listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>Generating a unique URL slug for a Play</title>
+      <programlisting language="ruby"><xi:include href="ex/play-url_slug.rb" parse="text"/></programlisting>
+    </foil>
+    <foil>
+      <title>HTML template</title>
+      <programlisting language="erb"><xi:include href="ex/play-show.erb" parse="text"/></programlisting>
+    </foil>
+    <foil>
+      <title>Getting a Play</title>
+      <programlisting language="ruby"><xi:include href="ex/get-play-model.rb" parse="text"/></programlisting>
+    </foil>
+    <foil>
+      <title>What Acts does a Play have?</title>
+      <programlisting language="ruby"><xi:include href="ex/play-get-acts-model.rb" parse="text"/></programlisting>
     </foil>
     <foil>
       <title>Showing a whole Act</title>
+      <para>What do we need?</para>
+      <itemizedlist>
+        <listitem>
+          <para>HTML template</para>
+        </listitem>
+        <listitem>
+          <para>Ability to get an Act object</para>
+        </listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>HTML template</title>
+      <programlisting language="erb"><xi:include href="ex/act-show.erb" parse="text"/></programlisting>
+    </foil>
+    <foil>
+      <title>Getting an Act</title>
+      <programlisting language="ruby"><xi:include href="ex/get-act-controller.rb" parse="text"/></programlisting>
     </foil>
   </foilgroup>
 </slides>

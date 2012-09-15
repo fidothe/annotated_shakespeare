@@ -79,9 +79,46 @@ so I always do this if I can) -->
     <title>Introducing DataMapper</title>
     <foil>
       <title>Object persistence patterns</title>
+      <para>Data persistence used to mean constructing SQL queries by hand and 
+        executing <code>SELECT</code>, <code>INSERT</code>, or <code>UPDATE</code>
+        queries directly from your web app controller.</para>
+      <para>More recently, persistence patterns which remove the responsibility
+        for writing SQL have emerged.</para>
+      <para>Martin Fowler covered several of these in his book <citation>Patterns of Enterprise Application Architecture</citation>.</para>
+      <para>Two of those, <emphasis>Active Record</emphasis> and <emphasis>Data Mapper</emphasis> have come to dominate.</para>
     </foil>
     <foil>
-      <title>Setting up DataMapper</title>
+      <title>Active Record</title>
+      <para>An object that wraps a row in a database table or view, encapsulates the database access, and adds domain logic on that data.</para>
+      <speakernotes>
+        <para>PoEAA p160</para>
+        <para>The high level summary: An object which knows how to save, retrieve, and find itself in the DB. Requires that the DB and object schemas are in lockstep. The Rails' framework's ActiveRecord library is perhaps the best known implementation.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Data Mapper</title>
+      <para>A layer of Mappers that moves data between objects and a database while keeping them independent of each other and the mapper itself.</para>
+      <para>Mapper: An object that sets up a communication between two independent objects</para>
+      <speakernotes>
+        <para>PoEAA p165, p473</para>
+        <para>The high level summary: More abstract than Active Record, here the mapping between DB and Object is made explicit and separated from the objects that get created into a Mapper (or Mappers). Hibernate is probably the best known implementor of this pattern.</para>
+      </speakernotes>
+    </foil>
+    <foil>
+      <title>Setting up DataMapper (the library)</title>
+      <para>We're going to be using the Ruby library DataMapper to bridge between database and objects. 
+        As it's name suggests, it was inspired by the Data Mapper pattern. In actual fact it ends up being
+        a bit of a cross between Active Record and Data Mapper, but it does make the mapping between DB and
+        Object explicit.</para>
+    </foil>
+    <foil>
+      <title>Adding to the Gemfile</title>
+      <para>If you don't already have DataMapper listed in the Gemfile for your app it needs to be added:</para>
+      <programlisting language="ruby"><xi:include href="ex/dm-gemfile.rb" parse="text"/></programlisting>
+    </foil>
+    <foil>
+      <title>Adding the setup code to the app</title>
+      <programlisting language="ruby"><xi:include href="ex/app-dm_setup.rb" parse="text"/></programlisting>
     </foil>
     <foil>
       <title>Defining the Comment model</title>

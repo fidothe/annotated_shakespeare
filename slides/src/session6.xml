@@ -1,0 +1,99 @@
+<?dbhtml pygments="true"?>
+<slides xml:lang="en" xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <info>
+    <title>Practical Web Applications</title>
+    <subtitle>Session Six</subtitle>
+    <!-- authors are alphabetical by first name (I get sick of being listed last all the time, 
+so I always do this if I can) -->
+    <authorgroup>
+      <author>
+        <personname>
+          <firstname>Lauren</firstname>
+          <surname>Wood</surname>
+        </personname>
+        <affiliation>
+          <orgname>Textuality Services, Inc.</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Matt</firstname>
+          <surname>Patterson</surname>
+        </personname>
+        <affiliation>
+          <orgname>Constituent Parts, Ltd.</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Norman </firstname>
+          <surname>Walsh</surname>
+        </personname>
+        <affiliation>
+          <orgname>MarkLogic</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Paul</firstname>
+          <surname>Downey</surname>
+        </personname>
+        <affiliation>
+          <orgname>Whatfettle</orgname>
+        </affiliation>
+      </author>
+    </authorgroup>
+    <releaseinfo role="version">Version 1.0</releaseinfo>
+    <legalnotice>
+      <para>Alpha by first name</para>
+    </legalnotice>
+    <pubdate>2012-09-20</pubdate>
+    <copyright>
+      <year>2012</year>
+      <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
+    </copyright>
+  </info>
+  <foilgroup>
+    <title>What does an Annotation do?</title>
+    <foil>
+      <title>Annotating a line of dialogue</title>
+    </foil>
+    <foil>
+      <title>Locating lines of dialogue within the HTML</title>
+    </foil>
+    <foil>
+      <title>A quick introduction to jQuery &amp; the Web Inspector</title>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>Adding a form for Annotations in the body of the Act HTML</title>
+    <foil>
+      <title>Building form HTML in Javascript</title>
+    </foil>
+    <foil>
+      <title>Inserting the form into every line of dialogue</title>
+    </foil>
+    <foil>
+      <title>Showing and hiding the form</title>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>The Annotation object</title>
+  </foilgroup>
+  <foilgroup>
+    <title>Adding Annotations to the body of the Act HTML</title>
+  </foilgroup>
+  <foilgroup>
+    <title>Adding Annotations without reloading the page</title>
+  </foilgroup>
+  <foilgroup>
+    <title>Responding appropriately to Ajax posts</title>
+  </foilgroup>
+  <foilgroup>
+    <title>Showing and hiding annotations on demand</title>
+  </foilgroup>
+  <foilgroup>
+    <title>Unobtrusively indicating the presence of annotations</title>
+  </foilgroup>
+</slides>

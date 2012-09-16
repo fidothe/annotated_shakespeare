@@ -102,7 +102,7 @@ class AnnotatedShakespeare < Sinatra::Base
     halt 403 unless current_user
     @play = Play.find(params[:id])
     @act = @play.act(params[:act_number])
-    current_user.comments.create!(:body => params['comment-body'], :commentable_type => :act, :commentable_id => @act.number)
+    current_user.comments.create!(:body => params['comment']['body'], :commentable_type => :act, :commentable_id => @act.number)
     redirect to("/plays/#{@play.slug}/act/#{@act.number}")
   end
 end

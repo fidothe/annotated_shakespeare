@@ -122,36 +122,87 @@ so I always do this if I can) -->
     </foil>
     <foil>
       <title>Defining the Comment model</title>
+      <programlisting language="ruby"><xi:include href="ex/comment-model.rb" parse="text"/></programlisting>
     </foil>
     <foil>
       <title>Creating the database</title>
+      <para>We're using SQLite, so the database is automatically created for us, and
+        the call to <code>DataMapper::auto_upgrade!</code> generates tables
+        based on our model</para>
     </foil>
   </foilgroup>
   <foilgroup>
     <title>POSTing data back to the app</title>
     <foil>
       <title>HTML forms</title>
+      <programlisting language="html+erb"><xi:include href="ex/comment-form.erb" parse="text"/></programlisting>
     </foil>
     <foil>
       <title>Nested params</title>
+      <para>Rack translates forms like this:</para>
+      <programlisting language="html+erb"><xi:include href="ex/nested_params-form.erb" parse="text"/></programlisting>
+      <para>Into a <code>params</code> hash like this:</para>
+      <programlisting language="ruby"><xi:include href="ex/nested_params-hash.rb" parse="text"/></programlisting>
     </foil>
   </foilgroup>
   <foilgroup>
     <title>Processing POST data</title>
     <foil>
-      <title>Param parsing</title>
+      <title>The <code>params</code> hash</title>
+      <para>The <code>params</code> hash contains all the data passed to our app in a request:</para>
+      <itemizedlist>
+        <listitem><simpara>Route segments</simpara></listitem>
+        <listitem><simpara>Query string params (also GET form data)</simpara></listitem>
+        <listitem><simpara>POSTed form data</simpara></listitem>
+      </itemizedlist>
+      <para>For example, given the route <code>/plays/:id/act/:act_number</code> POSTing the previous form to <code>/plays/caesar/act/1</code> would yield a params hash like:</para>
+      <programlisting language="ruby"><xi:include href="ex/params-hash.rb" parse="text"/></programlisting>
+    </foil>
+    <foil>
+      <title>Using the params hash</title>
+      <para>You get to the params hash using the <code>params</code> method in your app.</para>
+      <programlisting language="ruby"><![CDATA[
+get "/act/:id" do
+  "Hello, #{params['id']}"
+end
+]]></programlisting>
     </foil>
     <foil>
       <title>Creating a Comment</title>
+      <programlisting language="ruby"><xi:include href="ex/comment-create.rb" parse="text"/></programlisting>
+    </foil>
+    <foil>
+      <title>Creating a Comment - associating with an Act</title>
+      <programlisting language="ruby"><xi:include href="ex/comment-with_association.rb" parse="text"/></programlisting>
+    </foil>
+    <foil>
+      <title>Creating a Comment for an Act</title>
+      <programlisting language="ruby"><xi:include href="ex/comment-create-with_association.rb" parse="text"/></programlisting>
     </foil>
     <foil>
       <title>Redirecting</title>
+      <para>Rendering the Act show view after creation opens us up to replay: reloading the page will simply create a duplicate comment.</para>
+      <para>After methods that mutate the state of the system, we should issue an HTTP redirect to somewhere sensible (In this case, to the Act URL)</para>
+      <programlisting language="ruby"><xi:include href="ex/comment-create_with_redirect.rb" parse="text"/></programlisting>
     </foil>
   </foilgroup>
   <foilgroup>
     <title>Displaying the results</title>
     <foil>
       <title>Showing Comments</title>
+      <para>Let's add comments to the end of the Act page</para>
+      <itemizedlist>
+        <listitem><para>How do we fetch comments for a page?</para></listitem>
+        <listitem><para>How do we get them into the view?</para></listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>Fetching comments</title>
+      <programlisting language="ruby"><xi:include href="ex/comment-act-fetch_comments.rb" parse="text"/></programlisting>
+    </foil>
+    <foil>
+      <title>Getting comments into the page</title>
+      <programlisting language="html+erb"><xi:include href="ex/comment-act-view.erb" parse="text"/></programlisting>
     </foil>
   </foilgroup>
 </slides>

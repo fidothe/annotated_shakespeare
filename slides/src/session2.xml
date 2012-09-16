@@ -32,7 +32,7 @@ $ git clone git://github.com/fidothe/annotated_shakespeare.git
 
         <div class="foil">
             <h1>HTTP Verbs</h1>
-<pre>
+<pre class="table">
 method     safe    idempotent   semantics    resource     cacheable
           -----------------------------------------------------------
 GET       |  X          X            X           X             X    |

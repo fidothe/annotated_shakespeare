@@ -413,6 +413,12 @@ so I always do this if I can) -->
             and Paypal support. </td>
         </tr>
         <tr>
+          <td>OpenID Connect</td>
+          <td>Google, likely to increase</td>
+          <td>Identity layer on top of OAuth 2.0. Uses the authorisation server to provide
+            authentication and some user profile information.</td>
+        </tr>
+        <tr>
           <td>Persona (was browserID)</td>
           <td>Mozilla (persona.org)</td>
           <td>Uses user's email address (provided by a primary identity authority) to authenticate
@@ -438,6 +444,12 @@ so I always do this if I can) -->
           OpenID Provider, you can decide yourself how much information to let it have.
           Persona/browserID is similar, but uses an email address rather than a URL for
           identification.</para>
+        <para>OpenID Connect is new, still in draft form, but likely to be important. Google
+          supports it and Microsoft contributed to the specification. Basically it sends the user to
+          an OAuth authorization server for authentication and authorization, which one would expect
+          should be possible. Facebook's authentication works in a similar way to OpenID Connect
+          with a few small technical differences. In other words, it's not really OpenID at all, it
+          just (mis) uses the name.</para>
         <para>The IdP is the authoritative source for information about the user, not just the place
           where the user stores some resource. In a sense, we now want to use the service provider
           as a source of metadata, not just data (if you think of info about the user as being
@@ -710,8 +722,6 @@ so I always do this if I can) -->
             can probably be exposed; dynamic access tokens may be safe.</para>
         </listitem>
       </itemizedlist>
-      <para>Our sample application is a web application.</para>
-      <para>Let's add some code to our app for OAuth 2.</para>
       <speakernotes>
         <para>Reminder: The client has some authentication credential such as a password,
           public/private key pair, or a string call a client secret, which are meant to be kept
@@ -750,7 +760,7 @@ so I always do this if I can) -->
         </listitem>
       </itemizedlist>
       <speakernotes>
-        <para>For this exercise we’re not going to go to the bother of encrypting all the access
+        <para>In our exercises we’re not going to go to the bother of encrypting all the access
           tokens etc for storage as we would do in a real application – just like you would encrypt
           a password before storing it in a database, you should encrypt all secrets and tokens, not
           just when they’re being transferred from one place to another, but also for storage. We
@@ -763,6 +773,15 @@ so I always do this if I can) -->
           and preregister it so that servers won’t mistakenly follow a endpoint dynamically provided
           by a rogue client.</para>
       </speakernotes>
+    </foil>
+    <foil>
+      <title>Resources</title>
+      <simplelist>
+        <member>Getting Started with OAuth 2.0, 1st Edition by Ryan Boyd, O'Reilly</member>
+        <member>OAuth 2 RFC: http://tools.ietf.org/html/draft-ietf-oauth-v2</member>
+        <member>persona.org</member>
+        <member>https://openid.net/specs/openid-connect-standard-1_0.html</member>
+      </simplelist>
     </foil>
   </foilgroup>
   <foilgroup>
@@ -1267,6 +1286,16 @@ so I always do this if I can) -->
     <foil>
       <title>Exercise</title>
       <para>Identify and fix security issues in sample application</para>
+    </foil>
+    <foil>
+      <title>Resources</title>
+      <simplelist>
+        <member>http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html</member>
+        <member>http://www.codeproject.com/Articles/9378/SQL-Injection-Attacks-and-Some-Tips-on-How-to-Prev</member>
+        <member>https://www.schneier.com/blog/archives/2012/03/the_security_of_5.html</member>
+        <member>http://www.slideshare.net/johnwilander/application-security-for-rich-internet-applicationss-jfokus-2012</member>
+        <member>https://code.google.com/p/webgoat/</member>
+      </simplelist>
     </foil>
   </foilgroup>
 </slides>

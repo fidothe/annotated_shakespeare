@@ -24,7 +24,7 @@
     <year>2012</year>
     <holder>MarkLogic Corporation</holder>
   </copyright>
-  <h:link rel="stylesheet" type="text/css" href="css/webtech.css" />
+  <h:link rel="stylesheet" type="text/css" href="css/html-css.css" />
   <h:link rel="stylesheet" type="text/css" href="css/pygments.css" />
   <h:meta name="timer" content="true"/>
   <h:meta name="countdown" content="180:00"/>

@@ -24,7 +24,10 @@
     <year>2012</year>
     <holder>MarkLogic Corporation</holder>
   </copyright>
-  <h:link rel="stylesheet" type="text/css" href="css/webtech.css" />
+  <h:script type="text/javascript" src="js/javascript-js.js"/>
+  <h:script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"/>
+  <h:script type="text/javascript" src="js/html-geoloc.js"/>
+  <h:link rel="stylesheet" type="text/css" href="css/html-css.css" />
   <h:link rel="stylesheet" type="text/css" href="css/pygments.css" />
   <h:meta name="timer" content="true"/>
   <h:meta name="countdown" content="180:00"/>

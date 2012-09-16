@@ -32,8 +32,8 @@
   var new_annotation_form = '<div class="annotation creator">'
     + '<form action="<%= url("/plays/#{@play.slug}/act/#{@act.number}/annotations") %>" method="POST" charset="utf-8">' 
     + '<input name="authenticity_token" value="<%= csrf_token %>" type="hidden">'
-    + '<input name="annotation-id" value="" type="hidden">'
-    + '<textarea name="annotation-text"></textarea>'
+    + '<input name="annotation[id]" value="" type="hidden">'
+    + '<textarea name="annotation[text]"></textarea>'
     + '<p><input type="submit" value="Add annotation"></p>'
     + '</form>'
     + '</div>';
@@ -44,7 +44,7 @@
     $('.sp').each(function() {
       var annotated_node = $(this);
       var annotation_form_node = $(new_annotation_form).appendTo(annotated_node);
-      annotation_form_node.find('input[name=annotation-id]').val(this.id);
+      annotation_form_node.find("input[name='annotation[id]']").val(this.id);
       var annotation_controls_node = $(annotation_controls).prependTo(annotated_node)
       annotation_controls_node.find('.show').toggle(function() { annotated_node.find('.annotations').show() }, function() { annotated_node.find('.annotations').hide(); });
       annotation_controls_node.find('.show').hide();

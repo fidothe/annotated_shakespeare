@@ -127,7 +127,8 @@ class AnnotatedShakespeare < Sinatra::Base
     halt 403 unless current_user
     @play = Play.find(params[:id])
     @act = @play.act(params[:act_number])
-    annotation = current_user.annotations.create!(:text => params['annotation-text'], :act_uid => @act.uid, :annotated_id => params['annotation-id'])
+    attrs = params['annotation']
+    annotation = current_user.annotations.create!(:text => attrs['text'], :act_uid => @act.uid, :annotated_id => attrs['id'])
     return [201, {'Content-Type' => 'application/json'}, annotation.to_json] if request.xhr?
     redirect to("/plays/#{@play.slug}/act/#{@act.number}")
   end

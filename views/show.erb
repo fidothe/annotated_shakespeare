@@ -10,7 +10,7 @@
 <section id="comments">
   <form action="<%= url("/plays/#{@play.slug}/act/#{@act.number}/comments") %>" charset="utf-8" method="POST">
     <input name="authenticity_token" value="<%= csrf_token %>" type="hidden">
-    <textarea name="comment-body"></textarea>
+    <textarea name="comment[body]"></textarea>
     <p><input type="submit" value="Add comment"></p>
   </form>
 

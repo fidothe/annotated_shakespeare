@@ -4,7 +4,7 @@ VPATH=src
 
 #TARGETS=example.html
 TARGETS=session1.html
-TARGETS+=architecture.html
+TARGETS+=session2.html
 TARGETS+=session3.html
 TARGETS+=session4.html
 TARGETS+=html.html
@@ -13,12 +13,14 @@ TARGETS+=javascript.html
 TARGETS+=session5.html
 TARGETS+=session6.html
 
+DEFUNCT=architecture.html
+
 PYTHONPATH := lib/python2.6/site-packages/Pygments-1.5-py2.6.egg:lib/jython-2.5.2/Lib:__classpath__:__pyclasspath__/
 
 all: $(TARGETS)
 
 clean::
-	$(RM) $(TARGETS)
+	$(RM) $(TARGETS) $(DEFUNCT)
 
 architecture.html: src/architecture.xml style/slides.xsl
 	@echo Building $@

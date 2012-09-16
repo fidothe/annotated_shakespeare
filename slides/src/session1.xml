@@ -86,7 +86,7 @@ so I always do this if I can) -->
           <para>Client requests a resource with certain parameters (headers) </para>
         </listitem>
         <listitem>
-          <para>Ideally the server responds with the requested resource, and/or a status code and
+          <para>Ideally the server responds with a representation of the requested resource, and/or a status code and
             headers</para>
         </listitem>
       </itemizedlist>

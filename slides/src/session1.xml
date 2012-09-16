@@ -117,12 +117,85 @@ so I always do this if I can) -->
     <foil>
       <title>HTTP tools</title>
       <itemizedlist>
-        <listitem>
-          <para>Curl</para>
-        </listitem>
         <listitem><para>Chrome</para></listitem>
-        <listitem><para>Others (demo)</para></listitem>
+        <listitem><para>Telnet</para></listitem>
+        <listitem><para>Curl</para></listitem>
+        <listitem><para>There are lots of others ..</para></listitem>
       </itemizedlist>
+    </foil>
+    <foil>
+      <title>Chrome Web Developer</title>
+      <mediaobject role="center">
+        <alt>Chrome Web Developer</alt>
+        <imageobject>
+          <imagedata fileref="../images/Chrome-Developer-Tools.png"/>
+        </imageobject>
+      </mediaobject>
+    </foil>
+    <foil>
+      <title>Chrome Web Developer Network</title>
+      <mediaobject role="center">
+        <alt>Chrome Web Developer Network</alt>
+        <imageobject>
+          <imagedata fileref="../images/Chrome-Network.png"/>
+        </imageobject>
+      </mediaobject>
+    </foil>
+    <foil>
+      <title>Telnet</title>
+      <programlisting language="http">
+<![CDATA[
+$ telnet google.com 80
+GTrying 173.194.41.135...
+Connected to google.com.
+Escape character is '^]'.
+GET / HTTP/1.1
+]]>
+</programlisting>
+<programlisting language="http">
+<![CDATA[
+HTTP/1.1 302 Found
+Location: http://www.google.co.uk/
+Cache-Control: private
+Content-Type: text/html; charset=UTF-8
+]]>
+</programlisting>
+    </foil>
+    <foil>
+      <title>Curl</title>
+      <programlisting language="bash">
+<![CDATA[
+$ curl -v http://www.google.com
+* About to connect() to www.google.com port 80 (#0)
+*   Trying 173.194.78.99... connected
+* Connected to www.google.com (173.194.78.99) port 80 (#0)
+> GET / HTTP/1.1
+> User-Agent: curl/7.21.4 (universal-apple-darwin11.0) libcurl/7.21.4 OpenSSL/0.9.8r zlib/1.2.5
+> Host: www.google.com
+> Accept: */*
+> 
+< HTTP/1.1 302 Found
+< Location: http://www.google.co.uk/
+< Cache-Control: private
+< Content-Type: text/html; charset=UTF-8
+< Set-Cookie: PREF=ID=4f9a...beb:FF=0:TM; expires=Tue, 16-Sep-2014 17:02:43 GMT; path=/; domain=.google.com
+< P3P: CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657 for more info."
+< Date: Sun, 16 Sep 2012 17:02:43 GMT
+< Server: gws
+< Content-Length: 221
+< X-XSS-Protection: 1; mode=block
+< X-Frame-Options: SAMEORIGIN
+< 
+<HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
+<TITLE>302 Moved</TITLE></HEAD><BODY>
+<H1>302 Moved</H1>
+The document has moved
+<A HREF="http://www.google.co.uk/">here</A>.
+</BODY></HTML>
+* Connection #0 to host www.google.com left intact
+* Closing connection #0
+]]>
+</programlisting>
     </foil>
   </foilgroup>
   <foilgroup>

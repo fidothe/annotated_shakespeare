@@ -83,11 +83,10 @@ so I always do this if I can) -->
       <para>Core HTTP protocol </para>
       <itemizedlist>
         <listitem>
-          <para>Client requests a resource with certain parameters (headers) </para>
+          <para>Client requests a resource with certain parameters encoded as headers. </para>
         </listitem>
         <listitem>
-          <para>Ideally the server responds with a representation of the requested resource, and/or a status code and
-            headers</para>
+          <para>Server responds with a status code, headers and a representation of the requested resource. </para>
         </listitem>
       </itemizedlist>
       <mediaobject role="center">

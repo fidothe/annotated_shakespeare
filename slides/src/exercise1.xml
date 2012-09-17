@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>Practical Web Applications: Exercise 5</title>
+        <authorgroup>
+            <author>
+                <personname>
+                    <firstname>Lauren</firstname>
+                    <surname>Wood</surname>
+                </personname>
+                <affiliation>
+                    <orgname>Textuality Services, Inc.</orgname>
+                </affiliation>
+            </author>
+            <author>
+                <personname>
+                    <firstname>Matt</firstname>
+                    <surname>Patterson</surname>
+                </personname>
+                <affiliation>
+                    <orgname>Constituent Parts, Ltd.</orgname>
+                </affiliation>
+            </author>
+            <author>
+                <personname>
+                    <firstname>Norman </firstname>
+                    <surname>Walsh</surname>
+                </personname>
+                <affiliation>
+                    <orgname>MarkLogic</orgname>
+                </affiliation>
+            </author>
+            <author>
+                <personname>
+                    <firstname>Paul</firstname>
+                    <surname>Downey</surname>
+                </personname>
+                <affiliation>
+                    <orgname>GDS</orgname>
+                </affiliation>
+            </author>
+        </authorgroup>
+        <releaseinfo role="version">Version 1.0</releaseinfo>
+        <legalnotice>
+            <para>Alpha by first name</para>
+        </legalnotice>
+        <pubdate>2012-09-20</pubdate>
+        <copyright>
+            <year>2012</year>
+            <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
+        </copyright>
+    </info>
+    <sect1>
+        <title>Sinatra</title>
+        <para> We're using Sinatra (<link xlink:href="http://www.sinatrarb.com/"
+                >http://www.sinatrarb.com/</link>) to create our application. Sinatra is a
+            light-weight and simple Domain Specific Language (DSL) for defining RESTful HTTP
+            actions. For more information, the Sinatra book (<link
+                xlink:href="http://sinatra-book.gittr.com/">http://sinatra-book.gittr.com/</link>)
+            is good. Sinatra can be used together with Rails (another framework), or on its
+            own.</para>
+    </sect1>
+    <sect1>
+        <title>Repository</title>
+        <para> We have all the exercises stored in a git repository. For each session, you can
+            either continue from where you left off in the previous session, or grab the complete
+            code for the previous session and continue from there. </para>
+        <para>There are two ways to work with the repository: you can work in the same folder as
+            we've put the repository, or you can create a new folder and copy the files across. If
+            you work in the same folder, you'll probably throw away your work at the beginning of
+            each new session, or have to merge it with the repository version, so we recommend you
+            create a new folder and copy files across as you need to. In the exercises we'll assume
+            you're copying files to a new folder, and creating or editing them there. </para>
+        <para>The git repository is at <link
+                xlink:href="https://github.com/fidothe/annotated_shakespeare"
+                >https://github.com/fidothe/annotated_shakespeare</link>. We'll leave it up for a
+            while after the summer school.</para>
+    </sect1>
+    <sect1>
+        <title>Git Commands</title>
+        <para>We use github for the repository, and git to fetch the code. If you aren't familiar
+            with git, the Git Book (http://git-scm.com/book) is excellent and free. </para>
+        <para> For our purposes, where you're fetching code from an external repository, and
+            switching branches, you won't be adding code to the remote repository. So all we need to
+            know is how to fetch the code for each branch (and we'll tell you which branch to fetch
+            at the beginning of each exercise). There are only a few commands you need to
+            use.</para>
+        <itemizedlist>
+            <listitem>
+                <para>git status: shows you which branch you're on, and whether you have modified
+                    any files. </para>
+            </listitem>
+            <listitem>
+                <para>git pull: get the latest version from the repository. Only gets the files for
+                    the branch you're on, if any </para>
+            </listitem>
+            <listitem>
+                <para>git checkout branch: switches you to the branch named branch. </para>
+            </listitem>
+            <listitem>
+                <para>git reset --hard: throws away all uncommitted changes (reverts to repository
+                    status). You'll only need this if you're working in the same folder as the one
+                    where the repository is stored.</para>
+            </listitem>
+        </itemizedlist>
+    </sect1>
+    <sect1>
+        <title>Setup</title>
+        <orderedlist>
+            <listitem>
+                <para>In your chosen work folder, create folders named db (for the database, we'll
+                    use this later), lib (where we store the Ruby code that runs the site), public
+                    (static files such as CSS styles, images, static HTML files), plays (where we
+                    have the plays themselves), and views (the layout files go here). The public and
+                    views folders are usually named that way and exist in all standard Sinatra
+                    applications (when they aren't renamed). </para>
+            </listitem>
+            <listitem>
+                <para>Navigate to the repository folder, and in a terminal window, check which
+                    branch you're on (git status). If it isn't session_one, then switch to
+                    session_one (git checkout session_one). </para>
+            </listitem>
+            <listitem>
+                <para>Copy the repository files Gemfile and config.ru to your work folder. The
+                    configuration file makes it easier to run the application. </para>
+            </listitem>
+            <listitem>
+                <para>Copy the repository files plays/3014_fol-JC.tei and plays/tei2html.xsl into
+                    your plays folder. </para>
+            </listitem>
+            <listitem>
+                <para>Copy all the files in the repository public folder into your public folder
+                    (basic.css, basic.html, main.css). </para>
+            </listitem>
+        </orderedlist>
+    </sect1>
+    <sect1>
+        <title>Steps,Part One</title>
+        <orderedlist>
+            <listitem>
+                <para>In the lib folder, edit annotated_shakespeare.rb to have this content; we're
+                    adding the basic '/' handler</para>
+                <programlisting language="ruby"># encoding: utf-8
+
+require 'sinatra/base'
+
+ROOT_DIR = File.expand_path('../../', __FILE__)
+
+class AnnotatedShakespeare &lt; Sinatra::Base
+  set :views, File.expand_path('views', ROOT_DIR)
+  set :public_folder, File.expand_path('public', ROOT_DIR)
+
+  get '/' do
+    @title = "Index"
+    erb :index
+  end
+end</programlisting>
+            </listitem>
+            <listitem>
+                <para>In the views folder, create a file called index.erb. Add the following content
+                    to that file.</para>
+                <programlisting language="html">&lt;h1>Hello World from the template&lt;/h1></programlisting>
+            </listitem>
+            <listitem>
+                <para>Copy the views/layout.erb file from the repository to the views folder.</para>
+            </listitem>
+            <listitem>
+                <para>In the terminal, type the command shotgun.</para>
+            </listitem>
+            <listitem><para>In Chrome, go to http://localhost:9393</para></listitem>
+        </orderedlist>
+    </sect1>
+</article>

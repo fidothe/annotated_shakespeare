@@ -1,0 +1,10 @@
+var form = '<div class="annotation creator">'
+  + '<form action="/plays/caesar/act/1/annotations"'
+  + '      method="POST" charset="utf-8">'
+  + '<input name="annotation[id]" value=""'
+  + '       type="hidden">'
+  + '<textarea name="annotation[text]"></textarea>'
+  + '<p><input type="submit"'
+  + '          value="Add annotation"></p>'
+  + '</form>'
+  + '</div>';

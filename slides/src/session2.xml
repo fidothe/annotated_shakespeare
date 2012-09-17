@@ -3,7 +3,7 @@
   xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
   <info>
     <title>Practical Web Applications</title>
-    <subtitle>Session One</subtitle>
+    <subtitle>Session Two</subtitle>
     <!-- authors are alphabetical by first name (I get sick of being listed last all the time, 
 so I always do this if I can) -->
     <authorgroup>
@@ -67,7 +67,7 @@ $ git clone git://github.com/fidothe/annotated_shakespeare.git]]>
       <mediaobject>
         <alt>The Radcliff Camera</alt>
         <imageobject>
-          <imagedata fileref="../images/posse.png" />
+          <imagedata fileref="../images/posse.jpg" />
         </imageobject>
       </mediaobject>
     </foil>

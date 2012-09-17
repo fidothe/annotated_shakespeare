@@ -58,21 +58,41 @@ so I always do this if I can) -->
     <title>What do we need in order to allow people to comment on an Act?</title>
     <foil>
       <title>An idea of what goes into a Comment</title>
+      <itemizedlist>
+        <listitem><para>The text of the comment</para></listitem>
+        <listitem><para>Who left the comment</para></listitem>
+        <listitem><para>The thing being commented on</para></listitem>
+      </itemizedlist>
     </foil>
     <foil>
       <title>A way of storing the Comment</title>
+      <para>Let's use a relational database</para>
+      <para>(We'll use SQLite, because it's really easy.)</para>
+      <itemizedlist>
+        <listitem><para>Reliably generate SQL to insert or update a comment</para></listitem>
+      </itemizedlist>
     </foil>
     <foil>
       <title>A way of getting a Comment back</title>
+      <para>There's no point being able to store something if you can't retrieve it...</para>
+      <itemizedlist>
+        <listitem><para>Reliably generate SQL to retrieve a comment</para></listitem>
+        <listitem><para>A way of turning a SQL result set into something we can use in our app code</para></listitem>
+      </itemizedlist>
     </foil>
   </foilgroup>
   <foilgroup>
-    <title>Modelling comments</title>
     <foil>
-      <title>Intrinsic features</title>
-    </foil>
-    <foil>
-      <title>Relationships</title>
+      <title>Modelling comments</title>
+      <para>Intrinsic features</para>
+      <itemizedlist>
+        <listitem><para>Comment text</para></listitem>
+      </itemizedlist>
+      <para>Relationships</para>
+      <itemizedlist>
+        <listitem><para>The thing being commented on</para></listitem>
+        <listitem><para>The commenter</para></listitem>
+      </itemizedlist>
     </foil>
   </foilgroup>
   <foilgroup>

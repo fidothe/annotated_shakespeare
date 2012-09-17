@@ -1,6 +1,12 @@
-/* ============================================================ */
-
 @import url("pygments.css");
+
+.foil-notes {
+    display: none;
+}
+
+.foil-body {
+    display: block;
+}
 
 html {
     font-family: Verdana, Tahoma, Arial, sans-serif;
@@ -358,16 +364,6 @@ ul.toc a:visited {
 }
 
 /* ============================================================ */
-
-.Xtimer {
-    position: relative;
-    top: 21;
-    left: 794;
-    height: 0px;
-    width: 40px;
-    font-size: 10pt;
-    font-weight: medium;
-}
 
 .timer {
     position: relative;

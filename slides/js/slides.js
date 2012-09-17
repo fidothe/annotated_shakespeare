@@ -21,6 +21,7 @@ var KEY_n = 78;
 var KEY_u = 85;
 var KEY_d = 68;
 var KEY_r = 82;
+var KEY_s = 83;
 var KEY_alt = 18;
 var KEY_cmd = 224;
 var KEY_ctrl = 17;
@@ -271,6 +272,9 @@ function setupHelpDialog() {
             +"    <dd>Reveal all slides. Useful for printing</dd>";
     }
 
+    div += "    <dt>[s]</dt>"
+        +"    <dd>Toggle slide notes</dd>";
+
     div += "  </dl>"
         +"</div>";
 
@@ -345,6 +349,10 @@ function navigate(code) {
 
     if (code == KEY_a) {
         show_all();
+    }
+
+    if (code == KEY_s) {
+        toggle_notes();
     }
 
     if (code == KEY_F1) {
@@ -516,6 +524,16 @@ function show_all(slide) {
             });
         };
     });
+}
+
+function toggle_notes(slide) {
+    if ($($(".foil-notes")[1]).css("display") == "none") {
+        $(".foil-notes").each(function(snum) { $(this).css("display", "block") });
+        $(".foil-body").each(function(snum) { $(this).css("display", "none") });
+    } else {
+        $(".foil-notes").each(function(snum) { $(this).css("display", "none") });
+        $(".foil-body").each(function(snum) { $(this).css("display", "block") });
+    }
 }
 
 function clicknav(dir) {

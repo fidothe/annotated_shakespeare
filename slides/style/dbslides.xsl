@@ -10,7 +10,7 @@
 		exclude-result-prefixes="db f h m t xs"
                 version="2.0">
 
-<xsl:import href="docbook/slides/html/plain.xsl"/>
+<xsl:import href="docbook/slides/html/plain-notes.xsl"/>
 
 <xsl:param name="linenumbering" as="element()*">
   <ln path="programlisting" everyNth="0" width="0" separator=" " padchar=" " minlines="-1"/>
@@ -113,10 +113,6 @@
   <div class="legalnotice">
     <xsl:apply-templates/>
   </div>
-</xsl:template>
-
-<xsl:template match="db:speakernotes">
-  <!-- ignored -->
 </xsl:template>
 
 <xsl:template match="db:tag[@class='xmlpi']">

@@ -92,12 +92,44 @@ $('#id').append(hello_html);]]></programlisting>
     <foil>
       <title>Building the form HTML</title>
       <programlisting lanuguage="javascript"><xi:include href="ex/annotation-form-fragment.js" parse="text"/></programlisting>
-     </foil>
+    </foil>
     <foil>
       <title>Inserting the form into every line of dialogue</title>
+      <para>Our XSLT renders the dialogue like this:</para>
+      <programlisting language="html"><![CDATA[
+<div class="sp" id="idm150112">
+  <div class="speaker italic" id="idm149856">
+Flauius.</div>
+  <div class="ab" id="idm149248">Hence: home you idle 
+Creatures, get you home:<br/>Is this a Holiday? What, 
+know you not<br/>(Being Mechanicall) you ought not 
+walke<br/>Vpon a labouring day, without the signe<br/>
+Of your Profession? Speake, what Trade art thou?<br/>
+  </div>
+</div>
+]]>
+      </programlisting>
+    </foil>
+    <foil>
+      <title>Inserting the form into every line of dialogue</title>
+      <programlisting language="javascript"><![CDATA[
+$('div.sp').each(function() {
+  var line_node = $(this);
+  var form_node = $(form).appendTo(line_node);
+  form_node.find(
+    "input[name='annotation[id]']"
+  ).val(this.id);
+});]]>
+      </programlisting>
     </foil>
     <foil>
       <title>Showing and hiding the form</title>
+      <programlisting language="javascript"><![CDATA[
+ var annotation_controls = '<p class="annotation controls">
+   <a href="#show" class="show">Show</a>
+   <a href="#add" class="add">+</a></p>'
+ ]]>
+      </programlisting>
     </foil>
   </foilgroup>
   <foilgroup>

@@ -28,11 +28,30 @@ architecture.html: src/architecture.xml style/slides.xsl
              -Djavax.xml.transform.TransformerFactory=net.sf.saxon.TransformerFactoryImpl \
              net.sf.saxon.Transform -s:$< -xsl:style/slides.xsl -o:$@
 
-.SUFFIXES: .xml .html
+.SUFFIXES: .xml .html .fo .pdf
 
-.xml.html: style/dbslides.xsl
+.xml.html: style/dbslides.xsl style/dbslides.xpl
 	@echo Building $@
 	@java -cp $(CP) \
              -Dpython.path=$(PYTHONPATH) \
              -Djavax.xml.transform.TransformerFactory=net.sf.saxon.TransformerFactoryImpl \
              com.xmlcalabash.drivers.Main -isource=$< -oresult=$@ style/dbslides.xpl
+
+.xml.fo: style/pdf.xsl style/dbpdf.xpl
+ifeq ($(FO2PDF),)
+		@echo ERROR: You must specify the FO2PDF processor: make FO2PDF=xxx ...
+else
+		@echo Building $@
+		@java -cp $(CP) \
+                  -Dpython.path=$(PYTHONPATH) \
+                  -Djavax.xml.transform.TransformerFactory=net.sf.saxon.TransformerFactoryImpl \
+                  com.xmlcalabash.drivers.Main -isource=$< -oresult=$@ style/dbpdf.xpl
+endif
+
+.fo.pdf:
+	@echo Building $@ with $(FO2PDF)
+ifeq ($(FO2PDF),)
+		@echo ERROR: You must specify the FO2PDF processor: make FO2PDF=xxx ...
+else
+		$(FO2PDF) $< $@
+endif

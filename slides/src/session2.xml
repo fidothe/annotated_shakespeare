@@ -1,38 +1,79 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Practical Web Applications</title>
-    </head>
-    <body>
-
-        <div class="foil titlefoil">
-            <div class="header">
-              <h1>Practical Web Applications</h1>
-              <h2>September 2012</h2>
-            </div>
-            <div class="body">
-              <h1>Web Architecture</h1>
-              <h2>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</h2>
-            </div>
-        </div>
-
-        <div class="foil">
-            <h1>Latest code &amp; slides</h1>
-            <p>
-            <a href="https://github.com/fidothe/annotated_shakespeare">https://github.com/fidothe/annotated_shakespeare</a>
-            </p>
-<pre>
-$ git clone git://github.com/fidothe/annotated_shakespeare.git
-</pre>
-        </div>
-
-        <div class="foil">
-            <h1>HTTP versus REST</h1>
-            <img src="images/posse.jpg"/>
-        </div>
-
-        <div class="foil">
-            <h1>HTTP Verbs</h1>
-<pre class="table">
+<?dbhtml pygments="true"?>
+<slides xml:lang="en" xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <info>
+    <title>Practical Web Applications</title>
+    <subtitle>Session One</subtitle>
+    <!-- authors are alphabetical by first name (I get sick of being listed last all the time, 
+so I always do this if I can) -->
+    <authorgroup>
+      <author>
+        <personname>
+          <firstname>Lauren</firstname>
+          <surname>Wood</surname>
+        </personname>
+        <affiliation>
+          <orgname>Textuality Services, Inc.</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Matt</firstname>
+          <surname>Patterson</surname>
+        </personname>
+        <affiliation>
+          <orgname>Constituent Parts, Ltd.</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Norman </firstname>
+          <surname>Walsh</surname>
+        </personname>
+        <affiliation>
+          <orgname>MarkLogic</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Paul</firstname>
+          <surname>Downey</surname>
+        </personname>
+        <affiliation>
+          <orgname>GDS</orgname>
+        </affiliation>
+      </author>
+    </authorgroup>
+    <releaseinfo role="version">Version 1.0</releaseinfo>
+    <legalnotice>
+      <para>Alpha by first name</para>
+    </legalnotice>
+    <pubdate>2012-09-20</pubdate>
+    <copyright>
+      <year>2012</year>
+      <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
+    </copyright>
+  </info>
+  <foilgroup>
+    <foil>
+      <title>Latest code &amp; slides</title>
+      <para><link xlink:href="https://github.com/fidothe/annotated_shakespeare">https://github.com/fidothe/annotated_shakespeare</link></para>
+      <programlisting language="bash"><![CDATA[
+$ git clone git://github.com/fidothe/annotated_shakespeare.git]]>
+      </programlisting>
+    </foil>
+    <foil>
+      <title>HTTP versus REST</title>
+      <mediaobject>
+        <alt>The Radcliff Camera</alt>
+        <imageobject>
+          <imagedata fileref="../images/posse.png" />
+        </imageobject>
+      </mediaobject>
+    </foil>
+    <foil>
+      <title>HTTP Verbs</title>
+      <programlisting>
 method     safe    idempotent   semantics    resource     cacheable
           -----------------------------------------------------------
 GET       |  X          X            X           X             X    |
@@ -51,8 +92,8 @@ LOCK      |                          X           X                  |
 UNLOCK    |             X            X           X                  |
 PATCH     |             *            X           X                  |
           -----------------------------------------------------------
-</pre>
-        </div>
-
-    </body>
-</html>
+      </programlisting>
+    </foil>
+  </foilgroup>
+</slides>
+  

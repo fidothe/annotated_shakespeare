@@ -190,8 +190,8 @@ end
     </simplesect>
     <simplesect>
         <title>Steps part three</title>
-        <para>If you're not sure you have all the code, get it from the repository using
-                <command>git checkout session_five</command> in your repository folder, and copy the
-            files to your working folder.</para>
+        <para>To save time, we've written the starting code for you. Get it from the repository
+            using <command>git checkout session_five_a-with_csrf</command> in your repository
+            folder, and copy the files to your working folder.</para>
     </simplesect>
 </article>

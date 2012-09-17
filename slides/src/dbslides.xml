@@ -160,7 +160,7 @@ get a copy of the base DocBook stylesheets.</simpara>
 </listitem>
 </itemizedlist>
 
-<programlisting language="xml" role="xsd"><xi:include href="example.xsd" parse="text"/></programlisting>
+<programlisting language="xml" role="xsd"><xi:include href="ex/example.xsd" parse="text"/></programlisting>
 </foil>
 
 <foil>
@@ -171,7 +171,7 @@ get a copy of the base DocBook stylesheets.</simpara>
 </listitem>
 </itemizedlist>
 
-<programlisting language="xml" role="xsl"><xi:include href="example.xsl" parse="text"/></programlisting>
+<programlisting language="xml" role="xsl"><xi:include href="ex/example.xsl" parse="text"/></programlisting>
 </foil>
 
 <foil>

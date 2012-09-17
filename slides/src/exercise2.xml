@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>Practical Web Applications: Exercise 2</title>
+        <authorgroup>
+            <author>
+                <personname>
+                    <firstname>Lauren</firstname>
+                    <surname>Wood</surname>
+                </personname>
+                <affiliation>
+                    <orgname>Textuality Services, Inc.</orgname>
+                </affiliation>
+            </author>
+            <author>
+                <personname>
+                    <firstname>Matt</firstname>
+                    <surname>Patterson</surname>
+                </personname>
+                <affiliation>
+                    <orgname>Constituent Parts, Ltd.</orgname>
+                </affiliation>
+            </author>
+            <author>
+                <personname>
+                    <firstname>Norman </firstname>
+                    <surname>Walsh</surname>
+                </personname>
+                <affiliation>
+                    <orgname>MarkLogic</orgname>
+                </affiliation>
+            </author>
+            <author>
+                <personname>
+                    <firstname>Paul</firstname>
+                    <surname>Downey</surname>
+                </personname>
+                <affiliation>
+                    <orgname>GDS</orgname>
+                </affiliation>
+            </author>
+        </authorgroup>
+        <releaseinfo role="version">Version 1.0</releaseinfo>
+        <legalnotice>
+            <para>Alpha by first name</para>
+        </legalnotice>
+        <pubdate>2012-09-20</pubdate>
+        <copyright>
+            <year>2012</year>
+            <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
+        </copyright>
+    </info>
+    <sect1>
+        <title>Summary</title>
+        <para>In this exercise, we'll add some more interesting content, and also add some more HTTP
+            actions. We just heard about some of the types of URLs that we use, and some conventions
+            that are generally followed. One example is that a URL /plays should return a list of
+            the plays, while a URL of form /plays/1 should return something to do with the first
+            play in that list. Let's see how we accomplish that in our application.</para>
+    </sect1>
+    <sect1>
+        <title>Setup</title>
+        <para>If you think you missed anything in the first exercise, copy the files from the git
+            repository folder to your working folder.</para>
+    </sect1>
+    <sect1>
+        <title>Steps, Part One</title>
+        <orderedlist>
+            <listitem>
+                <para>To add some URL routing, change the annotated_shakespeare.rb file to</para>
+                <programlisting language="ruby"><xi:include href="ex/base_routes.rb" parse="text"/>
+</programlisting>
+            </listitem>
+            <listitem><para>To fill in the holes, change the annotated_shakespeare.rb file again to</para>
+                <programlisting language="ruby"><xi:include href="ex/routes_plus_redirects.rb" parse="text"/>
+</programlisting></listitem>
+        </orderedlist>
+    </sect1>
+    <sect1>
+        <title>Steps, Part Two</title>
+        <orderedlist>
+            <listitem>
+                <para>To see some (but not yet much) content when we view the site in the browser, in the
+                    annotated_shakespeare.rb file, change the get '/' section to</para>
+                <programlisting language="ruby">  get '/' do
+    @title = "Plays of William Shakespeare"
+    @plays = {'julius' => 'Julius Caesar', 'richard' => 'Richard II'}
+    erb :index
+  end
+
+  get '/plays' do
+    redirect to('/')
+  end
+
+  get '/plays/:id' do
+    plays = {'julius' => 'Julius Caesar', 'richard' => 'Richard II'}
+    @play = plays[params[:id]]
+    @title = @play
+    @url_slug = params[:id]
+    erb :play_index
+  end
+
+  get '/plays/:id/act' do
+    redirect to("/plays/#{params[:id]}")
+  end
+
+  get '/plays/:id/act/:act_number' do
+    plays = {'julius' => 'Julius Caesar', 'richard' => 'Richard II'}
+    @play = plays[params[:id]]
+    @act = params[:act_number]
+    erb :show
+  end
+</programlisting>
+            </listitem>
+            <listitem>
+                <para>Change the content of the views/index.erb file to</para>
+                <programlisting language="html"><![CDATA[<h1><%= @title %></h1>
+<ul>
+  <% @plays.each do |url_slug, title| %>
+    <li><a href="<%= url("/plays/#{url_slug}") %>"><%= title %></a></li>
+  <% end %>
+</ul>]]></programlisting>
+            </listitem>
+            <listitem>
+                <para>Create a new file in the views folder, play_index.erb, with content</para>
+                <programlisting language="html"><![CDATA[<h1><%= @play %></h1>
+<p><a href="<%= url("/plays/#{@url_slug}/act/1") %>">Act 1</a></p>]]></programlisting>
+            </listitem>
+            <listitem>
+                <para>4. Create a new file in the views folder, show.erb, with content</para>
+                <programlisting language="html"><![CDATA[<h1><%= @play %>, Act <%= @act %></h1>]]></programlisting>
+            </listitem>
+            <listitem>
+                <para>In Chrome, go to http://localhost:9393</para>
+            </listitem>
+        </orderedlist>
+    </sect1>
+</article>

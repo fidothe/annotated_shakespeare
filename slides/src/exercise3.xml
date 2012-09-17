@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.oasis-open.org/docbook/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude"
+    xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+    <info>
+        <title>Practical Web Applications: Exercise 3</title>
+        <authorgroup>
+            <author>
+                <personname>
+                    <firstname>Lauren</firstname>
+                    <surname>Wood</surname>
+                </personname>
+                <affiliation>
+                    <orgname>Textuality Services, Inc.</orgname>
+                </affiliation>
+            </author>
+            <author>
+                <personname>
+                    <firstname>Matt</firstname>
+                    <surname>Patterson</surname>
+                </personname>
+                <affiliation>
+                    <orgname>Constituent Parts, Ltd.</orgname>
+                </affiliation>
+            </author>
+            <author>
+                <personname>
+                    <firstname>Norman </firstname>
+                    <surname>Walsh</surname>
+                </personname>
+                <affiliation>
+                    <orgname>MarkLogic</orgname>
+                </affiliation>
+            </author>
+            <author>
+                <personname>
+                    <firstname>Paul</firstname>
+                    <surname>Downey</surname>
+                </personname>
+                <affiliation>
+                    <orgname>GDS</orgname>
+                </affiliation>
+            </author>
+        </authorgroup>
+        <releaseinfo role="version">Version 1.0</releaseinfo>
+        <legalnotice>
+            <para>Alpha by first name</para>
+        </legalnotice>
+        <pubdate>2012-09-20</pubdate>
+        <copyright>
+            <year>2012</year>
+            <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
+        </copyright>
+    </info>
+    <sect1>
+        <title>Summary</title>
+        <para>In this exercise, we'll be manipulating our XML content, so we can look at it and read
+            it. Along the way we'll apply XSLT to turn the XML into HTML and getting programmatic
+            access (i.e., a basic object model) to the various parts of the document.</para>
+    </sect1>
+    <sect1>
+        <title>Setup</title>
+        <para>Make sure you're up to date on the code we created in the last set of exercises. Go to
+            your repository folder in a terminal window and type git checkout session_two to get all
+            the code from session two. Copy this code, in the correct folders, across to your
+            working folders.</para>
+    </sect1>
+    <sect1>
+        <title>Steps</title>
+        <orderedlist>
+            <listitem>
+                <para>tbd</para>
+                
+            </listitem>
+        </orderedlist>
+    </sect1>
+</article>

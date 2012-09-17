@@ -58,19 +58,41 @@ so I always do this if I can) -->
     <title>What does an Annotation do?</title>
     <foil>
       <title>Annotating a line of dialogue</title>
+      <para>Let's assume that Users (scholars, enthusiasts) want to add annotations to individual lines of dialogue in the play.</para>
     </foil>
     <foil>
       <title>Locating lines of dialogue within the HTML</title>
+      <itemizedlist>
+        <listitem><para>Regularity of the source markup</para></listitem>
+        <listitem><para>Consistent structures</para></listitem>
+        <listitem><para>IDs</para></listitem>
+      </itemizedlist>
     </foil>
     <foil>
       <title>A quick introduction to jQuery &amp; the Web Inspector</title>
+      <para>DEMOTIME</para>
     </foil>
   </foilgroup>
   <foilgroup>
     <title>Adding a form for Annotations in the body of the Act HTML</title>
     <foil>
       <title>Building form HTML in Javascript</title>
+      <para>jQuery has a set of DOM manipulation functions</para>
+      <para>http://api.jquery.com/category/manipulation/</para>
     </foil>
+    <foil>
+      <title>Inserting chunks of HTML</title>
+      <para>Create new HTML from a string and append it to an element with id <code>id</code></para>
+      <programlisting language="javascript"><![CDATA[$('#id').append('<p>Hello World</p>');]]></programlisting>
+      <para>Create new HTML, store it, them append it.</para>
+      <programlisting language="javascript"><![CDATA[var hello_html = $('<p>Hello World</p>');
+$('#id').append(hello_html);]]></programlisting>
+
+    </foil>
+    <foil>
+      <title>Building the form HTML</title>
+      <programlisting lanuguage="javascript"><xi:include href="ex/annotation-form-fragment.js" parse="text"/></programlisting>
+     </foil>
     <foil>
       <title>Inserting the form into every line of dialogue</title>
     </foil>

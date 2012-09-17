@@ -1,0 +1,5 @@
+<form action="/profile" method="POST">
+  <input name="name", value="<%= current_user ? 
+         current_user.name : "" %>" type="text">
+  <input type="submit" value="Save">
+</form>

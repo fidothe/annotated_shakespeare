@@ -52,31 +52,146 @@
             <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
         </copyright>
     </info>
-    <sect1>
+    <simplesect>
         <title>Summary</title>
-        <para> This set of exercises comes in two parts. In the first, we'll look at adding a user
+        <para> This set of exercises comes in a number of parts. First we'll look at adding a user
             model with authentication to our sample application, so you can restrict who's allowed
-            to carry out certain actions. In the second part, we'll see what effect some common
-            attacks have, and see how easy it is to protect against them. </para>
-    </sect1>
-    <sect1>
+            to carry out certain actions. </para>
+        <para>After that, we'll see what effect some common attacks have, and see how easy it is to
+            protect against them. </para>
+    </simplesect>
+    <simplesect>
         <title>Setup</title>
         <para> Make sure you're up to date on the code we created in the last set of exercises. Go
-            to your repository folder in a terminal window and type git checkout session_four to get
-            all the code from session four. Copy this code, in the correct folders, across to your
-            working folders. </para>
-    </sect1>
-    <sect1>
-        <title>Steps</title>
-        <itemizedlist>
+            to your repository folder in a terminal window and type <command>git checkout
+                session_four</command> to get all the code from session four. Copy this code, in the
+            correct folders, across to your working folders. </para>
+    </simplesect>
+    <simplesect>
+        <title>Steps part one</title>
+        <orderedlist>
             <listitem>
                 <para>First, we need to add some code for the <classname>user</classname>
                     class.</para>
                 <programlisting language="ruby"><xi:include href="ex/session_five_user.rb" parse="text"/></programlisting>
             </listitem>
-            <listitem><para>And similar code for the <classname>credential</classname>
-                class.</para>
-                <programlisting language="ruby"><xi:include href="ex/session_five_credential.rb" parse="text"/></programlisting></listitem>
-        </itemizedlist>
-    </sect1>
+            <listitem>
+                <para>And some related code for the <classname>credential</classname> class.</para>
+                <programlisting language="ruby"><xi:include href="ex/session_five_credential.rb" parse="text"/></programlisting>
+            </listitem>
+            <listitem>
+                <para>Add code to require these files in your
+                        <filename>annotated_shakespeare.rb</filename> file, in the same list as the
+                    other requirements.</para>
+                <programlisting language="ruby">require 'user'
+require 'credential'
+require 'omniauth-browserid'
+</programlisting>
+            </listitem>
+            <listitem>
+                <para>We also need to enable sessions and the OmniAuth builder, so add the following
+                    to the <classname>annotated_shakespeare</classname> class, after the <code>set
+                        :public_folder</code> line:</para>
+                <programlisting language="ruby">set :session_secret, "df207bff3e06bba635a9e4f334238801"
+enable :sessions
+
+# check whether need to add the OmniAuth builder here
+
+# Support both GET and POST for OmniAuth callbacks
+[:get, :post].each do |method|
+  send(method, "/auth/:provider/callback") do
+    if user = User.from_auth_provider(params[:provider], 
+                             env['omniauth.auth']['uid'])
+      destination = '/'
+    else
+      user = User.create_from_auth_provider(params[:provider], 
+                                   env['omniauth.auth']['uid'])
+      destination = '/profile'
+    end
+    puts env['omniauth.auth'].inspect
+    session['user'] = user.id
+    redirect to(destination)
+  end
+end</programlisting>
+                <para>The puts line puts the omniauth information on the console so you can see
+                    them; you won't keep this line in the final application.</para>
+            </listitem>
+            <listitem>
+                <para>While we're at it, let's make sure the comments are attached to a particular
+                    user. Add the following line after the property definitions in the
+                        <filename>comment.rb</filename> file:</para>
+                <programlisting language="ruby">belongs_to :user</programlisting>
+            </listitem>
+        </orderedlist>
+    </simplesect>
+    <simplesect>
+        <title>Steps part two</title>
+        <para>Now that we have a user model defined, we'll use BrowserID/Persona to outsource our
+            authentication to.</para>
+        <orderedlist>
+            <listitem>
+                <para>Add code to your <classname>annotated_shakespeare</classname> class to call
+                    the OmniAuth builder for Persona. Put this code directly after the <code>enable
+                        :sessions</code> line.</para>
+                <programlisting language="ruby">use OmniAuth::Builder do
+  provider :browser_id, 
+           :verify_url => 'https://verifier.login.persona.org/verify'
+end</programlisting>
+            </listitem>
+            <listitem>
+                <para>Let's add a <function>helper</function> function to that same class, putting
+                    this code after the GET/POST OmniAuth definitions: </para>
+                <programlisting language="ruby">helpers do
+  def current_user
+    if session['user']
+      @user ||= User.get(session['user'])
+    end
+  end
+end
+</programlisting>
+            </listitem>
+            <listitem>
+                <para>Finally, let's add some useful URLs. Put this code anywhere in the list of URL
+                    handler blocks in the <classname>annotated_shakespeare</classname> class.</para>
+                <programlisting language="ruby">get '/profile' do
+  halt 403 unless current_user
+  erb :profile
+end
+
+post '/profile' do
+  halt 403 unless current_user
+  current_user.name = params[:name]
+  current_user.save!
+  redirect to('/')
+end
+
+get '/logout' do
+  if current_user
+    session.clear
+    redirect to('logout')
+  else
+    erb :logout
+  end
+end
+</programlisting>
+            </listitem>
+            <listitem>
+                <para>Of course, we also have to add appropriate template files for these new URLs.
+                    First, add the <filename>profile.erb</filename> file to the
+                        <filename>views</filename> folder, with content</para>
+                <programlisting language="ruby"><xi:include href="ex/session_five_profile.erb" parse="text"/></programlisting>
+            </listitem>
+            <listitem>
+                <para>And add the <filename>logout.erb</filename> file to the
+                        <filename>views</filename> folder, with content</para>
+                <programlisting language="ruby"><xi:include href="ex/session_five_logout.erb" parse="text"/></programlisting>
+            </listitem>
+        </orderedlist>
+    </simplesect>
+    <simplesect>
+        <title>Steps part three</title>
+        <para>If you're not sure you have all the code, get it from the repository using
+                <command>git checkout session_five</command> in your repository folder, and copy the
+            files to your working folder.</para>
+    </simplesect>
 </article>

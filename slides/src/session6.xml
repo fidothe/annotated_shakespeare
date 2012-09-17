@@ -80,20 +80,83 @@ so I always do this if I can) -->
   </foilgroup>
   <foilgroup>
     <title>The Annotation object</title>
+    <foil>
+      <title>Modelling Annotations</title>
+    </foil>
+    <foil>
+      <title>Implementation</title>
+    </foil>
   </foilgroup>
   <foilgroup>
     <title>Adding Annotations to the body of the Act HTML</title>
+    <foil>
+      <title>Getting the annotations to the Browser</title>
+    </foil>
+    <foil>
+      <title>Why not insert them in the XSLT stage?</title>
+    </foil>
+    <foil>
+      <title>Building an Array of Annotations</title>
+    </foil>
+    <foil>
+      <title>JSON is just Javascript</title>
+    </foil>
+    <foil>
+      <title>Inserting the Annotations</title>
+    </foil>
   </foilgroup>
   <foilgroup>
     <title>Adding Annotations without reloading the page</title>
+    <foil>
+      <title>Hijacking the form</title>
+    </foil>
+    <foil>
+      <title>Preventing it submitting anyway</title>
+    </foil>
+    <foil>
+      <title>POSTing</title>
+    </foil>
+    <foil>
+      <title>The success callback</title>
+    </foil>
+    <foil>
+      <title>Refactoring the code</title>
+    </foil>
+    <foil>
+      <title>Global namespace pollution</title>
+    </foil>
   </foilgroup>
   <foilgroup>
     <title>Responding appropriately to Ajax posts</title>
+    <foil>
+      <title>Choosing the response format</title>
+    </foil>
+    <foil>
+      <title><code>request.xhr?</code></title>
+    </foil>
+    <foil>
+      <title>Content Negotiation</title>
+    </foil>
   </foilgroup>
   <foilgroup>
     <title>Showing and hiding annotations on demand</title>
+    <foil>
+      <title>jQuery show/hide</title>
+    </foil>
+    <foil>
+      <title>Toggling</title>
+    </foil>
+    <foil>
+      <title>Where does the state live?</title>
+    </foil>
   </foilgroup>
   <foilgroup>
     <title>Unobtrusively indicating the presence of annotations</title>
+    <foil>
+      <title>CSS manipulation</title>
+    </foil>
+    <foil>
+      <title>Multiple triggers</title>
+    </foil>
   </foilgroup>
 </slides>

@@ -135,14 +135,17 @@ so I always do this if I can) -->
       <title>Adding to the Gemfile</title>
       <para>If you don't already have DataMapper listed in the Gemfile for your app it needs to be added:</para>
       <programlisting language="ruby"><xi:include href="ex/dm-gemfile.rb" parse="text"/></programlisting>
+      <para><code>Gemfile</code></para>
     </foil>
     <foil>
       <title>Adding the setup code to the app</title>
       <programlisting language="ruby"><xi:include href="ex/app-dm_setup.rb" parse="text"/></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
     </foil>
     <foil>
       <title>Defining the Comment model</title>
       <programlisting language="ruby"><xi:include href="ex/comment-model.rb" parse="text"/></programlisting>
+      <para><code>lib/comment.rb</code></para>
     </foil>
     <foil>
       <title>Creating the database</title>
@@ -156,6 +159,7 @@ so I always do this if I can) -->
     <foil>
       <title>HTML forms</title>
       <programlisting language="html+erb"><xi:include href="ex/comment-form.erb" parse="text"/></programlisting>
+      <para><code>views/show.erb</code></para>
     </foil>
     <foil>
       <title>Nested params</title>
@@ -190,20 +194,24 @@ end
     <foil>
       <title>Creating a Comment</title>
       <programlisting language="ruby"><xi:include href="ex/comment-create.rb" parse="text"/></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
     </foil>
     <foil>
       <title>Creating a Comment - associating with an Act</title>
       <programlisting language="ruby"><xi:include href="ex/comment-with_association.rb" parse="text"/></programlisting>
+      <para><code>lib/comment.rb</code></para>
     </foil>
     <foil>
       <title>Creating a Comment for an Act</title>
       <programlisting language="ruby"><xi:include href="ex/comment-create-with_association.rb" parse="text"/></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
     </foil>
     <foil>
       <title>Redirecting</title>
       <para>Rendering the Act show view after creation opens us up to replay: reloading the page will simply create a duplicate comment.</para>
       <para>After methods that mutate the state of the system, we should issue an HTTP redirect to somewhere sensible (In this case, to the Act URL)</para>
       <programlisting language="ruby"><xi:include href="ex/comment-create_with_redirect.rb" parse="text"/></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
     </foil>
   </foilgroup>
   <foilgroup>
@@ -218,11 +226,28 @@ end
     </foil>
     <foil>
       <title>Fetching comments</title>
-      <programlisting language="ruby"><xi:include href="ex/comment-act-fetch_comments.rb" parse="text"/></programlisting>
+      <programlisting language="ruby"><![CDATA[
+class Comment
+  def self.for(type, id)
+    Comment.all(:commentable_type => type.to_s,
+                :commentable_id => id.to_s)
+  end
+end
+]]></programlisting>
+      <para><code>lib/comment.rb</code></para>
+      <programlisting language="ruby"><![CDATA[
+class Act
+  def comments
+    Comment.for(:act, @number)
+  end
+end
+]]></programlisting>
+      <para><code>lib/act.rb</code></para>
     </foil>
     <foil>
       <title>Getting comments into the page</title>
       <programlisting language="html+erb"><xi:include href="ex/comment-act-view.erb" parse="text"/></programlisting>
+      <para><code>views/show.erb</code></para>
     </foil>
   </foilgroup>
 </slides>

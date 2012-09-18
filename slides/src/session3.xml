@@ -90,6 +90,7 @@ so I always do this if I can) -->
     <foil>
       <title>As Ruby</title>
       <programlisting language="ruby"><xi:include href="ex/simplest_models.rb" parse="text"/></programlisting>
+      <para><code>lib/play.rb</code></para>
     </foil>
   </foilgroup>
   <foilgroup>
@@ -104,6 +105,7 @@ so I always do this if I can) -->
       <title>The Play object</title>
       <para>Let's revisit the Play class and actually extract the data</para>
       <programlisting language="ruby"><xi:include href="ex/nokogiri-play_with_title.rb" parse="text"/></programlisting>
+      <para><code>lib/play.rb</code></para>
     </foil>
   </foilgroup>
   <foilgroup>
@@ -116,6 +118,7 @@ so I always do this if I can) -->
     <foil>
       <title>The Act object</title>
       <programlisting language="ruby"><xi:include href="ex/nokogiri-act_with_data.rb" parse="text"/></programlisting>
+      <para><code>lib/act.rb</code></para>
     </foil>
   </foilgroup>
   <foilgroup>
@@ -135,11 +138,14 @@ so I always do this if I can) -->
     <foil>
       <title>HTML template</title>
       <programlisting language="erb"><xi:include href="ex/plays-index.erb" parse="text"/></programlisting>
+      <para><code>views/index.erb</code></para>
     </foil>
     <foil>
       <title>Finding all the plays</title>
       <programlisting language="ruby"><xi:include href="ex/get-all-plays-controller.rb" parse="text"/></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
       <programlisting language="ruby"><xi:include href="ex/get-all-plays-model.rb" parse="text"/></programlisting>
+      <para><code>lib/play.rb</code></para>
     </foil>
     <foil>
       <title>Listing a Play's Acts</title>
@@ -162,10 +168,12 @@ so I always do this if I can) -->
     <foil>
       <title>Generating a unique URL slug for a Play</title>
       <programlisting language="ruby"><xi:include href="ex/play-url_slug.rb" parse="text"/></programlisting>
+      <para><code>lib/play.rb</code></para>
     </foil>
     <foil>
       <title>HTML template</title>
       <programlisting language="erb"><xi:include href="ex/play-show.erb" parse="text"/></programlisting>
+      <para><code>views/play_index.erb</code></para>
     </foil>
     <foil>
       <title>Getting a Play</title>
@@ -190,10 +198,12 @@ so I always do this if I can) -->
     <foil>
       <title>HTML template</title>
       <programlisting language="erb"><xi:include href="ex/act-show.erb" parse="text"/></programlisting>
+      <para><code>views/show.erb</code></para>
     </foil>
     <foil>
       <title>Getting an Act</title>
       <programlisting language="ruby"><xi:include href="ex/get-act-controller.rb" parse="text"/></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
     </foil>
   </foilgroup>
 </slides>

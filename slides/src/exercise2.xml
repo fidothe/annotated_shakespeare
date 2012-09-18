@@ -52,20 +52,20 @@
             <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
         </copyright>
     </info>
-    <sect1>
+    <simplesect>
         <title>Summary</title>
         <para>In this exercise, we'll add some more interesting content, and also add some more HTTP
             actions. We just heard about some of the types of URLs that we use, and some conventions
             that are generally followed. One example is that a URL /plays should return a list of
             the plays, while a URL of form /plays/1 should return something to do with the first
             play in that list. Let's see how we accomplish that in our application.</para>
-    </sect1>
-    <sect1>
+    </simplesect>
+    <simplesect>
         <title>Setup</title>
         <para>If you think you missed anything in the first exercise, copy the files from the git
             repository folder to your working folder.</para>
-    </sect1>
-    <sect1>
+    </simplesect>
+    <simplesect>
         <title>Steps, Part One</title>
         <orderedlist>
             <listitem>
@@ -77,8 +77,8 @@
                 <programlisting language="ruby"><xi:include href="ex/routes_plus_redirects.rb" parse="text"/>
 </programlisting></listitem>
         </orderedlist>
-    </sect1>
-    <sect1>
+    </simplesect>
+    <simplesect>
         <title>Steps, Part Two</title>
         <orderedlist>
             <listitem>
@@ -136,5 +136,5 @@
                 <para>In Chrome, go to http://localhost:9393</para>
             </listitem>
         </orderedlist>
-    </sect1>
+    </simplesect>
 </article>

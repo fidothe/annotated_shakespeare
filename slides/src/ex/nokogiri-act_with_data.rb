@@ -10,11 +10,13 @@ class Act
     @title ||= @play.document.css(sel).text
   end
   def xslt
-    p = File.expand_path('../../xsl/tei2html.xsl', __FILE__)
+    p = File.expand_path('../../xsl/tei2html.xsl', 
+                          __FILE__)
     @xslt ||= Nokogiri::XSLT(File.open(p))
   end
   def html
     xslt.transform(@play.document,
-      Nokogiri::XSLT.quote_params(['act_number', number.to_s]))
+      Nokogiri::XSLT.quote_params(['act_number', 
+                                  number.to_s]))
   end
 end

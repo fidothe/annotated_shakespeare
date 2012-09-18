@@ -183,6 +183,7 @@ PATCH     |             *            X           X                  |
     <foil>
       <title>Routing in Sinatra</title>
       <programlisting language="ruby"><xi:include href="ex/base_routes.rb" parse="text"/></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
       <speakernotes>
         <para>Sinatra uses methods named for HTTP methods to declare routes.</para>
         <para>These are all GET routes. The <code>:param_name</code> sections in the URL 
@@ -214,6 +215,7 @@ PATCH     |             *            X           X                  |
     <foil>
       <title>Routing in Sinatra</title>
       <programlisting language="ruby"><xi:include href="ex/routes_plus_redirects.rb" parse="text"/></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
     </foil>
   </foilgroup>
 </slides>

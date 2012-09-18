@@ -122,25 +122,6 @@ $('div.sp').each(function() {
 });]]>
       </programlisting>
     </foil>
-    <foil>
-      <title>Showing and hiding the form</title>
-      <programlisting language="javascript"><![CDATA[
-var controls = '<p class="annotation controls">'
-  + '<a href="#show" class="show">Hide</a></p>';
-var controls_node = $(controls).prependTo(line_node);
-controls_node.find('.show').toggle(
-  function() { 
-    annotated_node.find('.annotations').show();
-    $(this).text('Hide');
-  }, 
-  function() { 
-    annotated_node.find('.annotations').hide(); 
-    $(this).text('Show');
-  }
-);
-]]>
-      </programlisting>
-    </foil>
   </foilgroup>
   <foilgroup>
     <title>The Annotation object</title>
@@ -229,21 +210,22 @@ var annotation_html = '<div class="annotation">'
     <foil>
       <title>Inserting the Annotations</title>
       <para>Now we need to clone and populate it.</para>
-      <programlisting language="javascript"><![CDATA[
+      <programlisting language="js+erb"><![CDATA[
 var annotations = <%= @annotations.to_json %>;
 $(document).ready(function() {
   $.each(annotations, function(i, annotation) {
-    id = annotation[0];
-    data = annotation[1];
+    id = annotation[0]; data = annotation[1];
     var annotated_node = $('#' + id);
-    if (annotated_node) {
-      if (annotated_node.find('.annotations').length == 0) {
+    if (annotated_node.length) {
+      if (annotated_node.find('.annotations').length) {
         annotated_node.append(annotations_html);
       }
       var annotation_node = $(annotation_html);
       annotation_node.find('p:first').text(data.text);
       annotation_node.find('p.author').text(data.author);
-      annotated_node.find('.annotations').append(annotation_node);
+      annotated_node.find('.annotations').append(
+        annotation_node
+      );
     }
   });
 });]]></programlisting>
@@ -313,7 +295,8 @@ $('.sp form').submit(function(e) {
 $('.sp form').submit(function(e) {
   e.preventDefault();
   var line_node = $(this).parents('.sp');
-  $.post(this.action, $(this).serialize(), function(data, text_status, jq_xhr) {
+  $.post(this.action, $(this).serialize(), 
+    function(data, text_status, jq_xhr) {
     if (line_node.find('.annotations').length == 0) {
       line_node.append(annotations_html);
     }
@@ -331,19 +314,28 @@ $('.sp form').submit(function(e) {
       <programlisting language="ruby"><![CDATA[
 post '/plays/:id/act/:act_number/annotations' do
   ...
-  return [201, {'Content-Type' => 'application/json'}, annotation.to_json] if request.xhr?
+  if request.xhr?
+    return [
+      201, 
+      {'Content-Type' => 'application/json'}, 
+      annotation.to_json
+    ]
+  end
   redirect to("/plays/#{@play.slug}/act/#{@act.number}")
 end
 ]]></programlisting>
       <para><code>lib/annotated_shakespeare.rb</code></para>
       <programlisting language="js"><![CDATA[
-$.post(this.action, $(this).serialize(), function(data, text_status, jq_xhr) {
+$.post(this.action, $(this).serialize(), 
+  function(data, text_status, jq_xhr) {
   ...
   var annotation_node = $(annotation_html);
   var annotation = data[1];
   annotation_node.find('p:first').text(annotation.text);
   annotation_node.find('p.author').text(annotation.author);
-  annotated_node.find('.annotations').append(annotation_node);
+  annotated_node.find('.annotations').append(
+    annotation_node
+  );
 });
 ]]></programlisting>
     </foil>
@@ -366,30 +358,78 @@ $.post(this.action, $(this).serialize(), function(data, text_status, jq_xhr) {
   <foilgroup>
     <title>Showing and hiding annotations on demand</title>
     <foil>
-      <title>jQuery show/hide</title>
+      <title>Showing and hiding the form</title>
+      <programlisting language="javascript"><![CDATA[
+var controls = '<p class="annotation controls">'
+  + '<a href="#add" class="add">+</a></p>';
+var controls_node = $(controls).prependTo(line_node);
+controls_node.find('.add').click(function() {
+  controls_node.find('.add').click(function() { 
+    annotation_form_node.show() 
+  });
+});
+$.post(this.action, $(this).serialize(), 
+  function(data, text_status, jq_xhr) {
+  ...
+  $(this).hide();
+});
+]]></programlisting>
     </foil>
     <foil>
-      <title>Toggling</title>
+      <title>Toggling the annotations</title>
+      <programlisting language="javascript"><![CDATA[
+var controls = '<p class="annotation controls">'
+  + '<a href="#show" class="show">Show</a>'
+  + ' | <a href="#add" class="add">+</a></p>';
+...
+controls_node.find('.show').click(function() {
+  var annotations_node = annotated_node.find(
+    '.annotations'
+  );
+  annotations_node.toggle();
+  if (annotations_node.is(':visible')) {
+    $(this).text('Hide');
+  }
+  else { $(this).text('Show'); }
+});
+]]>
+      </programlisting>
     </foil>
     <foil>
       <title>Where does the state live?</title>
+      <para>We're just trusting the DOM to give us enough context to infer UI state: it's being stored implicitly. There's nothing explicit that would allow us to reconstruct the state of the UI (e.g. which annotations are currently shown) on a page refresh.</para>
+      <para>For more complex UI we'd probably want to start using things like adding and removing CSS classes from elements to explicitly indicate state. For even more complex stuff we'd probably want to look at Javascript application framework libraries like Backbone.js or Ember.js.</para>
     </foil>
   </foilgroup>
   <foilgroup>
     <title>Unobtrusively indicating the presence of annotations</title>
     <foil>
       <title>CSS manipulation</title>
+      <para>Currently we have no way to see which lines have annotations. Let's apply a highlight to those lines that have annotations.</para>
+      <programlisting language="js"><![CDATA[
+$('.sp').has('.annotations').each(function() {
+  $(this).css('background-color', 'rgb(249,240,158)');
+});
+]]></programlisting>
     </foil>
     <foil>
       <title>Multiple triggers</title>
-    </foil>
-    <foil>
-      <title>Refactoring the code</title>
-      <para><code>views/show.erb</code></para>
-    </foil>
-    <foil>
-      <title>Global namespace pollution</title>
-      <para><code>views/show.erb</code></para>
+      <para>What about once we've added an annotation?</para>
+      <para>Why don't we think in terms of an <code>annotated</code> event which is fired whenever a line gets annotated.</para>
+      <programlisting language="js"><![CDATA[
+$('.sp').bind('annotated', function() {
+  $(this).css('background-color', 'rgb(249,240,158)');
+});
+$('.sp').has('.annotations').each(function() {
+  $(this).trigger('annotated');
+});
+$.post(this.action, $(this).serialize(), 
+  function(data, text_status, jq_xhr) {
+  ...
+  annotated_node.trigger('annotated');
+});
+]]></programlisting>
     </foil>
   </foilgroup>
 </slides>
+  

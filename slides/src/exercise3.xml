@@ -91,7 +91,7 @@
         <title>Steps, part two</title>
         <orderedlist>
             <listitem>
-                <para>Change the file <filename>play.rb</filename> to have the content
+                <para>Change the file <filename>lib/play.rb</filename> to have the content
                     <programlisting language="ruby"><xi:include href="ex/nokogiri-play_with_title.rb" parse="text"/></programlisting></para>
             </listitem>
             <listitem>
@@ -103,7 +103,7 @@
         <title>Steps, part three</title>
         <orderedlist>
             <listitem>
-                <para>Create a file <filename>act.rb</filename> with the content
+                <para>Create a file <filename>lib/act.rb</filename> with the content
                     <programlisting language="ruby"><xi:include href="ex/nokogiri-act_with_data.rb" parse="text"/></programlisting></para>
             </listitem>
             <listitem>
@@ -119,18 +119,21 @@
         <title>Steps, part four</title>
         <orderedlist>
             <listitem>
-                <para>Change the file <filename>index.erb</filename> to have the content </para>
+                <para>Change the file <filename>views/index.erb</filename> to have the content </para>
                 <programlisting language="erb"><xi:include href="ex/plays-index.erb" parse="text"/></programlisting>
             </listitem>
             <listitem>
                 <para>Change the <code>get '/' do</code> block in the
-                        <filename>annotated_shakespeare.rb</filename> file to have the
+                        <filename>lib/annotated_shakespeare.rb</filename> file to have the
                     content</para>
                 <programlisting language="ruby"><xi:include href="ex/get-all-plays-controller.rb" parse="text"/></programlisting>
             </listitem>
             <listitem>
-                <para>Extend the <filename>play.rb</filename> file to add the content</para>
+                <para>Extend the <filename>lib/play.rb</filename> file to add the content</para>
                 <programlisting language="ruby"><xi:include href="ex/get-all-plays-model.rb" parse="text"/></programlisting>
+            </listitem>
+            <listitem>
+                <para>Try it out.</para>
             </listitem>
         </orderedlist>
     </simplesect>
@@ -138,20 +141,23 @@
         <title>Steps, part five</title>
         <orderedlist>
             <listitem>
-                <para>Extend the <filename>play.rb</filename> file to add the following content
-                    before the initialize block</para>
-                <programlisting language="ruby">class NotFoundError &lt; StandardError; end</programlisting>
-            </listitem>
-            <listitem>
-                <para>Extend the <filename>play.rb</filename> file to add the following content
-                    after the initialize block</para>
+                <para>Generate a unique URL slug: add the definition to the
+                        <filename>lib/play.rb</filename> file, after the initialize block.</para>
                 <programlisting language="ruby">def slug
     @slug ||= File.basename(@path, '.tei')
   end</programlisting>
             </listitem>
             <listitem>
-                <para>Extend the <filename>play.rb</filename> file to add the following content
-                    after the definition of the <code>slug</code></para>
+                <para>Change the <filename>views/play_index.erb</filename> file to be able to show
+                    the slug.</para>
+                <programlisting language="erb"><xi:include href="ex/play-show.erb" parse="text"/></programlisting>
+            </listitem>
+            <listitem>
+                <para>Try it out.</para>
+            </listitem>
+            <listitem>
+                <para>Next, extend the <filename>lib/play.rb</filename> file to add the following
+                    content after the definition of the <code>slug</code></para>
                 <programlisting language="ruby">def self.find(slug)
     path = File.expand_path("../../plays/#{slug}.tei", __FILE__)
     raise NotFoundError unless File.file?(path)
@@ -159,13 +165,44 @@
   end</programlisting>
             </listitem>
             <listitem>
-                <para>Add the following content appropriately to the <filename>play.rb</filename>
-                    file</para>
+                <para>Add the <classname>NotFoundError</classname> class to the
+                        <filename>lib/play.rb</filename>, at the beginning of the
+                        <classname>Play</classname> class.</para>
+                <programlisting language="ruby">class NotFoundError &lt; StandardError; end
+</programlisting>
+            </listitem>
+            <listitem>
+                <para>Try it out.</para>
+            </listitem>
+            <listitem>
+                <para>To get the list of acts, add the following content appropriately to the
+                        <filename>lib/play.rb</filename> file (note, context is shown that you don't
+                    add).</para>
                 <programlisting language="ruby"><xi:include href="ex/play-get-acts-model.rb" parse="text"/></programlisting>
+            </listitem>
+            <listitem>
+                <para>Try it out.</para>
             </listitem>
             <listitem>
                 <para>Change the file <filename>show.erb</filename> to have the content </para>
                 <programlisting language="erb"><xi:include href="ex/play-show.erb" parse="text"/></programlisting>
+            </listitem>
+        </orderedlist>
+    </simplesect>
+    <simplesect>
+        <title>Steps, part five</title>
+        <orderedlist>
+            <listitem>
+                <para>Add to <filename>views/show.erb</filename></para>
+                <programlisting language="erb"><xi:include href="ex/act-show.erb" parse="text"/></programlisting>
+            </listitem>
+            <listitem>
+                <para>To get all the information, add the following content appropriately to the
+                        <filename>lib/annotated_shakespeare.rb</filename> file.</para>
+                <programlisting language="ruby"><xi:include href="ex/get-act-controller.rb" parse="text"/></programlisting>
+            </listitem>
+            <listitem>
+                <para>Try it out.</para>
             </listitem>
         </orderedlist>
     </simplesect>

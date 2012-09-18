@@ -51,8 +51,12 @@
             <year>2012</year>
             <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
         </copyright>
+        <legalnotice>
+            <para>CC-BY-NC-SA-3.0 Licensed under a Creative Commons Attribution-Noncommercial-Share
+                Alike 3.0 Unported License</para>
+        </legalnotice>
     </info>
-    <sect1>
+    <simplesect>
         <title>Sinatra</title>
         <para> We're using Sinatra (<link xlink:href="http://www.sinatrarb.com/"
                 >http://www.sinatrarb.com/</link>) to create our application. Sinatra is a
@@ -61,8 +65,8 @@
                 xlink:href="http://sinatra-book.gittr.com/">http://sinatra-book.gittr.com/</link>)
             is good. Sinatra can be used together with Rails (another framework), or on its
             own.</para>
-    </sect1>
-    <sect1>
+    </simplesect>
+    <simplesect>
         <title>Repository</title>
         <para> We have all the exercises stored in a git repository. For each session, you can
             either continue from where you left off in the previous session, or grab the complete
@@ -77,8 +81,8 @@
                 xlink:href="https://github.com/fidothe/annotated_shakespeare"
                 >https://github.com/fidothe/annotated_shakespeare</link>. We'll leave it up for a
             while after the summer school.</para>
-    </sect1>
-    <sect1>
+    </simplesect>
+    <simplesect>
         <title>Git Commands</title>
         <para>We use github for the repository, and git to fetch the code. If you aren't familiar
             with git, the Git Book (http://git-scm.com/book) is excellent and free. </para>
@@ -105,8 +109,8 @@
                     where the repository is stored.</para>
             </listitem>
         </itemizedlist>
-    </sect1>
-    <sect1>
+    </simplesect>
+    <simplesect>
         <title>Setup</title>
         <orderedlist>
             <listitem>
@@ -135,8 +139,8 @@
                     (basic.css, basic.html, main.css). </para>
             </listitem>
         </orderedlist>
-    </sect1>
-    <sect1>
+    </simplesect>
+    <simplesect>
         <title>Steps,Part One</title>
         <orderedlist>
             <listitem>
@@ -171,5 +175,5 @@ end</programlisting>
             </listitem>
             <listitem><para>In Chrome, go to http://localhost:9393</para></listitem>
         </orderedlist>
-    </sect1>
+    </simplesect>
 </article>

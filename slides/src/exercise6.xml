@@ -51,24 +51,28 @@
             <year>2012</year>
             <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
         </copyright>
+        <legalnotice>
+            <para>CC-BY-NC-SA-3.0 Licensed under a Creative Commons Attribution-Noncommercial-Share
+                Alike 3.0 Unported License</para>
+        </legalnotice>
     </info>
-    <sect1>
+    <simplesect>
         <title>Summary</title>
         <para>TBD</para>
-    </sect1>
-    <sect1>
+    </simplesect>
+    <simplesect>
         <title>Setup</title>
         <para>Make sure you're up to date on the code we created in the last set of exercises. Go to
             your repository folder in a terminal window and type git checkout
             session_five_d-xss_protection to get all the code from session five. Copy this code, in
             the correct folders, across to your working folders.</para>
-    </sect1>
-    <sect1>
+    </simplesect>
+    <simplesect>
         <title>Steps</title>
         <orderedlist>
             <listitem>
                 <para>tbd</para>
             </listitem>
         </orderedlist>
-    </sect1>
+    </simplesect>
 </article>

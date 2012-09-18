@@ -51,6 +51,10 @@
             <year>2012</year>
             <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
         </copyright>
+        <legalnotice>
+            <para>CC-BY-NC-SA-3.0 Licensed under a Creative Commons Attribution-Noncommercial-Share
+                Alike 3.0 Unported License</para>
+        </legalnotice>
     </info>
     <simplesect>
         <title>Summary</title>
@@ -193,16 +197,18 @@ end
         <para>To save time, we've written the starting code for you. Get it from the repository
             using <command>git checkout session_five_a-with_csrf</command> in your repository
             folder, and copy the files to your working folder.</para>
-        <para>$$$ need to ask Matt what's happening and why the csrf protect is different. Maybe he folded in the 
-            XSS protection as well? Also, what is this doing in the csrf exploit code? Rack::Protection::AuthenticityToken</para></simplesect>
-    <simplesect><title>XSS exploit and protection</title>
+        <para>$$$ need to ask Matt what's happening and why the csrf protect is different. Maybe he
+            folded in the XSS protection as well? Also, what is this doing in the csrf exploit code?
+            Rack::Protection::AuthenticityToken</para>
+    </simplesect>
+    <simplesect>
+        <title>XSS exploit and protection</title>
         <para>To save time, we've written the starting code for you. Get it from the repository
             using <command>git checkout session_five_c-with_xss_exploit</command> in your repository
             folder, and copy the files to your working folder.</para>
-        <para>In the <filename>views/show.erb</filename> file, find the line <code>&lt;%= comment.body %></code>.
-            Change this to <code>&lt;%= ERB::Util.h(comment.body) %></code>.</para>
+        <para>In the <filename>views/show.erb</filename> file, find the line <code>&lt;%=
+                comment.body %></code>. Change this to <code>&lt;%= ERB::Util.h(comment.body)
+                %></code>.</para>
         <para>Yes, that's it.</para>
-            
-        
     </simplesect>
 </article>

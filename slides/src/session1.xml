@@ -231,13 +231,13 @@ The document has moved
       <para>We're using a application server called Sinatra, which we need to configure so that it
         knows where to find static files it should serve</para>
       <programlisting language="ruby"><xi:include href="ex/static_only_app.rb" parse="text"/></programlisting>
-      <para>We run the application using the <code>shotgun</code> command</para>
-      <programlisting language="bash"><xi:include href="ex/invoke_shotgun.sh" parse="text"/></programlisting>
-      <para>Now visit <code>http://localhost:9393/basic.html</code></para>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
     </foil>
     <foil>
       <title>Let's try it out</title>
-      <para/>
+      <para>We run the application using the <code>shotgun</code> command</para>
+      <programlisting language="bash"><xi:include href="ex/invoke_shotgun.sh" parse="text"/></programlisting>
+      <para>Now visit <code>http://localhost:9393/basic.html</code></para>
     </foil>
     <foil>
       <title>Framework architecture</title>

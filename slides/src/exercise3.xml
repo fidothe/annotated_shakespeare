@@ -72,7 +72,7 @@
             <listitem>
                 <para>In the <filename>lib</filename> folder, create a new file named
                         <filename>play.rb</filename> with the content
-                    <programlisting language="ruby"><xi:include href="ex/simplest_models.rb" parse="text"/></programlisting>.</para>
+                    <programlisting language="ruby"><xi:include href="ex/simplest_models.rb" parse="text"/></programlisting></para>
             </listitem>
             <listitem>
                 <para>Add the line <code>require 'play'</code> to the requirements block in the
@@ -88,7 +88,7 @@
         <orderedlist>
             <listitem>
                 <para>Change the file <filename>play.rb</filename> to have the content
-                    <programlisting language="ruby"><xi:include href="ex/nokogiri-play_with_title.rb" parse="text"/></programlisting>.</para>
+                    <programlisting language="ruby"><xi:include href="ex/nokogiri-play_with_title.rb" parse="text"/></programlisting></para>
             </listitem>
             <listitem>
                 <para>Try it out.</para>
@@ -100,7 +100,7 @@
         <orderedlist>
             <listitem>
                 <para>Create a file <filename>act.rb</filename> with the content
-                    <programlisting language="ruby"><xi:include href="ex/nokogiri-act_with_data.rb" parse="text"/></programlisting>.</para>
+                    <programlisting language="ruby"><xi:include href="ex/nokogiri-act_with_data.rb" parse="text"/></programlisting></para>
             </listitem>
             <listitem>
                 <para>Add the line <code>require 'act'</code> to the requirements block in the
@@ -145,7 +145,6 @@
     @slug ||= File.basename(@path, '.tei')
   end</programlisting>
             </listitem>
-            
             <listitem>
                 <para>Extend the <filename>play.rb</filename> file to add the following content
                     after the definition of the <code>slug</code></para>
@@ -159,10 +158,6 @@
                 <para>Add the following content appropriately to the <filename>play.rb</filename>
                     file</para>
                 <programlisting language="ruby"><xi:include href="ex/play-get-acts-model.rb" parse="text"/></programlisting>
-            </listitem>
-            <listitem>
-                <para>Change the file <filename>show.erb</filename> to have the content </para>
-                <programlisting language="erb"><xi:include href="ex/play-show.erb" parse="text"/></programlisting>
             </listitem>
             <listitem>
                 <para>Change the file <filename>show.erb</filename> to have the content </para>

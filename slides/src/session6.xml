@@ -125,10 +125,20 @@ $('div.sp').each(function() {
     <foil>
       <title>Showing and hiding the form</title>
       <programlisting language="javascript"><![CDATA[
- var annotation_controls = '<p class="annotation controls">
-   <a href="#show" class="show">Show</a>
-   <a href="#add" class="add">+</a></p>'
- ]]>
+var controls = '<p class="annotation controls">'
+  + '<a href="#show" class="show">Hide</a></p>';
+var controls_node = $(controls).prependTo(line_node);
+controls_node.find('.show').toggle(
+  function() { 
+    annotated_node.find('.annotations').show();
+    $(this).text('Hide');
+  }, 
+  function() { 
+    annotated_node.find('.annotations').hide(); 
+    $(this).text('Show');
+  }
+);
+]]>
       </programlisting>
     </foil>
   </foilgroup>
@@ -136,60 +146,221 @@ $('div.sp').each(function() {
     <title>The Annotation object</title>
     <foil>
       <title>Modelling Annotations</title>
+      <itemizedlist>
+        <listitem><para>Annotation text</para></listitem>
+        <listitem><para>ID for the annotated thing</para></listitem>
+      </itemizedlist>
     </foil>
     <foil>
       <title>Implementation</title>
+      <programlisting language="ruby"><xi:include href="ex/annotation-model-basic.rb" parse="text"/></programlisting>
     </foil>
   </foilgroup>
   <foilgroup>
     <title>Adding Annotations to the body of the Act HTML</title>
     <foil>
       <title>Getting the annotations to the Browser</title>
+      <para>How can we get annotations from the database into the page?</para>
+      <itemizedlist>
+        <listitem><para>Adding in-place markup?</para></listitem>
+        <listitem><para>Adding bulk markup?</para></listitem>
+        <listitem><para>Adding javascript.</para></listitem>
+      </itemizedlist>
     </foil>
     <foil>
-      <title>Why not insert them in the XSLT stage?</title>
+      <title>Why not through XML?</title>
+      <sidebar><title>What about the source XML?</title></sidebar>
+      <para>We could do this, because we have access to the source XML, but...</para>
+      <para>It's potentially dangerous (your document file is open for writing), and opens the whole document to potential user manipulation (potential malicious edit).</para>
+      <para>Probably you wouldn't have write access.</para>
+      <sidebar><title>What about the XSLT?</title></sidebar>
+      <para>You may not have access to edit the XSLT, and you'd require native function extension elements.</para>
+      <para>It's probably a lot easier to stitch together on the client.</para>
     </foil>
     <foil>
-      <title>Building an Array of Annotations</title>
+      <title>Building a list of Annotations</title>
+      <para>We can just write a javascript array containing the data we need about each annotation into the page.</para>
+      <programlisting language="javascript"><![CDATA[
+var annotations = [
+  ['id12345', {text: 'Annotation text'}],
+  ['id67890', {text: 'Other annotation text'}],
+  ['id67890', {text: 'Last annotation text'}],
+];]]></programlisting>
     </foil>
     <foil>
       <title>JSON is just Javascript</title>
+      <para>The JSON data serialisation format is a perfect fit here.</para>
+      <para>JavaScript Object Notation uses the literal notation for Javascript.</para>
+      <para>So, the previous page's array literal is also valid JSON.</para>
     </foil>
     <foil>
       <title>Inserting the Annotations</title>
+      <para>What if we could just create the Annotations array like this?</para>
+      <programlisting language="js+erb"><![CDATA[
+  var annotations = <%= @annotations.to_json %>;
+]]></programlisting>
+      <para>Let's make that possible.</para>
+      <programlisting language="ruby"><![CDATA[
+require 'json'
+
+class Annotation
+  def to_json(opts = {})
+    [
+      act_uid, 
+      {'text' => text, 'author' => user.name}
+    ].to_json(opts)
+  end
+end]]></programlisting>
+      <para><code>lib/show.erb</code></para>
+    </foil>
+    <foil>
+      <title>Inserting the Annotations</title>
+      <para>We need a template annotation we can clone and populate.</para>
+      <programlisting language="javascript"><![CDATA[
+// container for all annotations of a line
+var annotations_html = '<div class="annotations"></div>';
+// container for an individual annotation
+var annotation_html = '<div class="annotation">'
+  + '  <p></p>'
+  + '  <p class="author"></p>'
+  + '</div>';]]></programlisting>
+      <para><code>views/show.erb</code></para>
+    </foil>
+    <foil>
+      <title>Inserting the Annotations</title>
+      <para>Now we need to clone and populate it.</para>
+      <programlisting language="javascript"><![CDATA[
+var annotations = <%= @annotations.to_json %>;
+$(document).ready(function() {
+  $.each(annotations, function(i, annotation) {
+    id = annotation[0];
+    data = annotation[1];
+    var annotated_node = $('#' + id);
+    if (annotated_node) {
+      if (annotated_node.find('.annotations').length == 0) {
+        annotated_node.append(annotations_html);
+      }
+      var annotation_node = $(annotation_html);
+      annotation_node.find('p:first').text(data.text);
+      annotation_node.find('p.author').text(data.author);
+      annotated_node.find('.annotations').append(annotation_node);
+    }
+  });
+});]]></programlisting>
+      <para><code>views/show.erb</code></para>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>Processing the form POST</title>
+    <foil>
+      <title>Processing the form POST</title>
+      <programlisting lanugage="ruby"><![CDATA[
+post '/plays/:id/act/:act_number/annotations' do
+  halt 403 unless current_user
+  @play = Play.find(params[:id])
+  @act = @play.act(params[:act_number])
+  attrs = params['annotation']
+  annotation = current_user.annotations.create!(
+    :text => attrs['text'], :act_uid => @act.uid,
+    :annotated_id => attrs['id'])
+  redirect to("/plays/#{@play.slug}/act/#{@act.number}")
+end
+]]></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
     </foil>
   </foilgroup>
   <foilgroup>
     <title>Adding Annotations without reloading the page</title>
     <foil>
       <title>Hijacking the form</title>
+      <para>The classic 'Ajax' app-like behaviour is to submit or retrieve data from the server without triggering a page refresh.</para>
+      <para>First, we need to intercept the form's <code>submit</code> event.</para>
+      <para>Because we have a variable number of forms on the page, let's intercept them all and rely on local context to deal with them correctly.</para>:w
+      <programlisting language="js"><![CDATA[
+$('.sp form').submit(function(e) {
+  window.alert($(this).serialize());
+});
+]]></programlisting>
+      <para><code>views/show.erb</code></para>
     </foil>
     <foil>
       <title>Preventing it submitting anyway</title>
+      <para>You'll have noticed that the alert message appeared and then the normal form submission process resumed. Let's stop that happening.</para>
+      <programlisting language="js"><![CDATA[
+$('.sp form').submit(function(e) {
+  e.preventDefault();
+  window.alert($(this).serialize());
+});
+]]></programlisting>
+      <para><code>views/show.erb</code></para>
     </foil>
     <foil>
       <title>POSTing</title>
+      <para>Now let's actually submit the data, using jQuery's Ajax convenience functions.</para>
+      <programlisting language="js"><![CDATA[
+$('.sp form').submit(function(e) {
+  e.preventDefault();
+  $.post(this.action, $(this).serialize());
+});
+]]></programlisting>
+      <para><code>views/show.erb</code></para>
+      <para>Better, but now there's no immediate evidence we did anything.</para>
     </foil>
     <foil>
       <title>The success callback</title>
+      <para>jQuery's <code>$.post()</code> function can also take a function as an argument, and the function will called if the POST request succeeds.</para>
+      <programlisting language="js"><![CDATA[
+$('.sp form').submit(function(e) {
+  e.preventDefault();
+  var line_node = $(this).parents('.sp');
+  $.post(this.action, $(this).serialize(), function(data, text_status, jq_xhr) {
+    if (line_node.find('.annotations').length == 0) {
+      line_node.append(annotations_html);
+    }
+    var annotation_node = $(annotation_html);
+    annotated_node.find('.annotations').append(annotation_node);
+    console.log(data);
+  });
+});
+]]></programlisting>
+      <para><code>views/show.erb</code></para>
     </foil>
-    <foil>
-      <title>Refactoring the code</title>
-    </foil>
-    <foil>
-      <title>Global namespace pollution</title>
-    </foil>
-  </foilgroup>
-  <foilgroup>
-    <title>Responding appropriately to Ajax posts</title>
     <foil>
       <title>Choosing the response format</title>
+      <para>Oh dear, we're being sent the redirect response when what we really want is one of those JSON annotation lines... We'd better return that instead of all the HTML when we submit the Ajax request.</para>
+      <programlisting language="ruby"><![CDATA[
+post '/plays/:id/act/:act_number/annotations' do
+  ...
+  return [201, {'Content-Type' => 'application/json'}, annotation.to_json] if request.xhr?
+  redirect to("/plays/#{@play.slug}/act/#{@act.number}")
+end
+]]></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
+      <programlisting language="js"><![CDATA[
+$.post(this.action, $(this).serialize(), function(data, text_status, jq_xhr) {
+  ...
+  var annotation_node = $(annotation_html);
+  var annotation = data[1];
+  annotation_node.find('p:first').text(annotation.text);
+  annotation_node.find('p.author').text(annotation.author);
+  annotated_node.find('.annotations').append(annotation_node);
+});
+]]></programlisting>
     </foil>
     <foil>
       <title><code>request.xhr?</code></title>
+      <para>When an Ajax request gets made, it sends an HTTP header to the server which allows it to be identified as an Ajax request.</para>
+      <para><code>request.xhr?</code> makes use of that to give you a true/false value answer to the is-this-an-Ajax-request question.</para>
+      <para>It's not always reliable, and often you want to respond in that way (201 not 302) to other requests, especially APIish ones. It would be nice if the requestor could ask for <code>application/json</code> or <code>text/plain</code> (or whatever) to make an explicit request for a certain kind of response.</para>
     </foil>
     <foil>
       <title>Content Negotiation</title>
+      <para>The browser sends the <code>Accept</code> header listing content-types it wants:</para>
+      <programlisting language="http">Accept: application/json</programlisting>
+      <para>The server can use that information to tailor the response.</para>
+      <para>The other common approach is to use .extensions as an explicit format request:</para>
+      <programlisting language="text">/path/to/resource.html
+/path/to/resource.json</programlisting>
     </foil>
   </foilgroup>
   <foilgroup>
@@ -211,6 +382,14 @@ $('div.sp').each(function() {
     </foil>
     <foil>
       <title>Multiple triggers</title>
+    </foil>
+    <foil>
+      <title>Refactoring the code</title>
+      <para><code>views/show.erb</code></para>
+    </foil>
+    <foil>
+      <title>Global namespace pollution</title>
+      <para><code>views/show.erb</code></para>
     </foil>
   </foilgroup>
 </slides>

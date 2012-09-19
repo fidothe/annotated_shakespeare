@@ -570,6 +570,245 @@ so I always do this if I can) -->
       <title>Exercise</title>
       <para>Try it out!</para>
     </foil>
+    <foil>
+      <title>The Authentication layer</title>
+      <para>We're going to be using OmniAuth, a ruby library for dealing with a wide variety of authentication providers.</para>
+      <para><link xlink:href="https://github.com/intridea/omniauth/">github.com/intridea/omniauth/</link></para>
+    </foil>
+    <foil>
+      <title>The controller side</title>
+      <programlisting language="ruby"><![CDATA[
+require 'user'
+require 'credential'
+require 'omniauth-browserid'
+class AnnotatedShakespeare < Sinatra::Base
+  set :session_secret, "df207bff3e06bba635a9e4f334238801"
+  enable :sessions
+
+  use OmniAuth::Builder do
+    provider :developer
+  end
+
+  # Support both GET and POST for OmniAuth callbacks
+  [:get, :post].each do |method|
+    send(method, "/auth/:provider/callback") do
+      puts env['omniauth.auth'].inspect
+      session['user'] = env['omniauth.auth']['uid']
+      redirect to('/')
+    end
+  end
+]]></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
+    </foil>
+    <foil>
+      <title>In the views</title>
+      <programlisting language="html+erb"><![CDATA[
+<body>
+  <% if session['user'] %>
+    <p>Welcome back, <%= session['user'] %></p>
+  <% else %>
+    <p><a href="/auth/developer">Log in</a>.</p>
+  <% end %>
+  <%= yield %>
+</body>
+]]></programlisting>
+      <para><code>views/layout.erb</code></para>
+    </foil>
+    <foil>
+      <title>The User model</title>
+      <para>We need a <code>User</code> model to represent users in our system. Once we have a User then we can connect them to an authentication provider.</para>
+    </foil>
+    <foil>
+      <title>The basic model</title>
+      <programlisting language="ruby"><![CDATA[
+require 'data_mapper'
+class User
+  include DataMapper::Resource
+  property :id, Serial
+  property :name, String
+  has n, :credentials
+]]></programlisting>
+      <para><code>lib/user.rb</code></para>
+      <programlisting language="ruby"><![CDATA[
+require 'data_mapper'
+class Credential
+  include DataMapper::Resource
+  property :id, Serial
+  property :provider, String
+  property :token, String
+  belongs_to :user
+end
+]]></programlisting>
+      <para><code>lib/credential.rb</code></para>
+    </foil>
+    <foil>
+      <title>Credential?</title>
+      <para>We're modelling Users and Credentials separately, because we're going to be connecting multiple authentication providers to a single User.</para>
+      <para><emphasis>Caveat:</emphasis> In real life you'd want to think very carefully about modelling things in this way. It'd be better to start with storing credentials directly on the User model, and change the model when you really needed to. We don't really have the time today...</para>
+    </foil>
+    <foil>
+      <title>Creating Users</title>
+      <itemizedlist>
+        <listitem><para>Hand off to Auth provider</para></listitem>
+        <listitem><para>If valid user details returned, create User and associate auth Credential</para></listitem>
+        <listitem><para>Store User ID in the <code>session</code></para></listitem>
+        <listitem><para>Redirect the browser back to where it was before...</para></listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>Logging in existing Users</title>
+      <itemizedlist>
+        <listitem><para>Hand off to Auth provider</para></listitem>
+        <listitem><para>Check if we already have a User who matches the user details returned.</para></listitem>
+        <listitem><para>Otherwise, create User and associate auth Credential</para></listitem>
+        <listitem><para>Store User ID in the <code>session</code></para></listitem>
+        <listitem><para>Redirect the browser back to where it was before...</para></listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>In the controller</title>
+      <programlisting language="ruby"><![CDATA[
+[:get, :post].each do |method|
+  send(method, "/auth/:provider/callback") do
+    if user = User.from_auth_provider(
+        params[:provider], env['omniauth.auth']['uid']
+      )
+      destination = '/'
+    else
+      user = User.create_from_auth_provider(
+        params[:provider], env['omniauth.auth']['uid']
+      )
+      destination = '/profile'
+    end
+    session['user'] = user.id
+    redirect to(destination)
+  end
+end
+]]></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
+    </foil>
+    <foil>
+      <title>Model find &amp; create convenience methods</title>
+      <programlisting language="ruby"><![CDATA[
+class User
+  def self.from_auth_provider(provider, token)
+    credential = Credential.first(
+      :provider => provider, :token => token)
+    return credential.user if credential
+    nil
+  end
+
+  def self.create_from_auth_provider(provider, token)
+    user = User.create!
+    credential = Credential.create!(
+      :provider => provider, :token => token, 
+      :user => user)
+    user
+  end
+end
+]]></programlisting>
+      <para><code>lib/user.rb</code></para>
+    </foil>
+    <foil>
+      <title>In the views</title>
+      <programlisting language="html+erb"><![CDATA[
+<body>
+  <% if current_user %>
+    <p>Welcome back, <%= current_user.name %></p>
+    <p><a href="<%= url('/logout') %>">Logout</a></p>
+  <% else %>
+    <p><a href="/auth/developer">Log in</a>.</p>
+  <% end %>
+  <%= yield %>
+</body>
+]]></programlisting>
+      <para><code>views/layout.erb</code></para>
+    </foil>
+    <foil>
+      <title>Back in the controller</title>
+      <programlisting language="ruby"><![CDATA[
+helpers do
+  def current_user
+    if session['user']
+      @user ||= User.get(session['user'])
+    end
+  end
+end
+]]></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
+    </foil>
+    <foil>
+      <title>Back in the controller</title>
+      <programlisting language="ruby"><![CDATA[
+get '/profile' do
+  halt 403 unless current_user
+  erb :profile
+end
+
+post '/profile' do
+  halt 403 unless current_user
+  current_user.name = params[:name]
+  current_user.save!
+  redirect to('/')
+end
+]]></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
+    </foil>
+    <foil>
+      <title>Back in the controller</title>
+      <programlisting language="ruby"><![CDATA[
+get '/logout' do
+  if current_user
+    session.clear
+    redirect to('logout')
+  else
+    erb :logout
+  end
+end
+]]></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
+    </foil>
+    <foil>
+      <title>In the views (again)</title>
+      <programlisting language="html+erb"><![CDATA[
+<form action="/profile" method="POST">
+  <input name="name" 
+    value="<%= current_user ? current_user.name : "" %>"
+    type="text">
+  <input type="submit" value="Save">
+</form>
+]]></programlisting>
+      <para><code>views/profile.erb</code></para>
+      <programlisting language="html+erb"><![CDATA[
+<p>Logged out!</p>
+]]></programlisting>
+      <para><code>views/logout.erb</code></para>
+    </foil>
+    <foil>
+      <title>Taking stock</title>
+      <para>You should now be able to log in and log out. The <code>developer</code> strategy which comes with OmniAuth just gives you back whatever you put in. Now we're confident that the pieces are working, let's swap in a real authentication system.</para>
+    </foil>
+  </foilgroup>
+  <foilgroup>
+    <title>Implementing Browser ID/Persona</title>
+    <foil>
+      <title>The Omniauth code</title>
+      <para>Let's add authentication using Browser ID (now called Mozilla Persona)</para>
+      <programlisting language="ruby"><![CDATA[
+use OmniAuth::Builder do
+  provider :developer
+  provider :browser_id, 
+    :verify_url => 'https://verifier.login.persona.org
+/verify'
+end
+]]></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
+      <programlisting language="html+erb"><![CDATA[
+<p>Log in (or sign up) with <a href="/auth/browser_id">
+Mozilla Persona</a>.</p>
+]]></programlisting>
+      <para><code>views/layout.erb</code></para>
+    </foil>
   </foilgroup>
   <foilgroup>
     <title>OAuth 2</title>

@@ -1617,6 +1617,17 @@ end
       <para><code>lib/annotated_shakespeare.rb</code></para>
     </foil>
     <foil>
+      <title>XSS prevention</title>
+      <para>Try pasting this into a comment box:</para>
+      <programlisting language="js"><![CDATA[
+I think <script>var f = new FormData();
+f.append('name', 'Hax0red');f.append('authenticity_token', 
+document.forms[0].authenticity_token.value);var r = new 
+XMLHttpRequest(); r.open('POST', '/profile'); 
+r.send(f);</script>Will is great.
+]]></programlisting>
+    </foil>
+    <foil>
       <title>Resources</title>
       <simplelist>
         <member>http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html</member>

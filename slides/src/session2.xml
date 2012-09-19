@@ -217,5 +217,85 @@ PATCH     |             *            X           X                  |
       <programlisting language="ruby"><xi:include href="ex/routes_plus_redirects.rb" parse="text"/></programlisting>
       <para><code>lib/annotated_shakespeare.rb</code></para>
     </foil>
+    <foil>
+      <title>Populating those views</title>
+      <para>Let's put some static data into <code>annotated_shakespeare.rb</code> and wire up some basic views so we can see the basic moving parts in motion.</para>
+      <programlisting language="ruby"><![CDATA[
+# encoding: utf-8
+require 'sinatra/base'
+ROOT_DIR = File.expand_path('../../', __FILE__)
+class AnnotatedShakespeare < Sinatra::Base
+  set :views, File.expand_path('views', ROOT_DIR)
+  set :public_folder, File.expand_path('public', ROOT_DIR)
+
+  get '/' do
+    @title = "Plays of William Shakespeare"
+    @plays = {'julius' => 'Julius Caesar', 
+              'richard' => 'Richard II'}
+    erb :index
+  end
+  ...
+end
+]]></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
+    </foil>
+    <foil>
+      <title>Populating those views</title>
+      <programlisting language="html+erb"><![CDATA[
+<h1><%= @title %></h1>
+<ul>
+  <% @plays.each do |url_slug, title| %>
+    <li><a href="<%= url("/plays/#{url_slug}") %>">
+      <%= title %></a>
+    </li>
+  <% end %>
+</ul>
+]]></programlisting>
+      <para><code>views/index.erb</code></para>
+    </foil>
+    <foil>
+      <title>Populating those views</title>
+      <programlisting language="ruby"><![CDATA[
+class AnnotatedShakespeare < Sinatra::Base
+  get '/plays/:id' do
+    plays = {'julius' => 'Julius Caesar',
+             'richard' => 'Richard II'}
+    @play = plays[params[:id]]
+    @title = @play
+    @url_slug = params[:id]
+    erb :play_index
+  end
+end
+]]></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
+      <programlisting language="html+erb"><![CDATA[
+<h1><%= @play %></h1>
+<p>
+  <a href="<%= url("/plays/#{@url_slug}/act/1") %>">
+    Act 1
+  </a>
+</p>
+]]></programlisting>
+      <para><code>views/play_index.erb</code></para>
+    </foil>
+    <foil>
+      <title>Populating those views</title>
+      <programlisting language="ruby"><![CDATA[
+class AnnotatedShakespeare < Sinatra::Base
+  get '/plays/:id/act/:act_number' do
+    plays = {'julius' => 'Julius Caesar', 
+             'richard' => 'Richard II'}
+    @play = plays[params[:id]]
+    @act = params[:act_number]
+    erb :show
+  end
+end
+]]></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
+      <programlisting language="html+erb"><![CDATA[
+<h1><%= @play %>, Act <%= @act %></h1>
+]]></programlisting>
+      <para><code>views/play_index.erb</code></para>
+    </foil>
   </foilgroup>
 </slides>

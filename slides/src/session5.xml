@@ -1558,8 +1558,47 @@ end
       <para>Identify and fix security issues in sample application</para>
     </foil>
     <foil>
+      <title>CSRF prevention</title>
       <programlisting language="ruby"><![CDATA[
-class OAAwareAuthenticityToken < Rack::Protection::AuthenticityToken
+class AnnotatedShakespeare < Sinatra::Base
+  use OmniAuth::Builder do
+    provider :browser_id, :verify_url => '...'
+  end
+  use Rack::Protection::AuthenticityToken
+  ...
+  helpers do
+    def csrf_token
+      session[:csrf] ||= SecureRandom.hex
+    end
+  end
+end
+]]></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
+    </foil>
+    <foil>
+      <title>CSRF prevention</title>
+      <programlisting language="html+erb"><![CDATA[
+<form ... >
+  <input name="authenticity_token" 
+    value="<%= csrf_token %>" 
+    type="hidden">
+  <textarea name="comment[body]"></textarea>
+  <p><input type="submit" value="Add comment"></p>
+</form>
+]]></programlisting>
+      <para><code>views/show.erb</code></para>
+    </foil>
+    <foil>
+      <title>CSRF prevention</title>
+      <sidebar>
+        <title>Oh Noes!</title>
+      </sidebar>
+    </foil>
+    <foil>
+      <title>CSRF prevention, take 2</title>
+      <programlisting language="ruby"><![CDATA[
+class OAAwareAuthenticityToken < 
+      Rack::Protection::AuthenticityToken
   def accepts?(env)
     return true if safe?(env)
     return true if env['omniauth.auth']
@@ -1569,29 +1608,13 @@ end
 
 class AnnotatedShakespeare < Sinatra::Base
   use OmniAuth::Builder do
-    provider :browser_id, :verify_url => 'https://verifier.login.persona.org/verify'
+    provider :browser_id, :verify_url => '...'
   end
   use OAAwareAuthenticityToken
-
-  helpers do
-    def csrf_token
-      session[:csrf] ||= SecureRandom.hex
-    end
-  end
+  ...
 end
 ]]></programlisting>
       <para><code>lib/annotated_shakespeare.rb</code></para>
-      <programlisting language="html+erb"><![CDATA[
-<form 
-  action="<%= url("/plays/#{@play.slug}/act/#{@act.number}/comments") %>"   charset="utf-8" method="POST">
-  <input name="authenticity_token" 
-    value="<%= csrf_token %>" 
-    type="hidden">
-  <textarea name="comment[body]"></textarea>
-  <p><input type="submit" value="Add comment"></p>
-</form>
-]]></programlisting>
-      <para><code>views/show.erb</code></para>
     </foil>
     <foil>
       <title>Resources</title>

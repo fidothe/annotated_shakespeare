@@ -20,7 +20,6 @@ class AnnotatedShakespeare < Sinatra::Base
   set :public_folder, File.expand_path('public', ROOT_DIR)
   set :session_secret, "df207bff3e06bba635a9e4f334238801"
   enable :sessions
-  use Rack::Protection::AuthenticityToken
 
   use OmniAuth::Builder do
     provider :browser_id, :verify_url => 'https://verifier.login.persona.org/verify'
@@ -41,10 +40,6 @@ class AnnotatedShakespeare < Sinatra::Base
   end
 
   helpers do
-    def csrf_token
-      session[:csrf] ||= SecureRandom.hex
-    end
-
     def current_user
       if session['user']
         @user ||= User.get(session['user'])

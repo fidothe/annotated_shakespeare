@@ -141,26 +141,28 @@
         </orderedlist>
     </simplesect>
     <simplesect>
-        <title>Steps,Part One</title>
+        <title>Steps, part one</title>
+        <orderedlist>
+            <listitem>
+                <para>In the <filename>lib</filename> folder, create
+                        <filename>annotated_shakespeare.rb</filename> with content </para>
+                <programlisting language="ruby"><xi:include href="ex/static_only_app.rb" parse="text"/></programlisting>
+            </listitem>
+            <listitem>
+                <para>In the terminal, type the command shotgun.</para>
+            </listitem>
+            <listitem>
+                <para>In Chrome, go to http://localhost:9393/basic.html</para>
+            </listitem>
+        </orderedlist>
+    </simplesect>
+    <simplesect>
+        <title>Steps, part two</title>
         <orderedlist>
             <listitem>
                 <para>In the lib folder, edit annotated_shakespeare.rb to have this content; we're
                     adding the basic '/' handler</para>
-                <programlisting language="ruby"># encoding: utf-8
-
-require 'sinatra/base'
-
-ROOT_DIR = File.expand_path('../../', __FILE__)
-
-class AnnotatedShakespeare &lt; Sinatra::Base
-  set :views, File.expand_path('views', ROOT_DIR)
-  set :public_folder, File.expand_path('public', ROOT_DIR)
-
-  get '/' do
-    @title = "Index"
-    erb :index
-  end
-end</programlisting>
+                <programlisting language="ruby"><xi:include href="ex/render_static_equiv_app.rb" parse="text"/></programlisting>
             </listitem>
             <listitem>
                 <para>In the views folder, create a file called index.erb. Add the following content
@@ -171,9 +173,8 @@ end</programlisting>
                 <para>Copy the views/layout.erb file from the repository to the views folder.</para>
             </listitem>
             <listitem>
-                <para>In the terminal, type the command shotgun.</para>
+                <para>In Chrome, go to http://localhost:9393</para>
             </listitem>
-            <listitem><para>In Chrome, go to http://localhost:9393</para></listitem>
         </orderedlist>
     </simplesect>
 </article>

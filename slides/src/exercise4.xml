@@ -58,22 +58,135 @@
     </info>
     <simplesect>
         <title>Summary</title>
-        <para>TBD</para>
+        <para>In this exercise, we'll be adding comments to our application.</para>
     </simplesect>
     <simplesect>
         <title>Setup</title>
-        <para>Make sure you're up to date on the code we created in the last set of exercises. Go to
-            your repository folder in a terminal window and type git checkout session_three to get all
-            the code from session three. Copy this code, in the correct folders, across to your
-            working folders.</para>
+        <para>Make sure you're up to date on the code we created in
+        the last set of exercises. Go to your repository folder in a
+        terminal window and type git checkout session_three to get all
+        the code from session three. Copy this code, in the correct
+        folders, across to your working folders.</para>
     </simplesect>
-    <simplesect>
-        <title>Steps</title>
-        <orderedlist>
-            <listitem>
-                <para>tbd</para>
-                
-            </listitem>
-        </orderedlist>
-    </simplesect>
+<simplesect>
+  <title>Steps, part one</title>
+  <orderedlist>
+    <listitem>
+      <para>Add <code>data_mapper</code> to your <filename>Gemfile</filename>:</para>
+      <programlisting language="ruby"><xi:include href="ex/dm-gemfile.rb" parse="text"/></programlisting>
+    </listitem>
+  </orderedlist>
+</simplesect>
+
+<simplesect>
+  <title>Steps, part two</title>
+  <orderedlist>
+    <listitem>
+      <para>Update your <filename>lib/annotated_shakespeare.rb</filename> to use Data Mapper:</para>
+      <programlisting language="ruby"><xi:include href="ex/app-dm_setup.rb" parse="text"/></programlisting>
+    </listitem>
+  </orderedlist>
+</simplesect>
+
+<simplesect>
+  <title>Steps, part three</title>
+  <orderedlist>
+    <listitem>
+      <para>Create <filename>lib/comment.rb</filename></para>
+      <programlisting language="ruby"><xi:include href="ex/comment-model.rb" parse="text"/></programlisting>
+    </listitem>
+  </orderedlist>
+</simplesect>
+
+<simplesect>
+  <title>Steps, part four</title>
+  <orderedlist>
+    <listitem>
+      <para>Add forms to <filename>views/show.erb</filename></para>
+
+      <programlisting language="html+erb"><xi:include href="ex/comment-form.erb" parse="text"/></programlisting>
+    </listitem>
+  </orderedlist>
+</simplesect>
+
+<simplesect>
+  <title>Steps, part five</title>
+  <orderedlist>
+    <listitem>
+      <para>Add support for comments to <filename>lib/annotated_shakespeare.rb</filename>:</para>
+      <programlisting language="ruby"><xi:include href="ex/comment-create.rb" parse="text"/></programlisting>
+    </listitem>
+  </orderedlist>
+</simplesect>
+
+<simplesect>
+  <title>Steps, part six</title>
+  <orderedlist>
+    <listitem>
+      <para>Create <filename>lib/comment.rb</filename></para>
+      <programlisting language="ruby"><xi:include href="ex/comment-with_association.rb" parse="text"/></programlisting>
+    </listitem>
+  </orderedlist>
+</simplesect>
+
+<simplesect>
+  <title>Steps, part seven</title>
+  <orderedlist>
+    <listitem>
+      <para>Add type and ID to <filename>lib/annotated_shakespeare.rb</filename>:</para>
+      <programlisting language="ruby"><xi:include href="ex/comment-create-with_association.rb" parse="text"/></programlisting>
+    </listitem>
+  </orderedlist>
+</simplesect>
+
+<simplesect>
+  <title>Steps, part eight</title>
+  <orderedlist>
+    <listitem>
+      <para>Add redirection to <filename>lib/annotated_shakespeare.rb</filename>:</para>
+      <programlisting language="ruby"><xi:include href="ex/comment-create_with_redirect.rb" parse="text"/></programlisting>
+    </listitem>
+  </orderedlist>
+</simplesect>
+
+<simplesect>
+  <title>Steps, part nine</title>
+  <orderedlist>
+    <listitem>
+      <para>Create <filename>lib/comment.rb</filename>:</para>
+      <programlisting language="ruby"><![CDATA[
+class Comment
+  def self.for(type, id)
+    Comment.all(:commentable_type => type.to_s,
+                :commentable_id => id.to_s)
+  end
+end
+]]></programlisting>
+    </listitem>
+    <listitem>
+      <para>and <filename>lib/act.rb</filename>:</para>
+      <programlisting language="ruby"><![CDATA[
+class Act
+  def comments
+    Comment.for(:act, @number)
+  end
+end
+]]></programlisting>
+    </listitem>
+  </orderedlist>
+</simplesect>
+
+<simplesect>
+  <title>Steps, part ten</title>
+  <orderedlist>
+    <listitem>
+      <para>Update <filename>lib/show.erb</filename> to display the comments:</para>
+      <programlisting language="html+erb"><xi:include href="ex/comment-act-view.erb" parse="text"/></programlisting>
+    </listitem>
+    <listitem>
+      <para>Try it out.</para>
+    </listitem>
+  </orderedlist>
+</simplesect>
+
 </article>

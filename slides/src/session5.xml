@@ -809,6 +809,37 @@ Mozilla Persona</a>.</p>
 ]]></programlisting>
       <para><code>views/layout.erb</code></para>
     </foil>
+    <foil>
+      <title>What about Comments?</title>
+      <para>Now we have actual users, let's tie comments to them.</para>
+      <programlisting language="ruby"><![CDATA[
+class Comment
+  belongs_to :user
+end
+]]></programlisting>
+      <para><code>lib/comment.rb</code></para>
+      <programlisting language="ruby"><![CDATA[
+class User
+  has n, :comments
+end
+]]></programlisting>
+      <para><code>lib/user.rb</code></para>
+    </foil>
+    <foil>
+      <title>What about Comments?</title>
+      <programlisting language="ruby"><![CDATA[
+post '/plays/:id/act/:act_number/comments' do
+  halt 403 unless current_user
+  ...
+  current_user.comments.create!(
+    :body => params['comment']['body'],
+    :commentable_type => :act, 
+    :commentable_id => @act.number)
+  ...
+end
+]]></programlisting>
+      <para><code>lib/annotated_shakespeare.rb</code></para>
+    </foil>
   </foilgroup>
   <foilgroup>
     <title>OAuth 2</title>

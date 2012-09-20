@@ -1,5 +1,6 @@
 <?dbhtml pygments="true"?>
 <slides xml:lang="en" xmlns="http://docbook.org/ns/docbook"
+        xmlns:h="http://www.w3.org/1999/xhtml"
   xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
   <info>
     <title>Practical Web Applications</title>
@@ -53,7 +54,517 @@ so I always do this if I can) -->
       <year>2012</year>
       <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
     </copyright>
+    <h:script type="text/javascript" src="js/halma-localstorage.js"/>
+    <h:script type="text/javascript" src="js/halma.js"/>
+    <h:script type="text/javascript" src="js/html-js.js"/>
+    <h:link rel="stylesheet" type="text/css" href="css/html-css.css" />
+    <h:link rel="stylesheet" type="text/css" href="css/pygments.css" />
+    <h:meta name="slides.timer" content="true"/>
+    <h:meta name="slides.countdown" content="180:00"/>
+  <!--
+    <h:meta name="slides.auto-advance" content="10"/>
+  -->
   </info>
+  <foilgroup>
+    <title>An HTML overview</title>
+<foil>
+<title>Learning Objectives</title>
+<para>The language of the web, HTML, is getting the largest and most
+significant update perhaps in its entire history. The update includes
+both new features and new expectations of browser
+interoperability.</para>
+<para>Modern web applications are built on three essential technologies:</para>
+<orderedlist>
+<listitem>
+<para>HTML</para>
+</listitem>
+<listitem>
+<para>CSS</para>
+</listitem>
+<listitem>
+<para>JavaScript</para>
+</listitem>
+</orderedlist>
+</foil>
+
+<foil>
+<title>The role of HTML</title>
+<para>HTML(5) is the scaffolding. HTML5 brings:</para>
+<itemizedlist>
+<listitem>
+<para>Better interoperability</para>
+</listitem>
+<listitem>
+<para>New semantic markup</para>
+</listitem>
+<listitem>
+<para>New inlines</para>
+</listitem>
+<listitem>
+<para>Better form controls</para>
+</listitem>
+<listitem>
+<para>New ways of addressing mixed media</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>The role of CSS</title>
+<para>Cascading Style Sheets (CSS) are the skin:</para>
+<itemizedlist>
+<listitem>
+<para>Declarative style rules</para>
+</listitem>
+<listitem>
+<para>Media-specific styling</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>The role of JavaScript</title>
+<para>JavaScript adds interactivity:</para>
+<itemizedlist>
+<listitem>
+<para>Dynamic behaviors in response to the user</para>
+</listitem>
+<listitem>
+<para>“Application logic”</para>
+</listitem>
+<listitem>
+<para>“Mashups”</para>
+</listitem>
+<listitem>
+<para>Browsers provide APIs for additional functionality: geolocation,
+client-side storage, etc.</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+</foilgroup>
+<foilgroup>
+<title>HTML</title>
+
+<foil>
+<title>Of HTML, XML, and SGML: A History</title>
+<itemizedlist>
+<listitem>
+<para>Before there was XML, there was HTML. (And before that, SGML. And before that, …)</para>
+</listitem>
+<listitem>
+<para>HTML (nominally SGML) and XHTML (XML) coexisted for a while.</para>
+</listitem>
+<listitem>
+<para>HTML5 is not XML. It's not even nominally SGML.</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>HTML vs XML</title>
+
+<itemizedlist>
+<listitem>
+<para>Philosophically, the differences are (mostly) about well-formedness and namespaces.
+</para>
+</listitem>
+<listitem>
+<para>HTML is <emphasis>a</emphasis> language. XML is a language for creating languages.
+</para>
+</listitem>
+<listitem>
+<para>Syntactically, the differences are (mostly) about error correction, browser interoperability,
+and author convenience.
+</para>
+<itemizedlist>
+<listitem>
+<para><code><![CDATA[<div><p>Some text</div>]]></code> vs. <code><![CDATA[<div><p>Some text</p></div>]]></code>
+</para>
+</listitem>
+<listitem>
+<para><code><![CDATA[<div id=myId>...]]></code> vs. <code><![CDATA[<div id="myId">...]]></code>
+</para>
+</listitem>
+<listitem>
+<para><code><![CDATA[<img src="pic.jpg">]]></code> vs. <code><![CDATA[<img src="pic.jpg"/>]]></code>
+</para>
+</listitem>
+<listitem>
+<para><code><![CDATA[<video autoplay>]]></code> vs. <code><![CDATA[<video autoplay="autoplay">]]></code>
+</para>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>HTML and XML revisited: Polyglot markup</title>
+<para>It is possible to compose documents such that they are “the same” whether you parse
+them with an HTML5 parser or an XML parser. Doing so requires following the “polyglot”
+rules:</para>
+<itemizedlist>
+<listitem>
+<para>Use namespaces for HTML, MathML, and SVG. Use only the default namespace (no prefixes)</para>
+</listitem>
+<listitem>
+<para>Include <tag>html</tag>, <tag>head</tag>, <tag>title</tag>, and <tag>body</tag> elements</para>
+</listitem>
+<listitem>
+<para>Include <tag>tbody</tag> in every <tag>table</tag></para>
+</listitem>
+<listitem>
+<para>Include <tag>colgroup</tag> if you're using <tag>col</tag> elements</para>
+</listitem>
+<listitem>
+<para>Use exclusively lowercase except for a handful of SVG elements and attributes</para>
+</listitem>
+<listitem>
+<para>Only empty element syntax for a specific list of elements.</para>
+</listitem>
+<listitem>
+<para>Etc.</para>
+</listitem>
+<listitem>
+<para>See <citetitle xlink:href="http://www.w3.org/TR/html-polyglot/">Polyglot Markup:
+HTML-Compatible XHTML Documents</citetitle></para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>New HTML elements</title>
+<para>The following slides provide a survey of some of the new features introduced in HTML5.</para>
+<itemizedlist>
+<listitem>
+<para><tag>article</tag>, <tag>header</tag>, <tag>section</tag>, <tag>footer</tag></para>
+</listitem>
+<listitem>
+<para><tag>hgroup</tag></para>
+</listitem>
+</itemizedlist>
+<programlisting language="xml"><xi:include href="ex/html01.xml" parse="text"/></programlisting>
+</foil>
+
+<foil>
+<title>New HTML elements (continued)</title>
+<itemizedlist>
+<listitem>
+<para><tag>aside</tag></para>
+</listitem>
+<listitem>
+<para><tag>nav</tag></para>
+</listitem>
+</itemizedlist>
+<programlisting language="xml"><xi:include href="ex/html02.xml" parse="text"/></programlisting>
+</foil>
+
+<foil>
+<title>New HTML elements (continued)</title>
+<itemizedlist>
+<listitem>
+<para><tag>details</tag></para>
+</listitem>
+</itemizedlist>
+<programlisting language="xml"><xi:include href="ex/html03.xml" parse="text"/></programlisting>
+</foil>
+
+<foil>
+<title>New HTML elements (continued)</title>
+<itemizedlist>
+<listitem>
+<para><tag>figure</tag> and <tag>figcaption</tag></para>
+</listitem>
+</itemizedlist>
+<programlisting language="xml"><xi:include href="ex/html04.xml" parse="text"/></programlisting>
+</foil>
+
+<foil>
+<title>New HTML elements (continued)</title>
+<itemizedlist>
+<listitem>
+<para><tag>video</tag> and <tag>audio</tag></para>
+</listitem>
+<listitem>
+<para><tag>track</tag></para>
+</listitem>
+</itemizedlist>
+<programlisting language="xml"><xi:include href="ex/html05.xml" parse="text"/></programlisting>
+<para>(Many more options are available)</para>
+</foil>
+
+<!-- ============================================================ -->
+
+<foil condition="web">
+<title>New HTML elements (continued)</title>
+<itemizedlist>
+<listitem>
+<para><tag>canvas</tag></para>
+</listitem>
+</itemizedlist>
+
+<para>A canvas is a resolution-independent bitmap where JavaScript can render graphs, images, animation,
+etc.</para>
+<programlisting language="xml"><xi:include href="ex/canvas.xml" parse="text"/></programlisting>
+<xi:include href="ex/canvas.xml"/>
+<para>The game of Halma<superscript>*</superscript> Moves: <phrase xml:id="movecount">0</phrase></para>
+<para><superscript>*</superscript> Gleefully stolen from Mark Pilgrim's excellent
+<citetitle>Dive Into HTML5</citetitle>.</para>
+</foil>
+
+<!-- ============================================================ -->
+
+<foil>
+<title>New HTML elements (continued)</title>
+<itemizedlist>
+<listitem>
+<para><tag xml:id="make_progress">progress</tag></para>
+<programlisting language="xml"><xi:include href="ex/progress.xml" parse="text"/></programlisting>
+<informalexample condition="web">
+<xi:include href="ex/progress.xml"/>
+</informalexample>
+</listitem>
+<listitem>
+<para><tag>meter</tag></para>
+<programlisting language="xml"><xi:include href="ex/meter.xml" parse="text"/></programlisting>
+<informalexample condition="web">
+<xi:include href="ex/meter.xml"/>
+</informalexample>
+</listitem>
+</itemizedlist>
+</foil>
+
+<!-- ============================================================ -->
+
+<foil>
+<title>New input types</title>
+<para>New <tag class="attribute">type</tag> values for <tag>input</tag> tags in forms:</para>
+
+<informaltable frame="none">
+<tgroup cols="4">
+<colspec colsep="0" colnum="1"/>
+<colspec colsep="0" colnum="2"/>
+<colspec colsep="0" colnum="3"/>
+<tbody>
+<row>
+<entry valign="top">
+<itemizedlist>
+<listitem><para><tag class="attvalue">tel</tag></para></listitem>
+<listitem><para><tag class="attvalue">search</tag></para></listitem>
+<listitem><para><tag class="attvalue">datetime</tag></para></listitem>
+<listitem><para><tag class="attvalue">datetime-local</tag></para></listitem>
+</itemizedlist>
+</entry>
+<entry valign="top">
+<itemizedlist>
+<listitem><para><tag class="attvalue">date</tag></para></listitem>
+<listitem><para><tag class="attvalue">month</tag></para></listitem>
+<listitem><para><tag class="attvalue">week</tag></para></listitem>
+</itemizedlist>
+</entry>
+<entry valign="top">
+<itemizedlist>
+<listitem><para><tag class="attvalue">number</tag></para></listitem>
+<listitem><para><tag class="attvalue">range</tag></para></listitem>
+<listitem><para><tag class="attvalue">email</tag></para></listitem>
+</itemizedlist>
+</entry>
+<entry valign="top">
+<itemizedlist>
+<listitem><para><tag class="attvalue">url</tag></para></listitem>
+<listitem><para><tag class="attvalue">time</tag></para></listitem>
+<listitem><para><tag class="attvalue">color</tag></para></listitem>
+</itemizedlist>
+</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+<para>Also:</para>
+<itemizedlist>
+<listitem>
+<para><tag class="attribute">autofocus</tag> on <tag>input</tag></para>
+</listitem>
+
+<!-- ============================================================ -->
+
+<listitem condition="web">
+<para><tag class="attribute">placeholder</tag> on <tag>input</tag> and <tag>textarea</tag>:
+<xi:include href="ex/placeholder.xml"/>
+</para>
+</listitem>
+<!--
+<listitem condition="print">
+<para><tag class="attribute">placeholder</tag> on <tag>input</tag> and <tag>textarea</tag>
+</para>
+</listitem>
+-->
+
+<!-- ============================================================ -->
+
+<listitem>
+<para><tag class="attribute">required</tag> on <tag>input</tag></para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>Removed from HTML</title>
+<itemizedlist>
+<listitem>
+<para><tag>basefont</tag>, <tag>big</tag>, <tag>center</tag>, <tag>font</tag>,
+<tag>strike</tag>, <tag>tt</tag></para>
+<para>Use CSS instead…</para>
+</listitem>
+<listitem>
+<para><tag>frame</tag>, <tag>frameset</tag>, <tag>noframes</tag></para>
+<para>Use an <tag>iframe</tag> and CSS or compose the pages on the server…</para>
+</listitem>
+<listitem>
+<para><tag>acronym</tag>, <tag>applet</tag>, <tag>isindex</tag>, <tag>dir</tag>, … etc.</para>
+<para>Use <tag>abbr</tag>, <tag>embed</tag> or <tag>object</tag>, <tag>form</tag>, <tag>ul</tag>, … etc.</para>
+</listitem>
+</itemizedlist>
+<para>Plus <emphasis>lots</emphasis> of presentational attributes.</para>
+</foil>
+
+<foil>
+<title>Interoperability</title>
+
+<para>What does all this new markup actually do?</para>
+
+<para condition="web">When were you born? <h:input type="date" size="16"/></para>
+
+<programlisting language="xml"><xi:include href="ex/birthday.xml" parse="text"/></programlisting>
+
+<para>Well, that depends.</para>
+
+<variablelist>
+<varlistentry><term>Firefox 14.0.1</term>
+<listitem>
+<mediaobject><imageobject><imagedata fileref="../images/html_firefox.png"/></imageobject></mediaobject>
+<para>(Nothing)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Chrome 21.0.1180.82</term>
+<listitem>
+<mediaobject><imageobject><imagedata fileref="../images/html_chrome.png"/></imageobject></mediaobject>
+<para>(An editable field with a pull-down calendar)</para>
+</listitem>
+</varlistentry>
+<varlistentry><term>Opera 11.50</term>
+<listitem>
+<mediaobject><imageobject><imagedata fileref="../images/html_opera.png"/></imageobject></mediaobject>
+<para>(A full calendar widget)</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</foil>
+
+<foil>
+<title>The semantics question</title>
+
+<itemizedlist>
+<listitem>
+<para>Web pages aren't just human-readable, they're also machine readable</para>
+</listitem>
+<listitem>
+<para>Expressing semantics in a <emphasis>machine-understandable</emphasis> way is
+harder (more markup)</para>
+</listitem>
+<listitem>
+<para>But the result (can be) clearer because the semantics are more explicit</para>
+</listitem>
+<listitem>
+<para>If you're starting from rich XML sources, many of the semantics may already
+be manifest or implied</para>
+</listitem>
+<listitem>
+<para>The trick is to encode them for web pages</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+<foil>
+<title>Semantic quest</title>
+
+<para>Consider this example: you're looking for a kitten picture to
+put on your blog. You find this:</para>
+
+<programlisting language="xml"><![CDATA[<img src="photo1.jpg" alt="An example photo" />]]></programlisting>
+
+<para>What might you need to know?</para>
+
+<itemizedlist>
+<listitem>
+<para>Who took it?</para>
+</listitem>
+<listitem>
+<para>Is it licensed for reuse?</para>
+</listitem>
+</itemizedlist>
+
+<para>After all, the ones you can't reuse aren't very useful for your
+current task.</para>
+
+<para>Ideally, if you could these questions machine understandable,
+you could filter on them.
+</para>
+</foil>
+
+<foil>
+<title>Semantic examples</title>
+
+<para>RDFa:</para>
+
+<programlisting language="xml"><![CDATA[<img src="photo1.jpg"
+  rel="license"
+  resource="http://creativecommons.org/licenses/by/2.0/"
+  property="dc:creator" content="Mark Birbeck" />]]></programlisting>
+
+<para>HTML5/Microdata</para>
+
+<programlisting language="xml"><![CDATA[<span itemscope="itemscope">
+  <img itemprop="about" src="photo1.jpg">
+  <link itemprop="http://www.w3.org/1999/xhtml/vocab#license" 
+        href="http://creativecommons.org/licenses/by/2.0/">
+  <meta itemprop="http://purl.org/dc/elements/1.1/creator" 
+        content="Mark Birbeck">
+</span>]]></programlisting>
+
+<para>This is a hot topic, I don't think the dust has fully settled yet.</para>
+</foil>
+
+<foil>
+<title>Lights, camera, action!</title>
+
+<para>HTML5 vs. Flash vs. Silverlight</para>
+
+<itemizedlist>
+<listitem>
+<para>The <tag>canvas</tag> element and improved audio/video controls certainly
+make HTML+JavaScript a plausible competitor for Flash/Silverlight</para>
+</listitem>
+<listitem>
+<para>Flash is not supported by the iOS platform</para>
+</listitem>
+<listitem>
+<para>Flash and Silverlight are proprietary technologies.</para>
+</listitem>
+<listitem>
+<para>All three techniques present accessibility challenges</para>
+</listitem>
+</itemizedlist>
+</foil>
+
+</foilgroup>
+
+<foil>
+<title>Q&amp;A</title>
+<para condition="web">Thanks!</para>
+</foil>
   <foilgroup>
     <title>Modelling Plays for our app</title>
     <foil>

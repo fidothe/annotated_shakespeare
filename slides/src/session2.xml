@@ -66,6 +66,24 @@ so I always do this if I can) -->
       </mediaobject>
     </foil>
     <foil>
+      <title>HTTP RFC 2616</title>
+      <mediaobject>
+        <alt>RFC 2616</alt>
+        <imageobject>
+          <imagedata fileref="../images/rfc2616.png" />
+        </imageobject>
+      </mediaobject>
+    </foil>
+    <foil>
+      <title>REST Cookbook</title>
+      <mediaobject>
+        <alt>REST Cookbook</alt>
+        <imageobject>
+          <imagedata fileref="../images/cookbook.jpg" />
+        </imageobject>
+      </mediaobject>
+    </foil>
+    <foil>
       <title>HTTP Verbs</title>
       <programlisting role="wide">
 method     safe    idempotent   semantics    resource     cacheable
@@ -202,6 +220,23 @@ UNLOCK    |             X            X           X                  |
 PATCH     |             *            X           X                  |
           -----------------------------------------------------------
       </programlisting>
+    </foil>
+    <foil>
+      <title>Representations</title>
+      <para>The type of content is returned as a media-type</para>
+      <programlisting language="http"><![CDATA[
+      http://progressiveenhancement.net/
+]]></programlisting>
+    </foil>
+    <foil>
+      <title>Content Negotiation</title>
+      <programlisting language="http"><![CDATA[
+Accept: */*
+]]></programlisting>
+      <programlisting language="http"><![CDATA[
+Accept-Language: de; q=1.0, en; q=0.5
+Accept: text/html; q=1.0, text/*; q=0.8, image/gif; q=0.6, image/jpeg; q=0.6, image/*; q=0.5, */*; q=0.1
+]]></programlisting>
     </foil>
   </foilgroup>
   <foilgroup>

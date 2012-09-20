@@ -115,6 +115,39 @@ so I always do this if I can) -->
       </speakernotes>
     </foil>
     <foil>
+      <title>HTTP Request</title>
+      <programlisting language="http">
+<![CDATA[
+GET / HTTP/1.1
+Host: www.google.com
+Accept: */*
+User-Agent:  Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405
+]]>
+    </programlisting>
+    </foil>
+    <foil>
+      <title>HTTP Response</title>
+      <programlisting language="http">
+<![CDATA[
+HTTP/1.1 302 Moved Temporarily
+Content-Length: 215
+Location: http://www.google.co.uk/
+Cache-Control: private
+Content-Type: text/html; charset=UTF-8
+Set-Cookie: PREF=ID=67b0c1c6d5b43bf7:FF=0:TM=1348123921:LM=1348123921:S=NKZBeFrm4jfX6l7e; expires=Sat, 20-Sep-2014 06:52:01 GMT; path=/; domain=.google.com
+Set-Cookie: NID=64=WFbVVcKbQxOcMddl6DuYGVc3dqenOG2RKkEMp8T3JHdRCU7f3SmaoK4aa5qDHIVCPitCUdORg1xuEBGGfaSEXFrxVUUs9OQTibqgGAVOmRjW8Se0t7YqZ1VgX0VXOL16; expires=Fri, 22-Mar-2013 06:52:01 GMT; path=/; domain=.google.com; HttpOnly
+P3P: CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&answer=151657 for more info."
+Date: Thu, 20 Sep 2012 06:52:01 GMT
+Server: gws
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+Connection: keep-alive
+
+<HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8"><TITLE>302 Moved</TITLE></HEAD><BODY><H1>302 Moved</H1>The document has moved <A HREF="http://www.google.co.uk/">here</A>. </BODY></HTML>$
+]]>
+    </programlisting>
+    </foil>
+    <foil>
       <title>HTTP tools</title>
       <itemizedlist>
         <listitem><para>Chrome</para></listitem>
@@ -196,6 +229,10 @@ The document has moved
 * Closing connection #0
 ]]>
 </programlisting>
+    </foil>
+    <foil>
+      <title>Let's try it out</title>
+      <para/>
     </foil>
   </foilgroup>
   <foilgroup>

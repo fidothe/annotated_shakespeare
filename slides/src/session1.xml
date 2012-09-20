@@ -298,43 +298,26 @@ The document has moved
     </foil>
     <foil>
       <title>Outputting variable data</title>
-      <informaltable>
-        <tr>
-          <td><mediaobject>
-              <alt>code</alt>
-              <imageobject>
-                <imagedata fileref="../images/session_one.jpg"/>
-              </imageobject>
-            </mediaobject></td>
-          <td>&#160;</td>
-          <td><itemizedlist>
-              <listitem>
-                <simpara><filename>index.erb</filename> provides the content that changes on each
-                  page (here the index page)</simpara>
-              </listitem>
-            </itemizedlist></td>
-        </tr>
-      </informaltable>
-    </foil>
-    <foil>
-      <title>Layouts</title>
-      <informaltable>
-        <tr>
-          <td><mediaobject>
-              <alt>code</alt>
-              <imageobject>
-                <imagedata fileref="../images/session_one.jpg"/>
-              </imageobject>
-            </mediaobject></td>
-          <td>&#160;</td>
-          <td><itemizedlist>
-              <listitem>
-                <simpara><filename>layout.erb</filename> provides the overall structure of the HTML,
-                  the stuff that stays the same from page to page</simpara>
-              </listitem>
-            </itemizedlist></td>
-        </tr>
-      </informaltable>
+      <simpara><filename>index.erb</filename> provides the content that changes on each
+        page (here the index page)</simpara>
+      <programlisting language="html+erb"><![CDATA[
+<h1>Hello World from the template</h1>
+]]></programlisting>
+      <simpara><filename>layout.erb</filename> provides the overall structure of the HTML,
+        the stuff that stays the same from page to page</simpara>
+      <programlisting language="html+erb"><![CDATA[
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/main.css">
+    <title><%= @title %></title>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>
+]]></programlisting>
     </foil>
     <foil>
       <title>Linkages</title>
@@ -383,5 +366,5 @@ The document has moved
       <title>Let's try it out</title>
       <para/>
     </foil>
-  </foilgroup>
-</slides>
+    </foilgroup>
+  </slides>

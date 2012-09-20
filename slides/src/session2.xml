@@ -55,17 +55,11 @@ so I always do this if I can) -->
     </copyright>
   </info>
   <foilgroup>
-    <foil>
-      <title>Latest code &amp; slides</title>
-      <para><link xlink:href="https://github.com/fidothe/annotated_shakespeare">https://github.com/fidothe/annotated_shakespeare</link></para>
-      <programlisting language="bash"><![CDATA[
-$ git clone git://github.com/fidothe/annotated_shakespeare.git]]>
-      </programlisting>
-    </foil>
+    <title>Architecture</title>
     <foil>
       <title>HTTP versus REST</title>
       <mediaobject>
-        <alt>The Radcliff Camera</alt>
+        <alt>Fielding has a posse</alt>
         <imageobject>
           <imagedata fileref="../images/posse.jpg" />
         </imageobject>

@@ -118,41 +118,66 @@ PATCH     |             *            X           X                  |
     <foil>
       <title>GET</title>
       <programlisting language="http"><![CDATA[
-      http://www.flickr.com/search?q=dog&w=commons&m=text
+http://www.flickr.com/search?q=dog&w=commons&m=text
 ]]></programlisting>
       <programlisting language="http"><![CDATA[
-      GET /search?q=dog&w=commons&m=text
-      Host: http://www.flickr.com
+GET /search?q=dog&w=commons&m=text
+Host: http://www.flickr.com
 ]]></programlisting>
+    </foil>
+    <foil>
+      <title>HEAD</title>
+      <para>same as GET, but no content returned ..</para>
     </foil>
     <foil>
       <title>POST</title>
       <para>Talk to an agent</para>
       <programlisting language="http"><![CDATA[
-      POST /box-office
-      Host: http://www.flickr.com
-      Content-Type: application/x-www-form-urlencoded
+POST /box-office
+Host: http://www.flickr.com
+Content-Type: application/x-www-form-urlencoded
 
-      date=20120912&performance=evening&number=4
+date=20120912&performance=evening&number=4
 ]]></programlisting>
     </foil>
     <foil>
       <title>PUT</title>
       <para>Replace the content</para>
       <programlisting language="http"><![CDATA[
-      PUT /box-office
-      Host: http://www.flickr.com
-      Content-Type: application/x-www-form-urlencoded
+PUT /box-office
+Host: http://www.flickr.com
+Content-Type: application/x-www-form-urlencoded
 
-      date=20120912&performance=evening&number=4
+date=20120912&performance=evening&number=4
 ]]></programlisting>
     </foil>
     <foil>
       <title>DELETE</title>
       <para>Delete the resource</para>
       <programlisting language="http"><![CDATA[
-      DELETE /box-office
-      Host: http://www.flickr.com
+DELETE /box-office
+Host: http://www.flickr.com
+]]></programlisting>
+    </foil>
+    <foil>
+      <title>Caching (Dates)</title>
+      <programlisting language="http"><![CDATA[
+If-Modified-Since:  Friday, 31-Dec-11 23:59:59 GMT
+]]></programlisting>
+      <programlisting language="http"><![CDATA[
+HTTP/1.1 304 Not Modified
+]]></programlisting>
+    </foil>
+    <foil>
+      <title>Caching (Content)</title>
+      <programlisting language="http"><![CDATA[
+ETag: "686897696a7c876b7e"
+]]></programlisting>
+      <programlisting language="http"><![CDATA[
+If-None-Match: "686897696a7c876b7e"
+]]></programlisting>
+      <programlisting language="http"><![CDATA[
+HTTP/1.1 304 Not Modified
 ]]></programlisting>
     </foil>
     <foil>

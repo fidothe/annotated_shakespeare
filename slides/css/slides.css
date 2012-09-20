@@ -253,6 +253,10 @@ pre {
     padding: 10px;
 }
 
+.wide pre {
+        font-size: 0.9em;
+}
+
 .xml {
     background-color: #E6E6E6;
 }

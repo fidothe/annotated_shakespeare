@@ -7,9 +7,9 @@ TARGETS=session1.html
 TARGETS+=session2.html
 TARGETS+=session3.html
 TARGETS+=session4.html
-TARGETS+=html.html
-TARGETS+=css.html
-TARGETS+=javascript.html
+#TARGETS+=html.html
+#TARGETS+=css.html
+#TARGETS+=javascript.html
 TARGETS+=session5.html
 TARGETS+=session6.html
 

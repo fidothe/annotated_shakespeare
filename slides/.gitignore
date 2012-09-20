@@ -1,5 +1,7 @@
 *~
-*.html
 /lib/cachedir
+/lib/jython-2.5.2/Demo
+/lib/jython-2.5.2/Doc
+/lib/jython-2.5.2/Lib/test
 *.class
 

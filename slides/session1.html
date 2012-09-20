@@ -1,0 +1,325 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="localStorage.key" content="slideno" /><title>Practical Web Applications</title><script type="text/javascript" language="javascript" src="js/jquery-1.6.2.min.js"></script><script type="text/javascript" language="javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script><script type="text/javascript" language="javascript" src="js/jquery-timers-1.2.js"></script><script type="text/javascript" language="javascript" src="js/jquery.ba-hashchange.min.js"></script><script type="text/javascript" language="javascript" src="js/slides.js"></script><link type="text/css" rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.16.custom.css" /><link type="text/css" rel="stylesheet" href="css/slides.css" /></head><body><div class="foil titlefoil"><div class="page"><div class="header"><h1>Practical Web Applications</h1><h2>20 September 2012</h2></div><div class="body"><h1>Session One</h1><div class="authorgroup"><div class="author"><h2><span class="personname"><span class="firstname">Lauren</span> <span class="surname">Wood</span></span></h2><h3><span class="orgname">Textuality Services, Inc.</span></h3></div><div class="author"><h2><span class="personname"><span class="firstname">Matt</span> <span class="surname">Patterson</span></span></h2><h3><span class="orgname">Constituent Parts, Ltd.</span></h3></div><div class="author"><h2><span class="personname"><span class="firstname">Norman </span> <span class="surname">Walsh</span></span></h2><h3><span class="orgname">MarkLogic</span></h3></div><div class="author"><h2><span class="personname"><span class="firstname">Paul</span> <span class="surname">Downey</span></span></h2><h3><span class="orgname">GDS</span></h3></div></div><div class="legalnotice"><p>Alpha by first name</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Agenda</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><ul class="toc"><li><a href="#1">What is HTML?</a></li><li><a href="#3">What is HTTP?</a></li><li><a href="#13">Web application architecture</a></li></ul></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div></div></div><div class="foil titlefoil foilgroup"><div class="page"><div class="header"><h1>What is HTML?</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">1</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Hypertext Markup Language</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="itemizedlist"><ul><li><p>An XMLish document markup language</p></li></ul></div><div class="programlisting highlight"><pre class="xml"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Document title<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/styles.css"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>A heading<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Some text<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span></pre></div></div><div class="foil-notes"><div class="foilinset"><div class="itemizedlist"><ul><li><p>An XMLish document markup language</p></li></ul></div><div class="programlisting highlight"><pre class="xml"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Document title<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/styles.css"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>A heading<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Some text<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span></pre></div></div><div class="speakernotes">
+        <p>Let's begin by looking very quickly at HTML, the document part of the web. I imagine
+          most of you are familiar with HTML, but we'll quickly go over the basics again. </p>
+        <p>HTML began life as an SGML dialect, had a brief dalliance with XML in the form of
+          XHTML, and most recently, after 10 years of schema stagnation, has been revived with the
+          addition of new elements and new core-browser features, all gathered together under the
+          banner of HTML 5, which isn't really SGML anymore either. </p>
+        <p>The core document model is very simple: a root _html_ element, containing a _head_
+          element with document metadata, and a _body_ element containing the content. </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">2</div></div></div><div class="foil titlefoil foilgroup"><div class="page"><div class="header"><h1>What is HTTP?</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">3</div></div></div><div class="foil"><div class="page"><div class="header"><h1>HTTP flows</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Core HTTP protocol </p><div class="itemizedlist"><ul><li><p>Client requests a resource with certain parameters encoded as headers. </p></li><li><p>Server responds with a status code, headers and a representation of the requested resource. </p></li></ul></div><div id="R.1.3.2.4" title="application architecture components" class="mediaobject center"><img src="images/httpcore.svg" alt="application architecture components" /></div></div><div class="foil-notes"><div class="foilinset"><p>Core HTTP protocol </p><div class="itemizedlist"><ul><li><p>Client requests a resource with certain parameters encoded as headers. </p></li><li><p>Server responds with a status code, headers and a representation of the requested resource. </p></li></ul></div><div id="R.1.3.2.4" title="application architecture components" class="mediaobject center"><img src="images/httpcore.svg" alt="application architecture components" /></div></div><div class="speakernotes">
+        <p>To start with, I’m going to run through a brief version of what really happens when
+          you click on a link in a web page. This will set the stage for all the authentication and
+          authorisation workflows, as the ones we’re talking about here all sit on top of HTTP in
+          some way. This is going to be brief, and since a little inaccuracy can save a ton of
+          arguments, I will be somewhat inaccurate when it seems like a good idea. </p>
+        <p>HTTP is a client-server request-response protocol. The client (often a browser) wants
+          to access a resource (e.g., web page) that’s hosted by a server (another application,
+          usually running on a different computer). The client sends an HTTP request to the server,
+          which then responds, hopefully by providing the requested resource (HTML page, image,
+          etc). In more detail: the client sends a request message containing a request line (e.g.,
+          GET /pubs/1.html HTTP/1.1), headers such as acceptable languages, and an optional message
+          body. The HTTP server response is a status code (e.g., HTTP/1.1 200 OK) and potentially
+          other header information such as the content-length and/or last-modified date, as well as
+          the body, containing potentially the resource, an error message, or other information. The
+          list of headers is in a number of specifications, or in a more readable form in wikipedia.
+        </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">4</div></div></div><div class="foil"><div class="page"><div class="header"><h1>HTTP Request</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="http"><span class="nf">GET</span> <span class="nn">/</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">www.google.com</span>
+<span class="na">Accept</span><span class="o">:</span> <span class="l">*/*</span>
+<span class="na">User-Agent</span><span class="o">:</span>  <span class="l">Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405</span>
+
+    </pre></div></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="http"><span class="nf">GET</span> <span class="nn">/</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">www.google.com</span>
+<span class="na">Accept</span><span class="o">:</span> <span class="l">*/*</span>
+<span class="na">User-Agent</span><span class="o">:</span>  <span class="l">Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405</span>
+
+    </pre></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">5</div></div></div><div class="foil"><div class="page"><div class="header"><h1>HTTP Response</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="http"><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">302</span> <span class="ne">Moved Temporarily</span>
+<span class="na">Content-Length</span><span class="o">:</span> <span class="l">215</span>
+<span class="na">Location</span><span class="o">:</span> <span class="l">http://www.google.co.uk/</span>
+<span class="na">Cache-Control</span><span class="o">:</span> <span class="l">private</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/html; charset=UTF-8</span>
+<span class="na">Set-Cookie</span><span class="o">:</span> <span class="l">PREF=ID=67b0c1c6d5b43bf7:FF=0:TM=1348123921:LM=1348123921:S=NKZBeFrm4jfX6l7e; expires=Sat, 20-Sep-2014 06:52:01 GMT; path=/; domain=.google.com</span>
+<span class="na">Set-Cookie</span><span class="o">:</span> <span class="l">NID=64=WFbVVcKbQxOcMddl6DuYGVc3dqenOG2RKkEMp8T3JHdRCU7f3SmaoK4aa5qDHIVCPitCUdORg1xuEBGGfaSEXFrxVUUs9OQTibqgGAVOmRjW8Se0t7YqZ1VgX0VXOL16; expires=Fri, 22-Mar-2013 06:52:01 GMT; path=/; domain=.google.com; HttpOnly</span>
+<span class="na">P3P</span><span class="o">:</span> <span class="l">CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&amp;answer=151657 for more info."</span>
+<span class="na">Date</span><span class="o">:</span> <span class="l">Thu, 20 Sep 2012 06:52:01 GMT</span>
+<span class="na">Server</span><span class="o">:</span> <span class="l">gws</span>
+<span class="na">X-XSS-Protection</span><span class="o">:</span> <span class="l">1; mode=block</span>
+<span class="na">X-Frame-Options</span><span class="o">:</span> <span class="l">SAMEORIGIN</span>
+<span class="na">Connection</span><span class="o">:</span> <span class="l">keep-alive</span>
+
+<span class="nt">&lt;HTML&gt;&lt;HEAD&gt;&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"content-type"</span> <span class="na">content=</span><span class="s">"text/html;charset=utf-8"</span><span class="nt">&gt;&lt;TITLE&gt;</span>302 Moved<span class="nt">&lt;/TITLE&gt;&lt;/HEAD&gt;&lt;BODY&gt;&lt;H1&gt;</span>302 Moved<span class="nt">&lt;/H1&gt;</span>The document has moved <span class="nt">&lt;A</span> <span class="na">HREF=</span><span class="s">"http://www.google.co.uk/"</span><span class="nt">&gt;</span>here<span class="nt">&lt;/A&gt;</span>. <span class="nt">&lt;/BODY&gt;&lt;/HTML&gt;</span>$
+
+    </pre></div></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="http"><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">302</span> <span class="ne">Moved Temporarily</span>
+<span class="na">Content-Length</span><span class="o">:</span> <span class="l">215</span>
+<span class="na">Location</span><span class="o">:</span> <span class="l">http://www.google.co.uk/</span>
+<span class="na">Cache-Control</span><span class="o">:</span> <span class="l">private</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/html; charset=UTF-8</span>
+<span class="na">Set-Cookie</span><span class="o">:</span> <span class="l">PREF=ID=67b0c1c6d5b43bf7:FF=0:TM=1348123921:LM=1348123921:S=NKZBeFrm4jfX6l7e; expires=Sat, 20-Sep-2014 06:52:01 GMT; path=/; domain=.google.com</span>
+<span class="na">Set-Cookie</span><span class="o">:</span> <span class="l">NID=64=WFbVVcKbQxOcMddl6DuYGVc3dqenOG2RKkEMp8T3JHdRCU7f3SmaoK4aa5qDHIVCPitCUdORg1xuEBGGfaSEXFrxVUUs9OQTibqgGAVOmRjW8Se0t7YqZ1VgX0VXOL16; expires=Fri, 22-Mar-2013 06:52:01 GMT; path=/; domain=.google.com; HttpOnly</span>
+<span class="na">P3P</span><span class="o">:</span> <span class="l">CP="This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&amp;answer=151657 for more info."</span>
+<span class="na">Date</span><span class="o">:</span> <span class="l">Thu, 20 Sep 2012 06:52:01 GMT</span>
+<span class="na">Server</span><span class="o">:</span> <span class="l">gws</span>
+<span class="na">X-XSS-Protection</span><span class="o">:</span> <span class="l">1; mode=block</span>
+<span class="na">X-Frame-Options</span><span class="o">:</span> <span class="l">SAMEORIGIN</span>
+<span class="na">Connection</span><span class="o">:</span> <span class="l">keep-alive</span>
+
+<span class="nt">&lt;HTML&gt;&lt;HEAD&gt;&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"content-type"</span> <span class="na">content=</span><span class="s">"text/html;charset=utf-8"</span><span class="nt">&gt;&lt;TITLE&gt;</span>302 Moved<span class="nt">&lt;/TITLE&gt;&lt;/HEAD&gt;&lt;BODY&gt;&lt;H1&gt;</span>302 Moved<span class="nt">&lt;/H1&gt;</span>The document has moved <span class="nt">&lt;A</span> <span class="na">HREF=</span><span class="s">"http://www.google.co.uk/"</span><span class="nt">&gt;</span>here<span class="nt">&lt;/A&gt;</span>. <span class="nt">&lt;/BODY&gt;&lt;/HTML&gt;</span>$
+
+    </pre></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">6</div></div></div><div class="foil"><div class="page"><div class="header"><h1>HTTP tools</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="itemizedlist"><ul><li><p>Chrome</p></li><li><p>Telnet</p></li><li><p>Curl</p></li><li><p>There are lots of others ..</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><div class="itemizedlist"><ul><li><p>Chrome</p></li><li><p>Telnet</p></li><li><p>Curl</p></li><li><p>There are lots of others ..</p></li></ul></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">7</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Chrome Web Developer</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div id="R.1.3.6.2" title="Chrome Web Developer" class="mediaobject center"><img src="images/Chrome-Developer-Tools.png" alt="Chrome Web Developer" /></div></div><div class="foil-notes"><div class="foilinset"><div id="R.1.3.6.2" title="Chrome Web Developer" class="mediaobject center"><img src="images/Chrome-Developer-Tools.png" alt="Chrome Web Developer" /></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">8</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Chrome Web Developer Network</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div id="R.1.3.7.2" title="Chrome Web Developer Network" class="mediaobject center"><img src="images/Chrome-Network.png" alt="Chrome Web Developer Network" /></div></div><div class="foil-notes"><div class="foilinset"><div id="R.1.3.7.2" title="Chrome Web Developer Network" class="mediaobject center"><img src="images/Chrome-Network.png" alt="Chrome Web Developer Network" /></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">9</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Telnet</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="http"><span class="err">$ telnet google.com 80</span>
+<span class="err">GTrying 173.194.41.135...</span>
+<span class="err">Connected to google.com.</span>
+<span class="err">Escape character is '^]'.</span>
+<span class="nf">GET</span> <span class="nn">/</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span></pre></div><div class="programlisting highlight"><pre class="http"><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">302</span> <span class="ne">Found</span>
+<span class="na">Location</span><span class="o">:</span> <span class="l">http://www.google.co.uk/</span>
+<span class="na">Cache-Control</span><span class="o">:</span> <span class="l">private</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/html; charset=UTF-8</span></pre></div></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="http"><span class="err">$ telnet google.com 80</span>
+<span class="err">GTrying 173.194.41.135...</span>
+<span class="err">Connected to google.com.</span>
+<span class="err">Escape character is '^]'.</span>
+<span class="nf">GET</span> <span class="nn">/</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span></pre></div><div class="programlisting highlight"><pre class="http"><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">302</span> <span class="ne">Found</span>
+<span class="na">Location</span><span class="o">:</span> <span class="l">http://www.google.co.uk/</span>
+<span class="na">Cache-Control</span><span class="o">:</span> <span class="l">private</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">text/html; charset=UTF-8</span></pre></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">10</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Curl</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="bash"><span class="nv">$ </span>curl -v http://www.google.com
+* About to connect<span class="o">()</span> to www.google.com port 80 <span class="o">(</span><span class="c">#0)</span>
+*   Trying 173.194.78.99... connected
+* Connected to www.google.com <span class="o">(</span>173.194.78.99<span class="o">)</span> port 80 <span class="o">(</span><span class="c">#0)</span>
+&gt; GET / HTTP/1.1
+&gt; User-Agent: curl/7.21.4 <span class="o">(</span>universal-apple-darwin11.0<span class="o">)</span> libcurl/7.21.4 OpenSSL/0.9.8r zlib/1.2.5
+&gt; Host: www.google.com
+&gt; Accept: */*
+&gt; 
+&lt; HTTP/1.1 302 Found
+&lt; Location: http://www.google.co.uk/
+&lt; Cache-Control: private
+&lt; Content-Type: text/html; <span class="nv">charset</span><span class="o">=</span>UTF-8
+&lt; Set-Cookie: <span class="nv">PREF</span><span class="o">=</span><span class="nv">ID</span><span class="o">=</span>4f9a...beb:FF<span class="o">=</span>0:TM; <span class="nv">expires</span><span class="o">=</span>Tue, 16-Sep-2014 17:02:43 GMT; <span class="nv">path</span><span class="o">=</span>/; <span class="nv">domain</span><span class="o">=</span>.google.com
+&lt; P3P: <span class="nv">CP</span><span class="o">=</span><span class="s2">"This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&amp;answer=151657 for more info."</span>
+&lt; Date: Sun, 16 Sep 2012 17:02:43 GMT
+&lt; Server: gws
+&lt; Content-Length: 221
+&lt; X-XSS-Protection: 1; <span class="nv">mode</span><span class="o">=</span>block
+&lt; X-Frame-Options: SAMEORIGIN
+&lt; 
+&lt;HTML&gt;&lt;HEAD&gt;&lt;meta http-equiv<span class="o">=</span><span class="s2">"content-type"</span> <span class="nv">content</span><span class="o">=</span><span class="s2">"text/html;charset=utf-8"</span>&gt;
+&lt;TITLE&gt;302 Moved&lt;/TITLE&gt;&lt;/HEAD&gt;&lt;BODY&gt;
+&lt;H1&gt;302 Moved&lt;/H1&gt;
+The document has moved
+&lt;A <span class="nv">HREF</span><span class="o">=</span><span class="s2">"http://www.google.co.uk/"</span>&gt;here&lt;/A&gt;.
+&lt;/BODY&gt;&lt;/HTML&gt;
+* Connection <span class="c">#0 to host www.google.com left intact</span>
+* Closing connection <span class="c">#0</span></pre></div></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="bash"><span class="nv">$ </span>curl -v http://www.google.com
+* About to connect<span class="o">()</span> to www.google.com port 80 <span class="o">(</span><span class="c">#0)</span>
+*   Trying 173.194.78.99... connected
+* Connected to www.google.com <span class="o">(</span>173.194.78.99<span class="o">)</span> port 80 <span class="o">(</span><span class="c">#0)</span>
+&gt; GET / HTTP/1.1
+&gt; User-Agent: curl/7.21.4 <span class="o">(</span>universal-apple-darwin11.0<span class="o">)</span> libcurl/7.21.4 OpenSSL/0.9.8r zlib/1.2.5
+&gt; Host: www.google.com
+&gt; Accept: */*
+&gt; 
+&lt; HTTP/1.1 302 Found
+&lt; Location: http://www.google.co.uk/
+&lt; Cache-Control: private
+&lt; Content-Type: text/html; <span class="nv">charset</span><span class="o">=</span>UTF-8
+&lt; Set-Cookie: <span class="nv">PREF</span><span class="o">=</span><span class="nv">ID</span><span class="o">=</span>4f9a...beb:FF<span class="o">=</span>0:TM; <span class="nv">expires</span><span class="o">=</span>Tue, 16-Sep-2014 17:02:43 GMT; <span class="nv">path</span><span class="o">=</span>/; <span class="nv">domain</span><span class="o">=</span>.google.com
+&lt; P3P: <span class="nv">CP</span><span class="o">=</span><span class="s2">"This is not a P3P policy! See http://www.google.com/support/accounts/bin/answer.py?hl=en&amp;answer=151657 for more info."</span>
+&lt; Date: Sun, 16 Sep 2012 17:02:43 GMT
+&lt; Server: gws
+&lt; Content-Length: 221
+&lt; X-XSS-Protection: 1; <span class="nv">mode</span><span class="o">=</span>block
+&lt; X-Frame-Options: SAMEORIGIN
+&lt; 
+&lt;HTML&gt;&lt;HEAD&gt;&lt;meta http-equiv<span class="o">=</span><span class="s2">"content-type"</span> <span class="nv">content</span><span class="o">=</span><span class="s2">"text/html;charset=utf-8"</span>&gt;
+&lt;TITLE&gt;302 Moved&lt;/TITLE&gt;&lt;/HEAD&gt;&lt;BODY&gt;
+&lt;H1&gt;302 Moved&lt;/H1&gt;
+The document has moved
+&lt;A <span class="nv">HREF</span><span class="o">=</span><span class="s2">"http://www.google.co.uk/"</span>&gt;here&lt;/A&gt;.
+&lt;/BODY&gt;&lt;/HTML&gt;
+* Connection <span class="c">#0 to host www.google.com left intact</span>
+* Closing connection <span class="c">#0</span></pre></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">11</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Let's try it out</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p></p></div><div class="foil-notes"><div class="foilinset"><p></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">12</div></div></div><div class="foil titlefoil foilgroup"><div class="page"><div class="header"><h1>Web application architecture</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">13</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Web application components</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="itemizedlist"><ul><li><p>HTTP Server</p></li><li><p>Application code</p></li><li><p>Static resources</p></li></ul></div><div id="R.1.4.2.3" title="web application components" class="mediaobject center"><img src="images/http-client-server.svg" alt="web application components" /></div></div><div class="foil-notes"><div class="foilinset"><div class="itemizedlist"><ul><li><p>HTTP Server</p></li><li><p>Application code</p></li><li><p>Static resources</p></li></ul></div><div id="R.1.4.2.3" title="web application components" class="mediaobject center"><img src="images/http-client-server.svg" alt="web application components" /></div></div><div class="speakernotes">
+        <p>Let's take the static HTML file that we've already loaded from disk into the browser
+          and instead serve it to the browser from our HTTP server.</p>
+        <p>To start with, we have some sinatra (ruby) code, and some HTML in a file in the
+          ./public directory. Let's look at how this works.</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">14</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Serving static HTML</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>We're using a application server called Sinatra, which we need to configure so that it
+        knows where to find static files it should serve</p><div class="programlisting highlight"><pre class="ruby"><span class="c1"># encoding: utf-8</span>
+
+<span class="nb">require</span> <span class="s1">'sinatra/base'</span>
+
+<span class="no">ROOT_DIR</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">'../../'</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">AnnotatedShakespeare</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">set</span> <span class="ss">:public_folder</span><span class="p">,</span>
+      <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">'public'</span><span class="p">,</span> <span class="no">ROOT_DIR</span><span class="p">)</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><div class="foil-notes"><div class="foilinset"><p>We're using a application server called Sinatra, which we need to configure so that it
+        knows where to find static files it should serve</p><div class="programlisting highlight"><pre class="ruby"><span class="c1"># encoding: utf-8</span>
+
+<span class="nb">require</span> <span class="s1">'sinatra/base'</span>
+
+<span class="no">ROOT_DIR</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">'../../'</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">AnnotatedShakespeare</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">set</span> <span class="ss">:public_folder</span><span class="p">,</span>
+      <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">'public'</span><span class="p">,</span> <span class="no">ROOT_DIR</span><span class="p">)</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">15</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Let's try it out</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>We run the application using the <code class="code">shotgun</code> command</p><div class="programlisting highlight"><pre class="bash">user<span class="nv">$ </span><span class="nb">cd</span> /path/to/your/app-dir
+app-dir user<span class="nv">$ shotgun</span>
+<span class="o">==</span> Shotgun/WEBrick on http://127.0.0.1:9393/
+<span class="o">[</span>2012-09-12 16:22:54<span class="o">]</span> INFO  WEBrick 1.3.1
+<span class="o">[</span>2012-09-12 16:22:54<span class="o">]</span> INFO  ruby 1.9.3 <span class="o">(</span>2012-04-20<span class="o">)</span> <span class="o">[</span>x86_64-darwin11.4.0<span class="o">]</span>
+<span class="o">[</span>2012-09-12 16:22:54<span class="o">]</span> INFO  WEBrick::HTTPServer#start: <span class="nv">pid</span><span class="o">=</span>13645 <span class="nv">port</span><span class="o">=</span>9393</pre></div><p>Now visit <code class="code">http://localhost:9393/basic.html</code></p></div><div class="foil-notes"><div class="foilinset"><p>We run the application using the <code class="code">shotgun</code> command</p><div class="programlisting highlight"><pre class="bash">user<span class="nv">$ </span><span class="nb">cd</span> /path/to/your/app-dir
+app-dir user<span class="nv">$ shotgun</span>
+<span class="o">==</span> Shotgun/WEBrick on http://127.0.0.1:9393/
+<span class="o">[</span>2012-09-12 16:22:54<span class="o">]</span> INFO  WEBrick 1.3.1
+<span class="o">[</span>2012-09-12 16:22:54<span class="o">]</span> INFO  ruby 1.9.3 <span class="o">(</span>2012-04-20<span class="o">)</span> <span class="o">[</span>x86_64-darwin11.4.0<span class="o">]</span>
+<span class="o">[</span>2012-09-12 16:22:54<span class="o">]</span> INFO  WEBrick::HTTPServer#start: <span class="nv">pid</span><span class="o">=</span>13645 <span class="nv">port</span><span class="o">=</span>9393</pre></div><p>Now visit <code class="code">http://localhost:9393/basic.html</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">16</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Framework architecture</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><figure id="R.1.4.5.2" class="informaltable-wrapper"><div class="informaltable"><table><tr>
+          <td align="center"><div id="R.1.4.5.2.1.1.1" title="application architecture components" class="mediaobject"><img src="images/app_architecture.png" alt="application architecture components" /></div></td>
+          <td> </td>
+          <td align="center"><div id="R.1.4.5.2.1.3.1" title="application architecture components - the template piece" class="mediaobject"><img src="images/app_architecture_template.jpg" alt="application architecture components - the template piece" /></div></td>
+        </tr><tr>
+          <td>A simplified view of the pieces - Sinatra (Ruby) code, templating system, static files
+            (images, styles), variable content.</td>
+          <td> </td>
+          <td>We'll start with rendering basic HTML output, using the templating mechanism.</td>
+        </tr></table></div></figure></div><div class="foil-notes"><div class="foilinset"><figure id="R.1.4.5.2" class="informaltable-wrapper"><div class="informaltable"><table><tr>
+          <td align="center"><div id="R.1.4.5.2.1.1.1" title="application architecture components" class="mediaobject"><img src="images/app_architecture.png" alt="application architecture components" /></div></td>
+          <td> </td>
+          <td align="center"><div id="R.1.4.5.2.1.3.1" title="application architecture components - the template piece" class="mediaobject"><img src="images/app_architecture_template.jpg" alt="application architecture components - the template piece" /></div></td>
+        </tr><tr>
+          <td>A simplified view of the pieces - Sinatra (Ruby) code, templating system, static files
+            (images, styles), variable content.</td>
+          <td> </td>
+          <td>We'll start with rendering basic HTML output, using the templating mechanism.</td>
+        </tr></table></div></figure></div><div class="speakernotes">
+        <p>we'll get to the bits one at a time. Let's start with where we could put a basic,
+          static, piece of HTML that we want the browser to show. </p>
+        <p>To start with, we have some sinatra (ruby) code, and some HTML in a file in the
+          ./views directory. It isn't a .html file; we'll get to the reasons why in a bit. First,
+          let's look at what the code looks like for this.</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">17</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Rendering a template</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>The code in <code class="code">lib/annotated_shakespeare.rb</code> should look like:</p><div class="programlisting highlight"><pre class="ruby"><span class="c1"># encoding: utf-8</span>
+
+<span class="nb">require</span> <span class="s1">'sinatra/base'</span>
+
+<span class="no">ROOT_DIR</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">'../../'</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">AnnotatedShakespeare</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">set</span> <span class="ss">:views</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">'views'</span><span class="p">,</span> <span class="no">ROOT_DIR</span><span class="p">)</span>
+  <span class="n">set</span> <span class="ss">:public_folder</span><span class="p">,</span>
+      <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">'public'</span><span class="p">,</span> <span class="no">ROOT_DIR</span><span class="p">)</span>
+
+  <span class="n">get</span> <span class="s1">'/'</span> <span class="k">do</span>
+    <span class="n">erb</span> <span class="ss">:index</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div></div><div class="foil-notes"><div class="foilinset"><p>The code in <code class="code">lib/annotated_shakespeare.rb</code> should look like:</p><div class="programlisting highlight"><pre class="ruby"><span class="c1"># encoding: utf-8</span>
+
+<span class="nb">require</span> <span class="s1">'sinatra/base'</span>
+
+<span class="no">ROOT_DIR</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">'../../'</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">AnnotatedShakespeare</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">set</span> <span class="ss">:views</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">'views'</span><span class="p">,</span> <span class="no">ROOT_DIR</span><span class="p">)</span>
+  <span class="n">set</span> <span class="ss">:public_folder</span><span class="p">,</span>
+      <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">'public'</span><span class="p">,</span> <span class="no">ROOT_DIR</span><span class="p">)</span>
+
+  <span class="n">get</span> <span class="s1">'/'</span> <span class="k">do</span>
+    <span class="n">erb</span> <span class="ss">:index</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">18</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Ruby code dissection</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting other"><pre class="ruby">
+      <span class="kw">get</span> '/' <span class="kw">do</span>
+        <span class="kw">erb</span> :index
+      <span class="kw">end</span>
+    </pre></div><div class="orderedlist"><ol style="list-style: decimal;"><li><p>The browser requests the URL '/' (i.e., index.html)</p></li><li><p>Get the contents of the file 'index.erb' that is in the ./views directory. </p></li><li><p>Send that to the browser.</p></li></ol></div></div><div class="foil-notes"><div class="foilinset"><div class="programlisting other"><pre class="ruby">
+      <span class="kw">get</span> '/' <span class="kw">do</span>
+        <span class="kw">erb</span> :index
+      <span class="kw">end</span>
+    </pre></div><div class="orderedlist"><ol style="list-style: decimal;"><li><p>The browser requests the URL '/' (i.e., index.html)</p></li><li><p>Get the contents of the file 'index.erb' that is in the ./views directory. </p></li><li><p>Send that to the browser.</p></li></ol></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">19</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Outputting variable data</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p><code class="filename">index.erb</code> provides the content that changes on each
+        page (here the index page)</p><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;h1&gt;</span>Hello World from the template<span class="nt">&lt;/h1&gt;</span></pre></div><p><code class="filename">layout.erb</code> provides the overall structure of the HTML,
+        the stuff that stays the same from page to page</p><div class="programlisting highlight"><pre class="html+erb"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/main.css"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@title</span> <span class="cp">%&gt;</span><span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span></pre></div></div><div class="foil-notes"><div class="foilinset"><p><code class="filename">index.erb</code> provides the content that changes on each
+        page (here the index page)</p><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;h1&gt;</span>Hello World from the template<span class="nt">&lt;/h1&gt;</span></pre></div><p><code class="filename">layout.erb</code> provides the overall structure of the HTML,
+        the stuff that stays the same from page to page</p><div class="programlisting highlight"><pre class="html+erb"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"/main.css"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;title&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@title</span> <span class="cp">%&gt;</span><span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span></pre></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">20</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Linkages</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><figure id="R.1.4.9.2" class="informaltable-wrapper"><div class="informaltable"><table><tr>
+          <td><div id="R.1.4.9.2.1.1.1" title="code" class="mediaobject"><img src="images/annotated_session_one.jpg" alt="code" /></div></td>
+          <td> </td>
+          <td> the arrows show where the parameters are replaced by content </td>
+        </tr></table></div></figure><p></p></div><div class="foil-notes"><div class="foilinset"><figure id="R.1.4.9.2" class="informaltable-wrapper"><div class="informaltable"><table><tr>
+          <td><div id="R.1.4.9.2.1.1.1" title="code" class="mediaobject"><img src="images/annotated_session_one.jpg" alt="code" /></div></td>
+          <td> </td>
+          <td> the arrows show where the parameters are replaced by content </td>
+        </tr></table></div></figure><p></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">21</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Ruby code dissection</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting other"><pre class="ruby">
+      <span class="kw">get</span> '/' <span class="kw">do</span>
+        <span class="var">@title</span> = "Index"
+        <span class="kw">erb</span> :index
+      <span class="kw">end</span>
+    </pre></div><div class="orderedlist"><ol style="list-style: decimal;"><li><p>The browser requests the URL '/' (i.e., index.html)</p></li><li><p>Get the contents of the file 'index.erb' that is in the ./views directory. </p></li><li><p>Set the content of the parameter (@title) to 'Index'.</p></li><li><p>Combine the content of the layout.erb and index.erb files, after replacing
+            appropriate content.</p></li><li><p>Send that complete file to the browser.</p></li></ol></div></div><div class="foil-notes"><div class="foilinset"><div class="programlisting other"><pre class="ruby">
+      <span class="kw">get</span> '/' <span class="kw">do</span>
+        <span class="var">@title</span> = "Index"
+        <span class="kw">erb</span> :index
+      <span class="kw">end</span>
+    </pre></div><div class="orderedlist"><ol style="list-style: decimal;"><li><p>The browser requests the URL '/' (i.e., index.html)</p></li><li><p>Get the contents of the file 'index.erb' that is in the ./views directory. </p></li><li><p>Set the content of the parameter (@title) to 'Index'.</p></li><li><p>Combine the content of the layout.erb and index.erb files, after replacing
+            appropriate content.</p></li><li><p>Send that complete file to the browser.</p></li></ol></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">22</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Let's try it out</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></div><div class="foil-body"><p></p></div><div class="foil-notes"><div class="foilinset"><p></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">23</div></div></div></body></html>

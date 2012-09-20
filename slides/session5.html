@@ -1,0 +1,1004 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="localStorage.key" content="slideno" /><title>Practical Web Applications</title><script type="text/javascript" language="javascript" src="js/jquery-1.6.2.min.js"></script><script type="text/javascript" language="javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script><script type="text/javascript" language="javascript" src="js/jquery-timers-1.2.js"></script><script type="text/javascript" language="javascript" src="js/jquery.ba-hashchange.min.js"></script><script type="text/javascript" language="javascript" src="js/slides.js"></script><link type="text/css" rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.16.custom.css" /><link type="text/css" rel="stylesheet" href="css/slides.css" /></head><body><div class="foil titlefoil"><div class="page"><div class="header"><h1>Practical Web Applications</h1><h2>20 September 2012</h2></div><div class="body"><h1>Security and Authentication</h1><div class="authorgroup"><div class="author"><h2><span class="personname"><span class="firstname">Lauren</span> <span class="surname">Wood</span></span></h2><h3><span class="orgname">Textuality Services, Inc.</span></h3></div><div class="author"><h2><span class="personname"><span class="firstname">Matt</span> <span class="surname">Patterson</span></span></h2><h3><span class="orgname">Constituent Parts, Ltd.</span></h3></div><div class="author"><h2><span class="personname"><span class="firstname">Norman </span> <span class="surname">Walsh</span></span></h2><h3><span class="orgname">MarkLogic</span></h3></div><div class="author"><h2><span class="personname"><span class="firstname">Paul</span> <span class="surname">Downey</span></span></h2><h3><span class="orgname">GDS</span></h3></div></div><div class="legalnotice"><p>Alpha by first name</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Agenda</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><ul class="toc"><li><a href="#1">Identity Concepts</a></li><li><a href="#8">HTTP-based authentication</a></li><li><a href="#12">Outsourcing identity</a></li><li><a href="#37">Implementing Browser ID/Persona</a></li><li><a href="#41">OAuth 2</a></li><li><a href="#49">Web security basics</a></li><li><a href="#55">Securing Web Applications</a></li></ul></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div></div></div><div class="foil titlefoil foilgroup"><div class="page"><div class="header"><h1>Identity Concepts</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">1</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Facets of Identity</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="itemizedlist"><ul><li><p>Who am I today? Or now?</p></li><li><p>Role I’m playing right now </p></li><li><p>Identity depends on what I’m doing </p></li><li><p>Anonymous vs pseudonymous vs Real Names</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><div class="itemizedlist"><ul><li><p>Who am I today? Or now?</p></li><li><p>Role I’m playing right now </p></li><li><p>Identity depends on what I’m doing </p></li><li><p>Anonymous vs pseudonymous vs Real Names</p></li></ul></div></div><div class="speakernotes">
+        <p>Identity: the overarching “who am I” – or rather, what persona am I using for this
+          purpose? Identity is multi-faceted – checking my personal mail, or auditing the financial
+          records for a large corporation are manifestations of different identities, even if I’m
+          the same person carrying out both activities. I may have to use a real name for some
+          activities, for others I can use a pseudonym, for others I can use a one-off “handle” or
+          no label at all. </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">2</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Authentication</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Am I talking to the person I think I’m talking to? </p><p>Is it the person, or someone using their computer? </p><p>How sure do I have to be that it’s the right person? </p><p>Levels of identification and authentication depend on application. </p><p>“Something you are, something you have, something you know” </p><p>Identity verification (proofing) - digital version of notaries?</p></div><div class="foil-notes"><div class="foilinset"><p>Am I talking to the person I think I’m talking to? </p><p>Is it the person, or someone using their computer? </p><p>How sure do I have to be that it’s the right person? </p><p>Levels of identification and authentication depend on application. </p><p>“Something you are, something you have, something you know” </p><p>Identity verification (proofing) - digital version of notaries?</p></div><div class="speakernotes">
+        <p>who am I really talking to? Note the associated issues of is it really the person, or
+          is it someone using that person’s credentials? In real life we have notaries who will
+          check your identification and assert as a trusted third party that it was really you; in
+          the digital arena we don’t have anything with the same level of guarantee. The trinity of
+          “something you have (e.g., token, card), something you know (e.g., password), something
+          you are (e.g., biometric)” helps, as each separate item requires a separate check of the
+          authentication. Identity verification is separate to authentication. Also called identity
+          proofing. This is mapping a digitally-used identity back to a real person. Every time the
+          person shows up with the digital id, want to prove they do go back to the real person. US
+          gov tries to add trust, chain of custody that’s strong enough to go back to the real world
+          – can you make the proof strong enough if someone did something wrong etc. </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">3</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Authorisation</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Is this person allowed to do what they want to do? </p><div class="itemizedlist"><ul><li><p>as an individual </p></li><li><p>as a member of a group </p><p>static name list of all allowed to do “X”</p></li><li><p>with a particular role </p><p>assign role to person; everyone with that role allowed to do “Y”</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><p>Is this person allowed to do what they want to do? </p><div class="itemizedlist"><ul><li><p>as an individual </p></li><li><p>as a member of a group </p><p>static name list of all allowed to do “X”</p></li><li><p>with a particular role </p><p>assign role to person; everyone with that role allowed to do “Y”</p></li></ul></div></div><div class="speakernotes">
+        <p>Typically used in enterprises; the big problem is trying to minimise the number of
+          roles so you don’t have each person having their own role! Groups are static, but a good
+          first step to figuring out the roles.</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">4</div></div></div><div class="foil"><div class="page"><div class="header"><h1>And the rest</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Confidentiality</p><div class="itemizedlist"><ul><li><p>only the right people can see this</p></li></ul></div><p>Auditing </p><div class="itemizedlist"><ul><li><p>track who accessed the system and what they did </p></li></ul></div><p>Integrity</p><div class="itemizedlist"><ul><li><p>did the information arrive whole and untouched?</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><p>Confidentiality</p><div class="itemizedlist"><ul><li><p>only the right people can see this</p></li></ul></div><p>Auditing </p><div class="itemizedlist"><ul><li><p>track who accessed the system and what they did </p></li></ul></div><p>Integrity</p><div class="itemizedlist"><ul><li><p>did the information arrive whole and untouched?</p></li></ul></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">5</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Trust and other nebulous aspects</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Technical aspects </p><div class="itemizedlist"><ul><li><p>exchange public keys and metadata </p></li></ul></div><p>Legal level </p><div class="itemizedlist"><ul><li><p>contracts, agreements </p></li></ul></div><p>Policy</p><div class="itemizedlist"><ul><li><p>what are the conditions for our working together?</p></li></ul></div><p>Non-repudiation</p><div class="itemizedlist"><ul><li><p>how do we make orders irrevocable?</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><p>Technical aspects </p><div class="itemizedlist"><ul><li><p>exchange public keys and metadata </p></li></ul></div><p>Legal level </p><div class="itemizedlist"><ul><li><p>contracts, agreements </p></li></ul></div><p>Policy</p><div class="itemizedlist"><ul><li><p>what are the conditions for our working together?</p></li></ul></div><p>Non-repudiation</p><div class="itemizedlist"><ul><li><p>how do we make orders irrevocable?</p></li></ul></div></div><div class="speakernotes">
+        <p>trust (how do I know I can trust you or your system?), policy (have we actually agreed
+          that we can work together?), and non-repudiation (so they can’t claim afterwards it wasn’t
+          them sending the request). Non-repudiation needs a high level of assurance that the
+          authentication is accurate, and depends on the integrity of the data to make sure fake
+          data wasn’t sent or received. </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">6</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Summary</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><figure id="R.1.2.7.2" class="informaltable-wrapper"><div class="informaltable"><table border="1" cellpadding="1"><tr>
+          <th>Requirement</th>
+          <th>Technologies</th>
+        </tr><tr>
+          <td>Authentication</td>
+          <td> Username/password, key-based digital signing, challenge-response, biometrics, smart
+            cards </td>
+        </tr><tr>
+          <td>Authorisation</td>
+          <td> Policy engines, directory attributes, access control, digital rights management,
+            active directory </td>
+        </tr><tr>
+          <td>Auditing</td>
+          <td> Secure logging + analysis </td>
+        </tr><tr>
+          <td>Integrity</td>
+          <td> Message digest, authenticated with a digital signature </td>
+        </tr><tr>
+          <td>Confidentiality</td>
+          <td> Key-based digital encryption and decryption </td>
+        </tr><tr>
+          <td>Non-repudiation</td>
+          <td> Key-based digital signing and signature verification, message reliability,
+            legal/contractual agreements </td>
+        </tr><tr>
+          <td>Trust</td>
+          <td>Setting up parameters for all the above </td>
+        </tr></table></div></figure></div><div class="foil-notes"><div class="foilinset"><figure id="R.1.2.7.2" class="informaltable-wrapper"><div class="informaltable"><table border="1" cellpadding="1"><tr>
+          <th>Requirement</th>
+          <th>Technologies</th>
+        </tr><tr>
+          <td>Authentication</td>
+          <td> Username/password, key-based digital signing, challenge-response, biometrics, smart
+            cards </td>
+        </tr><tr>
+          <td>Authorisation</td>
+          <td> Policy engines, directory attributes, access control, digital rights management,
+            active directory </td>
+        </tr><tr>
+          <td>Auditing</td>
+          <td> Secure logging + analysis </td>
+        </tr><tr>
+          <td>Integrity</td>
+          <td> Message digest, authenticated with a digital signature </td>
+        </tr><tr>
+          <td>Confidentiality</td>
+          <td> Key-based digital encryption and decryption </td>
+        </tr><tr>
+          <td>Non-repudiation</td>
+          <td> Key-based digital signing and signature verification, message reliability,
+            legal/contractual agreements </td>
+        </tr><tr>
+          <td>Trust</td>
+          <td>Setting up parameters for all the above </td>
+        </tr></table></div></figure></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">7</div></div></div><div class="foil titlefoil foilgroup"><div class="page"><div class="header"><h1>HTTP-based authentication</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">8</div></div></div><div class="foil"><div class="page"><div class="header"><h1>HTTP Basic authentication</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Basic authentication - HTTP 1.0, 1999, RFC 2617</p><div class="itemizedlist"><ul><li><p>widely implemented </p></li><li><p>not secure, password sent in clear text </p></li><li><p>protects resources in authentication realm </p></li></ul></div><div id="R.1.3.2.4" title="application architecture components" class="mediaobject center"><img src="images/httpbasicauth.svg" alt="application architecture components" /></div></div><div class="foil-notes"><div class="foilinset"><p>Basic authentication - HTTP 1.0, 1999, RFC 2617</p><div class="itemizedlist"><ul><li><p>widely implemented </p></li><li><p>not secure, password sent in clear text </p></li><li><p>protects resources in authentication realm </p></li></ul></div><div id="R.1.3.2.4" title="application architecture components" class="mediaobject center"><img src="images/httpbasicauth.svg" alt="application architecture components" /></div></div><div class="speakernotes">
+        <p> isn’t particularly secure, but it is easy to implement. The page(s) that require the
+          password are said to be in an authentication realm, which is usually all the pages in a
+          particular directory on the web site. When the browser asks to be shown one of those
+          pages, the HTTP server responds with a 401 code (Unauthorized) and typically the name of
+          the authentication realm. The browser typically then puts up a dialog box, asking for the
+          username and password. The credentials are concatenated, base64-encoded (for ease of
+          handling, not security), and sent to the server. If the credentials are accepted, the
+          server sends the page back to the browser for display. The big security hole with this one
+          is that the username and password are sent as plain text (base-64 encoding doesn’t add any
+          security as it’s trivial to decode the string). If you use SSL or some other method to
+          secure the channel (the way the information is sent from point A to point B), then this is
+          ok. If you don’t, then someone sitting in between the two end-points could pick up the
+          information. </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">9</div></div></div><div class="foil"><div class="page"><div class="header"><h1>HTTP Digest authentication</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="itemizedlist"><ul><li><p>Encrypts the password using cryptographic hash aka digest</p></li><li><p>Cryptographic hash is effectively impossible to break</p></li><li><p>Quick to compute the digest from the string</p></li><li><p>Security further improved by using a nonce (random number, generated on server, that
+            changes each time the client gets the 401)</p></li><li><p>Easier to implement/use HTTP Basic over SSL/TLS than HTTP Digest</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><div class="itemizedlist"><ul><li><p>Encrypts the password using cryptographic hash aka digest</p></li><li><p>Cryptographic hash is effectively impossible to break</p></li><li><p>Quick to compute the digest from the string</p></li><li><p>Security further improved by using a nonce (random number, generated on server, that
+            changes each time the client gets the 401)</p></li><li><p>Easier to implement/use HTTP Basic over SSL/TLS than HTTP Digest</p></li></ul></div></div><div class="speakernotes">
+        <p>encrypts the password using a cryptographic hash system. A cryptographic hash function
+          is a procedure that takes some data (the message) and gives you back a fixed-size string,
+          called a cryptographic hash, message digest, or digest (hence the name of HTTP Digest).
+          The idea of the cryptographic hash is that it’s incredibly hard to create a message with a
+          given digest, it’s incredibly hard to modify a message without changing the digest, and
+          it’s incredibly hard to find two messages that have the same digest. “Incredibly hard” is
+          often called “infeasible”, or “effectively impossible”. So if you store (or pass) your
+          password in digest form, it should be effectively impossible to break the digest to figure
+          out the password. But it’s quick to compute the digest for a password the user inputs, and
+          compare that to the stored digest. HTTP Digest uses a standard cryptographic hash
+          function, called MD5, which generates a 32-digit hexadecimal number. It’s not perfect and
+          in fact was considered to be broken in 2004-5, but it is still widely used outside of
+          government applications. The security can be improved by using a “nonce” (number used
+          once), which is a random number generated on the server that is changed each time the
+          client receives that 401 code we discussed previously. So now the client has to take the
+          username, the authentication realm name, the password, and the nonce, and create the MD5
+          hash of all of that information to send to the server. This is more secure than the plain
+          text version! And for additional security, the client may also generate a nonce, hashing
+          it with all the other information. As always, there are more details and I’ve skimmed over
+          most of the finer points. And in practice, most sites use HTTP Basic over SSL/TLS rather
+          than implementing HTTP Digest. </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">10</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Summary: HTTP authentication</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Based on password authentication </p><div class="itemizedlist"><ul><li><p>weak authentication (only one factor) </p></li><li><p>people tend to forget their passwords </p></li><li><p>solutions to forgetting often not secure </p></li><li><p>easy to implement </p></li><li><p>suitable for “don’t need much protection” resources </p></li><li><p>Digest more secure but harder to use </p></li><li><p>Use Basic over SSL for reasonable security</p></li><li><p>Encrypt your passwords in storage</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><p>Based on password authentication </p><div class="itemizedlist"><ul><li><p>weak authentication (only one factor) </p></li><li><p>people tend to forget their passwords </p></li><li><p>solutions to forgetting often not secure </p></li><li><p>easy to implement </p></li><li><p>suitable for “don’t need much protection” resources </p></li><li><p>Digest more secure but harder to use </p></li><li><p>Use Basic over SSL for reasonable security</p></li><li><p>Encrypt your passwords in storage</p></li></ul></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">11</div></div></div><div class="foil titlefoil foilgroup"><div class="page"><div class="header"><h1>Outsourcing identity</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">12</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Why?</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Best principle for keeping user data around:</p><p class="center"><em>DON’T</em></p><div class="itemizedlist"><ul><li><p>Treat PII as radioactive, keep as little as possible.</p></li><li><p>Push responsibility (and support costs for lost passwords) onto someone else.</p></li><li><p>They might even implement higher security (two or three-factor
+            authentication).</p></li><li><p>Your users may use Google/Twitter/Facebook anyway.</p></li></ul></div><p>But...</p><div class="itemizedlist"><ul><li><p>what happens if that company closes down?</p></li><li><p>what happens if that company misuses the information?</p></li><li><p>what happens if that company changes its terms of use?</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><p>Best principle for keeping user data around:</p><p class="center"><em>DON’T</em></p><div class="itemizedlist"><ul><li><p>Treat PII as radioactive, keep as little as possible.</p></li><li><p>Push responsibility (and support costs for lost passwords) onto someone else.</p></li><li><p>They might even implement higher security (two or three-factor
+            authentication).</p></li><li><p>Your users may use Google/Twitter/Facebook anyway.</p></li></ul></div><p>But...</p><div class="itemizedlist"><ul><li><p>what happens if that company closes down?</p></li><li><p>what happens if that company misuses the information?</p></li><li><p>what happens if that company changes its terms of use?</p></li></ul></div></div><div class="speakernotes">
+        <p>If you’re creating a web-based application, or web site that has users you want to be
+          able to identify or disambiguate in some way (whether or not you require real names or
+          anything that looks like a real name), the standard rule is to treat all personally
+          identifiable information as if it were radioactive. I.e., keep as little as possible for
+          as short a time as possible. Depending on what your application does, or who your probable
+          users are, it might be a good idea to “outsource” your authentication by asking the user
+          to sign in with Twitter, or Facebook, or a Google account. This can have its downsides –
+          can I be sure that Twitter won’t somehow misuse the information? What happens when/if
+          they’re bought or close down? In the meantime, however, it’s not a bad model and saves
+          having to handle those lost password queries. </p>
+        <p>company may also change TOC and not let you access its user database any more, e.g.,
+          twitter if you have too many users.</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">13</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Sign in with...</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><figure id="R.1.4.3.2" class="informaltable-wrapper"><div class="informaltable"><table border="1" cellpadding="1"><tr>
+          <th>Specification</th>
+          <th>Who uses it</th>
+          <th>Notes</th>
+        </tr><tr>
+          <td>OAuth 1</td>
+          <td>Twitter, LinkedIn.</td>
+          <td>Incompatible with, and (theoretically) obsoleted by, OAuth 2. </td>
+        </tr><tr>
+          <td>OAuth 2</td>
+          <td>Facebook, github, Salesforce, lots of others</td>
+          <td>Became an RFC in July 2012. Designed for authorising access to resources, rather than
+            for outsourcing authentication, but widely used for authentication, e.g., <a href="https://developers.facebook.com/docs/authentication">Facebook</a>.
+          </td>
+        </tr><tr>
+          <td>OpenID</td>
+          <td>Google, Paypal as IdPs, many websites accept it for sign-in</td>
+          <td> The user can register at any provider (including their own website), then use that
+            login to log in at any site that accepts those registrations. UI issues make it
+            inconvenient. Original use case was for blog comments to prevent spam; original design
+            had security issues. Some of these security issues were fixed in OpenID 2, which Google
+            and Paypal support. </td>
+        </tr><tr>
+          <td>OpenID Connect</td>
+          <td>Google, likely to increase</td>
+          <td>Identity layer on top of OAuth 2.0. Uses the authorisation server to provide
+            authentication and some user profile information.</td>
+        </tr><tr>
+          <td>Persona (was browserID)</td>
+          <td>Mozilla (persona.org)</td>
+          <td>Uses user's email address (provided by a primary identity authority) to authenticate
+            to a third-party identity provider (called an implementation provider, or secondary
+            identity authority). This may be in the web browser (e.g., Firefox) or server
+            (persona.org). Not widely implemented, some confusion with OpenID, some security
+            issues.</td>
+        </tr></table></div></figure></div><div class="foil-notes"><div class="foilinset"><figure id="R.1.4.3.2" class="informaltable-wrapper"><div class="informaltable"><table border="1" cellpadding="1"><tr>
+          <th>Specification</th>
+          <th>Who uses it</th>
+          <th>Notes</th>
+        </tr><tr>
+          <td>OAuth 1</td>
+          <td>Twitter, LinkedIn.</td>
+          <td>Incompatible with, and (theoretically) obsoleted by, OAuth 2. </td>
+        </tr><tr>
+          <td>OAuth 2</td>
+          <td>Facebook, github, Salesforce, lots of others</td>
+          <td>Became an RFC in July 2012. Designed for authorising access to resources, rather than
+            for outsourcing authentication, but widely used for authentication, e.g., <a href="https://developers.facebook.com/docs/authentication">Facebook</a>.
+          </td>
+        </tr><tr>
+          <td>OpenID</td>
+          <td>Google, Paypal as IdPs, many websites accept it for sign-in</td>
+          <td> The user can register at any provider (including their own website), then use that
+            login to log in at any site that accepts those registrations. UI issues make it
+            inconvenient. Original use case was for blog comments to prevent spam; original design
+            had security issues. Some of these security issues were fixed in OpenID 2, which Google
+            and Paypal support. </td>
+        </tr><tr>
+          <td>OpenID Connect</td>
+          <td>Google, likely to increase</td>
+          <td>Identity layer on top of OAuth 2.0. Uses the authorisation server to provide
+            authentication and some user profile information.</td>
+        </tr><tr>
+          <td>Persona (was browserID)</td>
+          <td>Mozilla (persona.org)</td>
+          <td>Uses user's email address (provided by a primary identity authority) to authenticate
+            to a third-party identity provider (called an implementation provider, or secondary
+            identity authority). This may be in the web browser (e.g., Firefox) or server
+            (persona.org). Not widely implemented, some confusion with OpenID, some security
+            issues.</td>
+        </tr></table></div></figure></div><div class="speakernotes">
+        <p>Twitter uses OAuth as the protocol. Facebook uses OAuth 2. Mozilla started Persona
+          (browserID), but this is not taking off all that fast and doesn't seem to work for mobile
+          apps. Google mail (for example) should be able to support it as a primary identity
+          authority, but I haven't found it documented anywhere that it actually does. We're going
+          to use it in our app, but more because it's easy than because it's better.</p>
+        <p>Some other services use OpenID. Like OAuth, OpenID uses the standard HTTP
+          request-response mechanism to ask for authentication. The user can register at any
+          provider, then use that login to log in at any site that accepts those registrations. The
+          original use case was to provide some sort of way to allow blog comments from people and
+          cut down on the spam. The user just has to remember one username/password and can log in
+          at multiple places. And you don’t need to trust that shiny new site with any personal
+          information (other than your username and which OP you use) that you have stored at your
+          OpenID Provider, you can decide yourself how much information to let it have.
+          Persona/browserID is similar, but uses an email address rather than a URL for
+          identification.</p>
+        <p>OpenID Connect is new, still in draft form, but likely to be important. Google
+          supports it and Microsoft contributed to the specification. Basically it sends the user to
+          an OAuth authorization server for authentication and authorization, which one would expect
+          should be possible. Facebook's authentication works in a similar way to OpenID Connect
+          with a few small technical differences. In other words, it's not really OpenID at all, it
+          just (mis) uses the name.</p>
+        <p>The IdP is the authoritative source for information about the user, not just the place
+          where the user stores some resource. In a sense, we now want to use the service provider
+          as a source of metadata, not just data (if you think of info about the user as being
+          metadata, and what they have there is the data). E.g., Twitter stores your name, your
+          email, the city you live in, and a description that you supply. An application can use
+          some of that and theoretically doesn’t need to store it itself. Google allows this through
+          the OpenID attribute exchange protocol.</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">14</div></div></div><div class="foil"><div class="page"><div class="header"><h1>The "classic" roles</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div id="R.1.4.4.2" title="Roles - identity provider, relying party, user" class="mediaobject center"><img src="images/three_identity_roles.svg" alt="Roles - identity provider, relying party, user" /></div><p>In these flows, there are three roles (parties) - the identity provider, the relying
+        party, and the user.</p><p>Tokens (credentials) are exchanged between the actors representing either the actor or
+        the authentication/authorisation.</p></div><div class="foil-notes"><div class="foilinset"><div id="R.1.4.4.2" title="Roles - identity provider, relying party, user" class="mediaobject center"><img src="images/three_identity_roles.svg" alt="Roles - identity provider, relying party, user" /></div><p>In these flows, there are three roles (parties) - the identity provider, the relying
+        party, and the user.</p><p>Tokens (credentials) are exchanged between the actors representing either the actor or
+        the authentication/authorisation.</p></div><div class="speakernotes">
+        <p>These credentials (such as username and password, or public/private key pair) may be
+          encrypted or signed, depending on the protocol, or it may be expected that all information
+          is passed via TLS/SSL. There are a number of different systems for this; I'll introduce a
+          couple of them, and then we'll add one to our application. </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">15</div></div></div><div class="foil"><div class="page"><div class="header"><h1>OpenID flows</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Designed for outsourcing identity. Original use case: for using with blog comments or
+        similar (i.e., not high security)</p><div id="R.1.4.5.3" title="More roles" class="mediaobject center"><img src="images/OpenId-flow.png" alt="More roles" /></div></div><div class="foil-notes"><div class="foilinset"><p>Designed for outsourcing identity. Original use case: for using with blog comments or
+        similar (i.e., not high security)</p><div id="R.1.4.5.3" title="More roles" class="mediaobject center"><img src="images/OpenId-flow.png" alt="More roles" /></div></div><div class="speakernotes">
+        <p>OpenID was only semi-successful – when we implemented it at Sun we had very few people
+          sign up, and even those who signed up seldom used it. One of the big reasons was simply
+          that it adds an extra layer. Every time you wanted to go to some web site and do
+          something, you had to sign in again, doing the authentication dance, for not much benefit.
+          The security in OpenID 1.0 was also not very good (for example, it’s easy to phish for
+          information, but see also https://sites.google.com/site/openidreview/issues) so that Sun
+          (as an example) couldn’t recommend people use it for anything sensitive or important. Some
+          of those issues were fixed with OpenID 2 (or at least detailed so implementers could
+          choose to fix them) and through more awareness of the issues. In general OAuth has taken
+          over and is a lot more widely implemented. </p>
+        <p>This doesn’t mean the OpenID is dead: many companies still support it, such as Google.
+          Google uses OpenID for Google Apps support. They have a hybrid OAuth/OpenID for login.
+          OpenID Connect, which is more or less OpenID on top of OAuth. Google has been
+          strategically backing OpenID as they put money in it. Paypal also uses OpenID, so
+          depending on where you want to outsource your information to, you may need to support it.
+        </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">16</div></div></div><div class="foil"><div class="page"><div class="header"><h1>More roles</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Role proliferation</p><div id="R.1.4.6.3" title="More roles" class="mediaobject center"><img src="images/more_identity_roles.svg" alt="More roles" /></div></div><div class="foil-notes"><div class="foilinset"><p>Role proliferation</p><div id="R.1.4.6.3" title="More roles" class="mediaobject center"><img src="images/more_identity_roles.svg" alt="More roles" /></div></div><div class="speakernotes">
+        <p>The top four are for OAuth 2, the bottom three are for browserID. Note the different
+          names for each. The flows aren't shown here, as basically everything talks to everything
+          at some stage, passing tokens back and forth, so it gets complicated. More details as we
+          get to them. BrowserID is up next, then OAuth 2.</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">17</div></div></div><div class="foil"><div class="page"><div class="header"><h1>BrowserID roles</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div id="R.1.4.7.2" title="BrowserID roles" class="mediaobject center"><img src="images/browseridroles.svg" alt="BrowserID roles" /></div></div><div class="foil-notes"><div class="foilinset"><div id="R.1.4.7.2" title="BrowserID roles" class="mediaobject center"><img src="images/browseridroles.svg" alt="BrowserID roles" /></div></div><div class="speakernotes">
+        <p>Primary Identity Authorities (primary) - Services that directly provide the user with
+          an identity in the form of an email address. Example primaries include Yahoo! mail or
+          gmail, except they don't support this.</p>
+        <p>Implementation Provider (or IP) - This may be the user's web browser if native support
+          for BrowserID exists, otherwise browserid.org or login.persona.org. These implement the
+          client portion of the system. In addition to key management and implementation, the IP
+          also serves as a Secondary Identity Authority. </p>
+        <p>The system has some security concerns, we'll talk more about that in the next phase.
+          it's implemented with JavaScript and relies on cross-document messaging, an API defined in
+          HTML 5.</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">18</div></div></div><div class="foil"><div class="page"><div class="header"><h1>BrowserID/Persona implementation</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Simple, but assumes user has a browser with JavaScript, and has signed up at
+        persona.org.</p><div class="orderedlist"><ol style="list-style: decimal;"><li><p>Include the persona Javascript library (as link to persona.org).</p></li><li><p>Add <span class="guibutton">login</span> and <span class="guibutton">logout</span> buttons, and code
+            with <code class="function">onclick</code> functions.</p></li><li><p>Set up a <code class="function">watch</code> function to watch for those actions.</p></li><li><p>Verify the credentials (called identity assertions) by POSTing to persona.org.
+          </p></li></ol></div><p>There are a number of best practices for security.</p></div><div class="foil-notes"><div class="foilinset"><p>Simple, but assumes user has a browser with JavaScript, and has signed up at
+        persona.org.</p><div class="orderedlist"><ol style="list-style: decimal;"><li><p>Include the persona Javascript library (as link to persona.org).</p></li><li><p>Add <span class="guibutton">login</span> and <span class="guibutton">logout</span> buttons, and code
+            with <code class="function">onclick</code> functions.</p></li><li><p>Set up a <code class="function">watch</code> function to watch for those actions.</p></li><li><p>Verify the credentials (called identity assertions) by POSTing to persona.org.
+          </p></li></ol></div><p>There are a number of best practices for security.</p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">19</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Exercise</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Try it out!</p></div><div class="foil-notes"><div class="foilinset"><p>Try it out!</p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">20</div></div></div><div class="foil"><div class="page"><div class="header"><h1>The Authentication layer</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>We're going to be using OmniAuth, a ruby library for dealing with a wide variety of authentication providers.</p><p><a href="https://github.com/intridea/omniauth/">github.com/intridea/omniauth/</a></p></div><div class="foil-notes"><div class="foilinset"><p>We're going to be using OmniAuth, a ruby library for dealing with a wide variety of authentication providers.</p><p><a href="https://github.com/intridea/omniauth/">github.com/intridea/omniauth/</a></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">21</div></div></div><div class="foil"><div class="page"><div class="header"><h1>The controller side</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="ruby"><span class="nb">require</span> <span class="s1">'user'</span>
+<span class="nb">require</span> <span class="s1">'credential'</span>
+<span class="nb">require</span> <span class="s1">'omniauth-browserid'</span>
+<span class="k">class</span> <span class="nc">AnnotatedShakespeare</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">set</span> <span class="ss">:session_secret</span><span class="p">,</span> <span class="s2">"df207bff3e06bba635a9e4f334238801"</span>
+  <span class="n">enable</span> <span class="ss">:sessions</span>
+
+  <span class="n">use</span> <span class="no">OmniAuth</span><span class="o">::</span><span class="no">Builder</span> <span class="k">do</span>
+    <span class="n">provider</span> <span class="ss">:developer</span>
+  <span class="k">end</span>
+
+  <span class="c1"># Support both GET and POST for OmniAuth callbacks</span>
+  <span class="o">[</span><span class="ss">:get</span><span class="p">,</span> <span class="ss">:post</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">method</span><span class="o">|</span>
+    <span class="nb">send</span><span class="p">(</span><span class="nb">method</span><span class="p">,</span> <span class="s2">"/auth/:provider/callback"</span><span class="p">)</span> <span class="k">do</span>
+      <span class="nb">puts</span> <span class="n">env</span><span class="o">[</span><span class="s1">'omniauth.auth'</span><span class="o">].</span><span class="n">inspect</span>
+      <span class="n">session</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span> <span class="o">=</span> <span class="n">env</span><span class="o">[</span><span class="s1">'omniauth.auth'</span><span class="o">][</span><span class="s1">'uid'</span><span class="o">]</span>
+      <span class="n">redirect</span> <span class="n">to</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="ruby"><span class="nb">require</span> <span class="s1">'user'</span>
+<span class="nb">require</span> <span class="s1">'credential'</span>
+<span class="nb">require</span> <span class="s1">'omniauth-browserid'</span>
+<span class="k">class</span> <span class="nc">AnnotatedShakespeare</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">set</span> <span class="ss">:session_secret</span><span class="p">,</span> <span class="s2">"df207bff3e06bba635a9e4f334238801"</span>
+  <span class="n">enable</span> <span class="ss">:sessions</span>
+
+  <span class="n">use</span> <span class="no">OmniAuth</span><span class="o">::</span><span class="no">Builder</span> <span class="k">do</span>
+    <span class="n">provider</span> <span class="ss">:developer</span>
+  <span class="k">end</span>
+
+  <span class="c1"># Support both GET and POST for OmniAuth callbacks</span>
+  <span class="o">[</span><span class="ss">:get</span><span class="p">,</span> <span class="ss">:post</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">method</span><span class="o">|</span>
+    <span class="nb">send</span><span class="p">(</span><span class="nb">method</span><span class="p">,</span> <span class="s2">"/auth/:provider/callback"</span><span class="p">)</span> <span class="k">do</span>
+      <span class="nb">puts</span> <span class="n">env</span><span class="o">[</span><span class="s1">'omniauth.auth'</span><span class="o">].</span><span class="n">inspect</span>
+      <span class="n">session</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span> <span class="o">=</span> <span class="n">env</span><span class="o">[</span><span class="s1">'omniauth.auth'</span><span class="o">][</span><span class="s1">'uid'</span><span class="o">]</span>
+      <span class="n">redirect</span> <span class="n">to</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">22</div></div></div><div class="foil"><div class="page"><div class="header"><h1>In the views</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;body&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">session</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Welcome back, <span class="cp">&lt;%=</span> <span class="n">session</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/auth/developer"</span><span class="nt">&gt;</span>Log in<span class="nt">&lt;/a&gt;</span>.<span class="nt">&lt;/p&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/body&gt;</span></pre></div><p><code class="code">views/layout.erb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;body&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">session</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Welcome back, <span class="cp">&lt;%=</span> <span class="n">session</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/auth/developer"</span><span class="nt">&gt;</span>Log in<span class="nt">&lt;/a&gt;</span>.<span class="nt">&lt;/p&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/body&gt;</span></pre></div><p><code class="code">views/layout.erb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">23</div></div></div><div class="foil"><div class="page"><div class="header"><h1>The User model</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>We need a <code class="code">User</code> model to represent users in our system. Once we have a User then we can connect them to an authentication provider.</p></div><div class="foil-notes"><div class="foilinset"><p>We need a <code class="code">User</code> model to represent users in our system. Once we have a User then we can connect them to an authentication provider.</p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">24</div></div></div><div class="foil"><div class="page"><div class="header"><h1>The basic model</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="ruby"><span class="nb">require</span> <span class="s1">'data_mapper'</span>
+<span class="k">class</span> <span class="nc">User</span>
+  <span class="kp">include</span> <span class="no">DataMapper</span><span class="o">::</span><span class="no">Resource</span>
+  <span class="n">property</span> <span class="ss">:id</span><span class="p">,</span> <span class="no">Serial</span>
+  <span class="n">property</span> <span class="ss">:name</span><span class="p">,</span> <span class="nb">String</span>
+  <span class="n">has</span> <span class="n">n</span><span class="p">,</span> <span class="ss">:credentials</span></pre></div><p><code class="code">lib/user.rb</code></p><div class="programlisting highlight"><pre class="ruby"><span class="nb">require</span> <span class="s1">'data_mapper'</span>
+<span class="k">class</span> <span class="nc">Credential</span>
+  <span class="kp">include</span> <span class="no">DataMapper</span><span class="o">::</span><span class="no">Resource</span>
+  <span class="n">property</span> <span class="ss">:id</span><span class="p">,</span> <span class="no">Serial</span>
+  <span class="n">property</span> <span class="ss">:provider</span><span class="p">,</span> <span class="nb">String</span>
+  <span class="n">property</span> <span class="ss">:token</span><span class="p">,</span> <span class="nb">String</span>
+  <span class="n">belongs_to</span> <span class="ss">:user</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/credential.rb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="ruby"><span class="nb">require</span> <span class="s1">'data_mapper'</span>
+<span class="k">class</span> <span class="nc">User</span>
+  <span class="kp">include</span> <span class="no">DataMapper</span><span class="o">::</span><span class="no">Resource</span>
+  <span class="n">property</span> <span class="ss">:id</span><span class="p">,</span> <span class="no">Serial</span>
+  <span class="n">property</span> <span class="ss">:name</span><span class="p">,</span> <span class="nb">String</span>
+  <span class="n">has</span> <span class="n">n</span><span class="p">,</span> <span class="ss">:credentials</span></pre></div><p><code class="code">lib/user.rb</code></p><div class="programlisting highlight"><pre class="ruby"><span class="nb">require</span> <span class="s1">'data_mapper'</span>
+<span class="k">class</span> <span class="nc">Credential</span>
+  <span class="kp">include</span> <span class="no">DataMapper</span><span class="o">::</span><span class="no">Resource</span>
+  <span class="n">property</span> <span class="ss">:id</span><span class="p">,</span> <span class="no">Serial</span>
+  <span class="n">property</span> <span class="ss">:provider</span><span class="p">,</span> <span class="nb">String</span>
+  <span class="n">property</span> <span class="ss">:token</span><span class="p">,</span> <span class="nb">String</span>
+  <span class="n">belongs_to</span> <span class="ss">:user</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/credential.rb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">25</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Credential?</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>We're modelling Users and Credentials separately, because we're going to be connecting multiple authentication providers to a single User.</p><p><em>Caveat:</em> In real life you'd want to think very carefully about modelling things in this way. It'd be better to start with storing credentials directly on the User model, and change the model when you really needed to. We don't really have the time today...</p></div><div class="foil-notes"><div class="foilinset"><p>We're modelling Users and Credentials separately, because we're going to be connecting multiple authentication providers to a single User.</p><p><em>Caveat:</em> In real life you'd want to think very carefully about modelling things in this way. It'd be better to start with storing credentials directly on the User model, and change the model when you really needed to. We don't really have the time today...</p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">26</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Creating Users</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="itemizedlist"><ul><li><p>Hand off to Auth provider</p></li><li><p>If valid user details returned, create User and associate auth Credential</p></li><li><p>Store User ID in the <code class="code">session</code></p></li><li><p>Redirect the browser back to where it was before...</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><div class="itemizedlist"><ul><li><p>Hand off to Auth provider</p></li><li><p>If valid user details returned, create User and associate auth Credential</p></li><li><p>Store User ID in the <code class="code">session</code></p></li><li><p>Redirect the browser back to where it was before...</p></li></ul></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">27</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Logging in existing Users</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="itemizedlist"><ul><li><p>Hand off to Auth provider</p></li><li><p>Check if we already have a User who matches the user details returned.</p></li><li><p>Otherwise, create User and associate auth Credential</p></li><li><p>Store User ID in the <code class="code">session</code></p></li><li><p>Redirect the browser back to where it was before...</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><div class="itemizedlist"><ul><li><p>Hand off to Auth provider</p></li><li><p>Check if we already have a User who matches the user details returned.</p></li><li><p>Otherwise, create User and associate auth Credential</p></li><li><p>Store User ID in the <code class="code">session</code></p></li><li><p>Redirect the browser back to where it was before...</p></li></ul></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">28</div></div></div><div class="foil"><div class="page"><div class="header"><h1>In the controller</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="ruby"><span class="o">[</span><span class="ss">:get</span><span class="p">,</span> <span class="ss">:post</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">method</span><span class="o">|</span>
+  <span class="nb">send</span><span class="p">(</span><span class="nb">method</span><span class="p">,</span> <span class="s2">"/auth/:provider/callback"</span><span class="p">)</span> <span class="k">do</span>
+    <span class="k">if</span> <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">from_auth_provider</span><span class="p">(</span>
+        <span class="n">params</span><span class="o">[</span><span class="ss">:provider</span><span class="o">]</span><span class="p">,</span> <span class="n">env</span><span class="o">[</span><span class="s1">'omniauth.auth'</span><span class="o">][</span><span class="s1">'uid'</span><span class="o">]</span>
+      <span class="p">)</span>
+      <span class="n">destination</span> <span class="o">=</span> <span class="s1">'/'</span>
+    <span class="k">else</span>
+      <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">create_from_auth_provider</span><span class="p">(</span>
+        <span class="n">params</span><span class="o">[</span><span class="ss">:provider</span><span class="o">]</span><span class="p">,</span> <span class="n">env</span><span class="o">[</span><span class="s1">'omniauth.auth'</span><span class="o">][</span><span class="s1">'uid'</span><span class="o">]</span>
+      <span class="p">)</span>
+      <span class="n">destination</span> <span class="o">=</span> <span class="s1">'/profile'</span>
+    <span class="k">end</span>
+    <span class="n">session</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">redirect</span> <span class="n">to</span><span class="p">(</span><span class="n">destination</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="ruby"><span class="o">[</span><span class="ss">:get</span><span class="p">,</span> <span class="ss">:post</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">method</span><span class="o">|</span>
+  <span class="nb">send</span><span class="p">(</span><span class="nb">method</span><span class="p">,</span> <span class="s2">"/auth/:provider/callback"</span><span class="p">)</span> <span class="k">do</span>
+    <span class="k">if</span> <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">from_auth_provider</span><span class="p">(</span>
+        <span class="n">params</span><span class="o">[</span><span class="ss">:provider</span><span class="o">]</span><span class="p">,</span> <span class="n">env</span><span class="o">[</span><span class="s1">'omniauth.auth'</span><span class="o">][</span><span class="s1">'uid'</span><span class="o">]</span>
+      <span class="p">)</span>
+      <span class="n">destination</span> <span class="o">=</span> <span class="s1">'/'</span>
+    <span class="k">else</span>
+      <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">create_from_auth_provider</span><span class="p">(</span>
+        <span class="n">params</span><span class="o">[</span><span class="ss">:provider</span><span class="o">]</span><span class="p">,</span> <span class="n">env</span><span class="o">[</span><span class="s1">'omniauth.auth'</span><span class="o">][</span><span class="s1">'uid'</span><span class="o">]</span>
+      <span class="p">)</span>
+      <span class="n">destination</span> <span class="o">=</span> <span class="s1">'/profile'</span>
+    <span class="k">end</span>
+    <span class="n">session</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span>
+    <span class="n">redirect</span> <span class="n">to</span><span class="p">(</span><span class="n">destination</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">29</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Model find &amp; create convenience methods</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="ruby"><span class="k">class</span> <span class="nc">User</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">from_auth_provider</span><span class="p">(</span><span class="n">provider</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+    <span class="n">credential</span> <span class="o">=</span> <span class="no">Credential</span><span class="o">.</span><span class="n">first</span><span class="p">(</span>
+      <span class="ss">:provider</span> <span class="o">=&gt;</span> <span class="n">provider</span><span class="p">,</span> <span class="ss">:token</span> <span class="o">=&gt;</span> <span class="n">token</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">credential</span><span class="o">.</span><span class="n">user</span> <span class="k">if</span> <span class="n">credential</span>
+    <span class="kp">nil</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">create_from_auth_provider</span><span class="p">(</span><span class="n">provider</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">create!</span>
+    <span class="n">credential</span> <span class="o">=</span> <span class="no">Credential</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span>
+      <span class="ss">:provider</span> <span class="o">=&gt;</span> <span class="n">provider</span><span class="p">,</span> <span class="ss">:token</span> <span class="o">=&gt;</span> <span class="n">token</span><span class="p">,</span> 
+      <span class="ss">:user</span> <span class="o">=&gt;</span> <span class="n">user</span><span class="p">)</span>
+    <span class="n">user</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/user.rb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="ruby"><span class="k">class</span> <span class="nc">User</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">from_auth_provider</span><span class="p">(</span><span class="n">provider</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+    <span class="n">credential</span> <span class="o">=</span> <span class="no">Credential</span><span class="o">.</span><span class="n">first</span><span class="p">(</span>
+      <span class="ss">:provider</span> <span class="o">=&gt;</span> <span class="n">provider</span><span class="p">,</span> <span class="ss">:token</span> <span class="o">=&gt;</span> <span class="n">token</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">credential</span><span class="o">.</span><span class="n">user</span> <span class="k">if</span> <span class="n">credential</span>
+    <span class="kp">nil</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">create_from_auth_provider</span><span class="p">(</span><span class="n">provider</span><span class="p">,</span> <span class="n">token</span><span class="p">)</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">create!</span>
+    <span class="n">credential</span> <span class="o">=</span> <span class="no">Credential</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span>
+      <span class="ss">:provider</span> <span class="o">=&gt;</span> <span class="n">provider</span><span class="p">,</span> <span class="ss">:token</span> <span class="o">=&gt;</span> <span class="n">token</span><span class="p">,</span> 
+      <span class="ss">:user</span> <span class="o">=&gt;</span> <span class="n">user</span><span class="p">)</span>
+    <span class="n">user</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/user.rb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">30</div></div></div><div class="foil"><div class="page"><div class="header"><h1>In the views</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;body&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_user</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Welcome back, <span class="cp">&lt;%=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;a</span> <span class="na">href=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">url</span><span class="p">(</span><span class="s1">'/logout'</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>Logout<span class="nt">&lt;/a&gt;&lt;/p&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/auth/developer"</span><span class="nt">&gt;</span>Log in<span class="nt">&lt;/a&gt;</span>.<span class="nt">&lt;/p&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/body&gt;</span></pre></div><p><code class="code">views/layout.erb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;body&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_user</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Welcome back, <span class="cp">&lt;%=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;a</span> <span class="na">href=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">url</span><span class="p">(</span><span class="s1">'/logout'</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="s">"</span><span class="nt">&gt;</span>Logout<span class="nt">&lt;/a&gt;&lt;/p&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/auth/developer"</span><span class="nt">&gt;</span>Log in<span class="nt">&lt;/a&gt;</span>.<span class="nt">&lt;/p&gt;</span>
+  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+  <span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span>
+<span class="nt">&lt;/body&gt;</span></pre></div><p><code class="code">views/layout.erb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">31</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Back in the controller</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="ruby"><span class="n">helpers</span> <span class="k">do</span>
+  <span class="k">def</span> <span class="nf">current_user</span>
+    <span class="k">if</span> <span class="n">session</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span>
+      <span class="vi">@user</span> <span class="o">||=</span> <span class="no">User</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">session</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="ruby"><span class="n">helpers</span> <span class="k">do</span>
+  <span class="k">def</span> <span class="nf">current_user</span>
+    <span class="k">if</span> <span class="n">session</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span>
+      <span class="vi">@user</span> <span class="o">||=</span> <span class="no">User</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">session</span><span class="o">[</span><span class="s1">'user'</span><span class="o">]</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">32</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Back in the controller</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="ruby"><span class="n">get</span> <span class="s1">'/profile'</span> <span class="k">do</span>
+  <span class="n">halt</span> <span class="mi">403</span> <span class="k">unless</span> <span class="n">current_user</span>
+  <span class="n">erb</span> <span class="ss">:profile</span>
+<span class="k">end</span>
+
+<span class="n">post</span> <span class="s1">'/profile'</span> <span class="k">do</span>
+  <span class="n">halt</span> <span class="mi">403</span> <span class="k">unless</span> <span class="n">current_user</span>
+  <span class="n">current_user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span>
+  <span class="n">current_user</span><span class="o">.</span><span class="n">save!</span>
+  <span class="n">redirect</span> <span class="n">to</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="ruby"><span class="n">get</span> <span class="s1">'/profile'</span> <span class="k">do</span>
+  <span class="n">halt</span> <span class="mi">403</span> <span class="k">unless</span> <span class="n">current_user</span>
+  <span class="n">erb</span> <span class="ss">:profile</span>
+<span class="k">end</span>
+
+<span class="n">post</span> <span class="s1">'/profile'</span> <span class="k">do</span>
+  <span class="n">halt</span> <span class="mi">403</span> <span class="k">unless</span> <span class="n">current_user</span>
+  <span class="n">current_user</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:name</span><span class="o">]</span>
+  <span class="n">current_user</span><span class="o">.</span><span class="n">save!</span>
+  <span class="n">redirect</span> <span class="n">to</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">33</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Back in the controller</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="ruby"><span class="n">get</span> <span class="s1">'/logout'</span> <span class="k">do</span>
+  <span class="k">if</span> <span class="n">current_user</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">clear</span>
+    <span class="n">redirect</span> <span class="n">to</span><span class="p">(</span><span class="s1">'logout'</span><span class="p">)</span>
+  <span class="k">else</span>
+    <span class="n">erb</span> <span class="ss">:logout</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="ruby"><span class="n">get</span> <span class="s1">'/logout'</span> <span class="k">do</span>
+  <span class="k">if</span> <span class="n">current_user</span>
+    <span class="n">session</span><span class="o">.</span><span class="n">clear</span>
+    <span class="n">redirect</span> <span class="n">to</span><span class="p">(</span><span class="s1">'logout'</span><span class="p">)</span>
+  <span class="k">else</span>
+    <span class="n">erb</span> <span class="ss">:logout</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">34</div></div></div><div class="foil"><div class="page"><div class="header"><h1>In the views (again)</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/profile"</span> <span class="na">method=</span><span class="s">"POST"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"name"</span> 
+    <span class="na">value=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">current_user</span> <span class="p">?</span> <span class="n">current_user</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="s2">""</span> <span class="cp">%&gt;</span><span class="s">"</span>
+    <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Save"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span></pre></div><p><code class="code">views/profile.erb</code></p><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;p&gt;</span>Logged out!<span class="nt">&lt;/p&gt;</span></pre></div><p><code class="code">views/logout.erb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/profile"</span> <span class="na">method=</span><span class="s">"POST"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"name"</span> 
+    <span class="na">value=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">current_user</span> <span class="p">?</span> <span class="n">current_user</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span> <span class="s2">""</span> <span class="cp">%&gt;</span><span class="s">"</span>
+    <span class="na">type=</span><span class="s">"text"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Save"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/form&gt;</span></pre></div><p><code class="code">views/profile.erb</code></p><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;p&gt;</span>Logged out!<span class="nt">&lt;/p&gt;</span></pre></div><p><code class="code">views/logout.erb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">35</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Taking stock</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>You should now be able to log in and log out. The <code class="code">developer</code> strategy which comes with OmniAuth just gives you back whatever you put in. Now we're confident that the pieces are working, let's swap in a real authentication system.</p></div><div class="foil-notes"><div class="foilinset"><p>You should now be able to log in and log out. The <code class="code">developer</code> strategy which comes with OmniAuth just gives you back whatever you put in. Now we're confident that the pieces are working, let's swap in a real authentication system.</p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">36</div></div></div><div class="foil titlefoil foilgroup"><div class="page"><div class="header"><h1>Implementing Browser ID/Persona</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">37</div></div></div><div class="foil"><div class="page"><div class="header"><h1>The Omniauth code</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Let's add authentication using Browser ID (now called Mozilla Persona)</p><div class="programlisting highlight"><pre class="ruby"><span class="n">use</span> <span class="no">OmniAuth</span><span class="o">::</span><span class="no">Builder</span> <span class="k">do</span>
+  <span class="n">provider</span> <span class="ss">:developer</span>
+  <span class="n">provider</span> <span class="ss">:browser_id</span><span class="p">,</span> 
+    <span class="ss">:verify_url</span> <span class="o">=&gt;</span> <span class="s1">'https://verifier.login.persona.org</span>
+<span class="s1">/verify'</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;p&gt;</span>Log in (or sign up) with <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/auth/browser_id"</span><span class="nt">&gt;</span>
+Mozilla Persona<span class="nt">&lt;/a&gt;</span>.<span class="nt">&lt;/p&gt;</span></pre></div><p><code class="code">views/layout.erb</code></p></div><div class="foil-notes"><div class="foilinset"><p>Let's add authentication using Browser ID (now called Mozilla Persona)</p><div class="programlisting highlight"><pre class="ruby"><span class="n">use</span> <span class="no">OmniAuth</span><span class="o">::</span><span class="no">Builder</span> <span class="k">do</span>
+  <span class="n">provider</span> <span class="ss">:developer</span>
+  <span class="n">provider</span> <span class="ss">:browser_id</span><span class="p">,</span> 
+    <span class="ss">:verify_url</span> <span class="o">=&gt;</span> <span class="s1">'https://verifier.login.persona.org</span>
+<span class="s1">/verify'</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;p&gt;</span>Log in (or sign up) with <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/auth/browser_id"</span><span class="nt">&gt;</span>
+Mozilla Persona<span class="nt">&lt;/a&gt;</span>.<span class="nt">&lt;/p&gt;</span></pre></div><p><code class="code">views/layout.erb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">38</div></div></div><div class="foil"><div class="page"><div class="header"><h1>What about Comments?</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Now we have actual users, let's tie comments to them.</p><div class="programlisting highlight"><pre class="ruby"><span class="k">class</span> <span class="nc">Comment</span>
+  <span class="n">belongs_to</span> <span class="ss">:user</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/comment.rb</code></p><div class="programlisting highlight"><pre class="ruby"><span class="k">class</span> <span class="nc">User</span>
+  <span class="n">has</span> <span class="n">n</span><span class="p">,</span> <span class="ss">:comments</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/user.rb</code></p></div><div class="foil-notes"><div class="foilinset"><p>Now we have actual users, let's tie comments to them.</p><div class="programlisting highlight"><pre class="ruby"><span class="k">class</span> <span class="nc">Comment</span>
+  <span class="n">belongs_to</span> <span class="ss">:user</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/comment.rb</code></p><div class="programlisting highlight"><pre class="ruby"><span class="k">class</span> <span class="nc">User</span>
+  <span class="n">has</span> <span class="n">n</span><span class="p">,</span> <span class="ss">:comments</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/user.rb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">39</div></div></div><div class="foil"><div class="page"><div class="header"><h1>What about Comments?</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="ruby"><span class="n">post</span> <span class="s1">'/plays/:id/act/:act_number/comments'</span> <span class="k">do</span>
+  <span class="n">halt</span> <span class="mi">403</span> <span class="k">unless</span> <span class="n">current_user</span>
+  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+  <span class="n">current_user</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span>
+    <span class="ss">:body</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="s1">'comment'</span><span class="o">][</span><span class="s1">'body'</span><span class="o">]</span><span class="p">,</span>
+    <span class="ss">:commentable_type</span> <span class="o">=&gt;</span> <span class="ss">:act</span><span class="p">,</span> 
+    <span class="ss">:commentable_id</span> <span class="o">=&gt;</span> <span class="vi">@act</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="ruby"><span class="n">post</span> <span class="s1">'/plays/:id/act/:act_number/comments'</span> <span class="k">do</span>
+  <span class="n">halt</span> <span class="mi">403</span> <span class="k">unless</span> <span class="n">current_user</span>
+  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+  <span class="n">current_user</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span>
+    <span class="ss">:body</span> <span class="o">=&gt;</span> <span class="n">params</span><span class="o">[</span><span class="s1">'comment'</span><span class="o">][</span><span class="s1">'body'</span><span class="o">]</span><span class="p">,</span>
+    <span class="ss">:commentable_type</span> <span class="o">=&gt;</span> <span class="ss">:act</span><span class="p">,</span> 
+    <span class="ss">:commentable_id</span> <span class="o">=&gt;</span> <span class="vi">@act</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">40</div></div></div><div class="foil titlefoil foilgroup"><div class="page"><div class="header"><h1>OAuth 2</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">41</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Use Case for OAuth</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Hybrid authentication/authorisation </p><div class="itemizedlist"><ul><li><p>Allow applications to do things on my behalf </p></li><li><p>Application doesn’t get my user name and password </p></li><li><p>I can revoke access </p></li></ul></div><p>Basis for OpenID Connect</p><div class="itemizedlist"><ul><li><p> user logs in, gets an artifact (OAuth token) </p></li><li><p>artifact is exchanged for identity data at the IdP</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><p>Hybrid authentication/authorisation </p><div class="itemizedlist"><ul><li><p>Allow applications to do things on my behalf </p></li><li><p>Application doesn’t get my user name and password </p></li><li><p>I can revoke access </p></li></ul></div><p>Basis for OpenID Connect</p><div class="itemizedlist"><ul><li><p> user logs in, gets an artifact (OAuth token) </p></li><li><p>artifact is exchanged for identity data at the IdP</p></li></ul></div></div><div class="speakernotes">
+        <p>OAuth came about so that if I have a system where I want an application to do
+          something on my behalf (e.g., tweet when I’ve posted a new blog entry, or have some other
+          app print some of my photos from Flickr), I don’t have to give that application my Twitter
+          username and password. As the user, I authenticate to Twitter and authorise this
+          application to tweet on my behalf. Twitter gives the application token credentials (also
+          called access token and access secret) to use when tweeting on my behalf, and that’s all
+          the application has. So it can’t use my username and password for anything else. </p>
+        <p>Note here we're using OAuth 2, which is incompatible with OAuth 1.</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">42</div></div></div><div class="foil"><div class="page"><div class="header"><h1>OAuth 2 roles</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div id="R.1.6.3.2" title="OAuth 2 roles" class="mediaobject center"><img src="images/oauth2roles.svg" alt="OAuth 2 roles" /></div></div><div class="foil-notes"><div class="foilinset"><div id="R.1.6.3.2" title="OAuth 2 roles" class="mediaobject center"><img src="images/oauth2roles.svg" alt="OAuth 2 roles" /></div></div><div class="speakernotes">
+        <p>The specification defines four roles: the resource owner (often the end-user), the
+          client (the application asking for the resource), the resource server (where the protected
+          resource is stored), and the authorization server. You will see all of these terms. Other
+          terms you will see are identity provider, which is the same as the authorization server,
+          and relying party, which is the resource server that is relying on the authentication
+          provided by the identity provider.</p>
+        <p>On the web, you can think of it as being the client (browser) accessing resources on
+          the server on behalf of the end-user (who owns those resources), after getting
+          authorisation from the authorisation server.</p>
+        <p>In our example: if you want to add a comment or annotation to the play, you need to be
+          authorised to do so, based on the authentication that you are you. We outsource the
+          authorisation to alphagov (maybe, or maybe github). When you see a “sign in with” notice,
+          some system (Google, Twitter, Facebook) is being used as the authorisation server. </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">43</div></div></div><div class="foil"><div class="page"><div class="header"><h1>OAuth 2 flows</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div id="R.1.6.4.2" title="OAuth 2 flows" class="mediaobject center"><img src="images/oauth_protocol_flow.svg" alt="OAuth 2 flows" /></div></div><div class="foil-notes"><div class="foilinset"><div id="R.1.6.4.2" title="OAuth 2 flows" class="mediaobject center"><img src="images/oauth_protocol_flow.svg" alt="OAuth 2 flows" /></div></div><div class="speakernotes">
+        <p>The client is the application, which has already registered at the various servers.
+          The flow starts with the client asking the user (resource owner) to allow the client to
+          access some protected resource. The user agrees, and the process sends a token called the
+          authorisation grant.</p>
+        <p>The client sends this authorisation grant on to the authorisation server which in some
+          sense controls access to where the resources are hosted, and gets back an access
+          token.</p>
+        <p>The client sends this access token to the resource server, which then returns the
+          protected resource itself.</p>
+        <p>The various credentials that are passed around are crucial – they are what determine
+          whether the client can access resources, and under what conditions. To start the whole
+          ball rolling, the authorisation server needs to know what the client is, and some of its
+          capabilities. So the client has to register with the authorisation server, providing the
+          information the authorisation server requires, and it is given some form of client
+          credentials. One is the client identifier, which isn’t secret. The client is also given
+          some authentication credential such as a password, public/private key pair, or a string
+          call a client secret, which are meant to be kept secret. </p>
+        <p>The authorisation grant (authorization grant in American) is a credential that
+          represents the resource owner’s authorisation to access those protected resources. It can
+          take different forms, depending on the scenario. </p>
+        <p>The access tokens are the credentials that the client (e.g., the browser) uses to
+          actually access those protected resources. This is a string that that contains information
+          on the scope of the access (e.g., only certain pages) and the duration (one day, one year,
+          forever). The token may even define that the client has to go through some additional
+          authentication process. There are different types of access tokens, defined by the
+          resource server. This means not all clients can talk to all resource servers; clients have
+          to be configured to work with any given authorization server and/or resource server.
+        </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">44</div></div></div><div class="foil"><div class="page"><div class="header"><h1>OAuth 2 clients</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Client: application wanting access to the resources on the user's behalf. Comes in two
+        types.</p><div class="itemizedlist"><ul><li><p>confidential: can be trusted to keep credentials secret, and have to authenticate
+            themselves to the authorisation server</p></li><li><p>public: the rest</p></li></ul></div><p>Expected to use TLS/SSL for authentication (OAuth 1 signed everything instead).</p></div><div class="foil-notes"><div class="foilinset"><p>Client: application wanting access to the resources on the user's behalf. Comes in two
+        types.</p><div class="itemizedlist"><ul><li><p>confidential: can be trusted to keep credentials secret, and have to authenticate
+            themselves to the authorisation server</p></li><li><p>public: the rest</p></li></ul></div><p>Expected to use TLS/SSL for authentication (OAuth 1 signed everything instead).</p></div><div class="speakernotes">
+        <p>Clients come in two types. Confidential clients can be trusted to keep all the
+          information for accessing the authorisation server secret, and have to authenticate
+          themselves to the authorisation server. Public clients can’t be trusted to keep their
+          client credentials secret, in other words they could be spoofed in some way. So although
+          they may authenticate to the authorisation server, it’s not as trustworthy as a
+          confidential client doing so. In general, all mobile applications and browser-based
+          applications are public clients, since they could be hacked, or the information might be
+          stored in clear text somewhere. The sort of credential we’re talking about is the client
+          secret or client password. </p>
+        <p>OAuth 2 expects that everyone uses TLS/SSL, both the server and client, so that all
+          the traffic goes over a secure connection. This was controversial, and not all clients
+          support TLS, in which case they’re meant to warn you (but may not). In particular,
+          confidential clients must use TLS if they use passwords to authenticate at the
+          authorisation server. OAuth 1 required that everyone use cryptographic signatures instead,
+          which is a heavy burden on many implementers of client applications.</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">45</div></div></div><div class="foil"><div class="page"><div class="header"><h1>OAuth 2 client profiles</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Specific use cases for OAuth 2</p><div class="itemizedlist"><ul><li><p>web application</p><p>Confidential client running on a web server. All credentials are stored on the web
+            server. Resource owners access the client via the web (e.g., browser).</p></li><li><p>user-agent-based application</p><p>Public client where code is downloaded to user's system (e.g., runs in the browser).
+            Credentials are often visible to the user, and could be hacked.</p></li><li><p>native application</p><p>Public client installed as native application on user's device. Client credentials
+            can probably be exposed; dynamic access tokens may be safe.</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><p>Specific use cases for OAuth 2</p><div class="itemizedlist"><ul><li><p>web application</p><p>Confidential client running on a web server. All credentials are stored on the web
+            server. Resource owners access the client via the web (e.g., browser).</p></li><li><p>user-agent-based application</p><p>Public client where code is downloaded to user's system (e.g., runs in the browser).
+            Credentials are often visible to the user, and could be hacked.</p></li><li><p>native application</p><p>Public client installed as native application on user's device. Client credentials
+            can probably be exposed; dynamic access tokens may be safe.</p></li></ul></div></div><div class="speakernotes">
+        <p>Reminder: The client has some authentication credential such as a password,
+          public/private key pair, or a string call a client secret, which are meant to be kept
+          secret. </p>
+        <p>The authorisation grant (authorization grant in American) is a dynamic credential that
+          represents the resource owner’s authorisation to access those protected resources. It can
+          take different forms, depending on the scenario.</p>
+        <p>The access tokens are the credentials that the client (e.g., the browser) uses to
+          actually access those protected resources. This is a string that that contains information
+          on the scope of the access (e.g., only certain pages) and the duration (one day, one year,
+          forever). The token may even define that the client has to go through some additional
+          authentication process. There are different types of access tokens, defined by the
+          resource server. This means not all clients can talk to all resource servers; clients have
+          to be configured to work with any given authorization server and/or resource server.
+        </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">46</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Real life implementation</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Our exercises are simplified. In real life you need to</p><div class="itemizedlist"><ul><li><p>secure any information you store on disk (e.g., access tokens) </p></li><li><p>provide a trusted callback URI for the IdP to return the user to </p></li><li><p>protect that URI with TLS/HTTPS to secure it </p></li></ul></div><p>Where possible, reuse trusted libraries </p><div class="itemizedlist"><ul><li><p>they’ve been debugged</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><p>Our exercises are simplified. In real life you need to</p><div class="itemizedlist"><ul><li><p>secure any information you store on disk (e.g., access tokens) </p></li><li><p>provide a trusted callback URI for the IdP to return the user to </p></li><li><p>protect that URI with TLS/HTTPS to secure it </p></li></ul></div><p>Where possible, reuse trusted libraries </p><div class="itemizedlist"><ul><li><p>they’ve been debugged</p></li></ul></div></div><div class="speakernotes">
+        <p>In our exercises we’re not going to go to the bother of encrypting all the access
+          tokens etc for storage as we would do in a real application – just like you would encrypt
+          a password before storing it in a database, you should encrypt all secrets and tokens, not
+          just when they’re being transferred from one place to another, but also for storage. We
+          are, however, going to reuse an existing library rather than develop from scratch, not
+          only because of time constraints, but also because getting the details right is hard.
+          Where possible, reuse trusted libraries for your development. You also need to protect
+          (with SSL/HTTPS) the callback endpoint and preregister it with servers (which is what
+          Twitter does). The client has to have a callback URL where the server returns the user at
+          the end of the authorization process. Ensure that this endpoint is protected with SSL/TLS
+          and preregister it so that servers won’t mistakenly follow a endpoint dynamically provided
+          by a rogue client.</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">47</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Resources</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><table border="0" summary="Simple list" class="simplelist"><tr><td><span class="member">Getting Started with OAuth 2.0, 1st Edition by Ryan Boyd, O'Reilly</span></td></tr><tr><td><span class="member">OAuth 2 RFC: http://tools.ietf.org/html/draft-ietf-oauth-v2</span></td></tr><tr><td><span class="member">persona.org</span></td></tr><tr><td><span class="member">https://openid.net/specs/openid-connect-standard-1_0.html</span></td></tr></table></div><div class="foil-notes"><div class="foilinset"><table border="0" summary="Simple list" class="simplelist"><tr><td><span class="member">Getting Started with OAuth 2.0, 1st Edition by Ryan Boyd, O'Reilly</span></td></tr><tr><td><span class="member">OAuth 2 RFC: http://tools.ietf.org/html/draft-ietf-oauth-v2</span></td></tr><tr><td><span class="member">persona.org</span></td></tr><tr><td><span class="member">https://openid.net/specs/openid-connect-standard-1_0.html</span></td></tr></table></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">48</div></div></div><div class="foil titlefoil foilgroup"><div class="page"><div class="header"><h1>Web security basics</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">49</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Connection-based security</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Secures the path between two end-points. </p><p>Security is transient, only for the data in motion. </p><p>Relatively simple to use, high performance. </p><p>Point to point solution, doesn’t work across middle points.</p></div><div class="foil-notes"><div class="foilinset"><p>Secures the path between two end-points. </p><p>Security is transient, only for the data in motion. </p><p>Relatively simple to use, high performance. </p><p>Point to point solution, doesn’t work across middle points.</p></div><div class="speakernotes">
+        <p>Connection based security (like SSL) just secures the path between two endpoints. The
+          security is transient in that it’s only active while a message is being transferred. Once
+          a message is received it’s no longer encrypted. The advantage is that you can use this
+          type of security for lots of different types of messages, it’s relatively high
+          performance, and simple to use. The disadvantage is that you have to figure out how to
+          secure the information (if it needs to be secured) once it’s arrived, and you can’t pass
+          on the secure message as is, complete with its encryption. connection security as name is
+          better than channel or transport. Protecting data in motion vs at rest.</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">50</div></div></div><div class="foil"><div class="page"><div class="header"><h1>HTTPS/TLS/SSL</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Adds encryption, signing, records, and session tracking to the basic HTTP </p><div class="orderedlist"><ol style="list-style: decimal;"><li><p>browser sends request to port 443 with session ID, encryption algorithms it likes,
+            random string, and requested website </p></li><li><p>web site sends back server name, session ID, encryption algorithm, server version of
+            the string, and server certificate </p></li><li><p>browser decides whether to trust the certificate, checks the host name </p></li><li><p>exchange tokens (secrets) to encrypt the data </p></li><li><p>start exchanging encrypted data with session IDs and sequence numbers</p></li></ol></div></div><div class="foil-notes"><div class="foilinset"><p>Adds encryption, signing, records, and session tracking to the basic HTTP </p><div class="orderedlist"><ol style="list-style: decimal;"><li><p>browser sends request to port 443 with session ID, encryption algorithms it likes,
+            random string, and requested website </p></li><li><p>web site sends back server name, session ID, encryption algorithm, server version of
+            the string, and server certificate </p></li><li><p>browser decides whether to trust the certificate, checks the host name </p></li><li><p>exchange tokens (secrets) to encrypt the data </p></li><li><p>start exchanging encrypted data with session IDs and sequence numbers</p></li></ol></div></div><div class="speakernotes">
+        <p>This is often called SSL/TLS. SSL (Secure Sockets Layer) was the first name, and it
+          was developed by Netscape. Eventually the IETF took over, and released a new version in
+          1999, renamed Transport Layer Security (TLS). TLS is a record-based request-response
+          format, with records of different types depending on where you are in the session. Instead
+          of sending the request message as is to port 80 on a web server as for HTTP, the browser
+          (client) kicks off the TLS session by sending a handshake to port 443. This is the
+          handshake record, saying what time it is, which session ID (if any) this session ID has,
+          which encryption algorithms the client supports (in order of preference), and which
+          website the client is trying to reach (for the case that the IP address given supports
+          multiple websites). It also includes 28 random bytes (we’ll get to those later). The web
+          site responds, and let’s assume agrees with the requests, so the server sends back the
+          server time, a session ID, and the encryption algorithm it will use, along with a server
+          version of the 28 random bytes. It also sends the SSL Server Certificate, the basis of the
+          trust system. Then the client decides whether (or not) to trust the certificate. The
+          certificate is signed by a Certification authority (a company such as Verisign) using
+          their private key. The client (browser) has a list of Certification authorities that it
+          trusts, and that’s the basis of the trust that you put in the little lock sign on your
+          browser. Once the client decides to approve that certificate, it checks whether the host
+          name you sent the request to is the same as the name listed in the certificate. This is to
+          prevent man-in-the-middle attacks, where someone sitting in between your client and the
+          server you’re trying to reach can forge credentials. With the Certification authority
+          signing the certificate, you can trust that the certificate is real (well, assuming you
+          can trust that Certification authority). You can also add certificates that you trust
+          yourself (hopefully for good reason!) to your list. </p>
+        <p>http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html</p>
+        <p>OK, so we’re sure that we’ve reached the server and web site we wanted, and know which
+          encryption algorithm they’ll use. We even have a session ID so we can avoid the handshake
+          step for the rest of our session at that site. The client sends what’s called a
+          “pre-master secret” to the server, a value that’s meant to be random and secret. Getting
+          this value to be effectively random is hard and a number of implementers have discovered
+          this the hard way, introducing security holes that were exploited. The pre-master secret
+          should only be used for this one session as well. Then the client encrypts a padded
+          version of the pre-master secret, and sends that to the server. The server calculates the
+          master secret from the pre-master secret and the two random 28-byte values that the client
+          and the server exchanged in the first handshake. These two secrets are used to derive all
+          the session keys that are used to encrypt the actual HTTP request-response messages. There
+          is also a sequence number, so that an attacked can’t simply copy one of the messages,
+          change it, and resend (this is called a “replay” attack). The HTTP system acts as normal,
+          and doesn’t need to worry about the encryption. It’s the TLS layer underneath that does
+          all the work. The connection is closed when one side sends “closure alert” message. One
+          point – you can use the same TLS system for other protocols, such as FTP, since it does
+          sit underneath the protocol layer, but for this course we’re mostly interested in the
+          HTTPS usage. </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">51</div></div></div><div class="foil"><div class="page"><div class="header"><h1>What is a Certificate?</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="itemizedlist"><ul><li><p>Electronic document, typically in X.509 format</p></li><li><p>Used in PKI (public key infrastructure) systems</p></li><li><p>Includes a public key</p></li><li><p>Includes identity information for person or corporation</p></li><li><p>Includes hostname if intended to be used for TLS</p></li><li><p>Digitally signed</p></li><li><p>Signature attests that identity information and public key belong together</p></li><li><p>Signature usually comes from a Certification Authority </p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><div class="itemizedlist"><ul><li><p>Electronic document, typically in X.509 format</p></li><li><p>Used in PKI (public key infrastructure) systems</p></li><li><p>Includes a public key</p></li><li><p>Includes identity information for person or corporation</p></li><li><p>Includes hostname if intended to be used for TLS</p></li><li><p>Digitally signed</p></li><li><p>Signature attests that identity information and public key belong together</p></li><li><p>Signature usually comes from a Certification Authority </p></li></ul></div></div><div class="speakernotes">
+        <p>The certificate also commonly includes a serial number, algorithm used to create the
+          digital signature, validity dates (from and to), the algorithm used to hash the
+          certificate, the hash itself that proves the certificate has not been tampered with, and
+          the purpose of the public key. Verisign (one of the big Certificate Authorities) has a
+          number of classes of certificates, ranging from those used by individuals, to
+          organizations, servers (these ones require independent verification), online business
+          transactions, and governments. The EU has its own set of requirements for certificates,
+          which are similar in concept. </p>
+        <p>There are a number of issues with certificates, which I’m not going to go into here.
+          Wikipedia has links to get you started.</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">52</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Certificate Authorities</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>An aside on certificate authorities </p><div class="itemizedlist"><ul><li><p>ultimate source of the trust in the system</p></li><li><p>the authority signs the certificate</p></li><li><p> what happens if the authority is hacked?</p></li><li><p>what happens if the certificate authority is not trustworthy?</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><p>An aside on certificate authorities </p><div class="itemizedlist"><ul><li><p>ultimate source of the trust in the system</p></li><li><p>the authority signs the certificate</p></li><li><p> what happens if the authority is hacked?</p></li><li><p>what happens if the certificate authority is not trustworthy?</p></li></ul></div></div><div class="speakernotes">
+        <p>While we’re on the subject, certificates can be revoked. When this happens, you should
+          delete them from your “trusted” list. Unfortunately, few people know about this and even
+          fewer check their certificates regularly to see if they have been revoked!</p>
+        <p>Once the client decides to approve that certificate, it checks whether the host name
+          you sent the request to is the same as the name listed in the certificate. This is to
+          prevent man-in-the-middle attacks, where someone sitting in between your client and the
+          server you’re trying to reach can forge credentials. With the Certification authority
+          signing the certificate, you can trust that the certificate is real (well, assuming you
+          can trust that Certification authority). You can also add certificates that you trust
+          yourself (hopefully for good reason!) to your list.</p>
+        <p>The main problem with certificates is that it’s turtles all the way up (or down). The
+          certificate is signed by someone whose authority is attested to by another certificate,
+          etc. Eventually you get to the top level, and there is a set of certificates that are
+          built in as being fully trusted. These are usually issued by governments or organizations
+          trusted by governments, or trusted by the browser or operating system manufacturer. In the
+          DigiNotar case, they were sloppy and were hacked. Even though they were trusted by the
+          Dutch government. The only solution is to completely distrust any certificates signed by
+          them, as they may not actually have been signed by DigiNotar, but by the hacker.</p>
+        <p>And there are alleged to be some certificate authorities in autocratic countries that
+          are proxy-in-the-middle points, capable of passing on information to their governments.
+          The solution to this is for the browser to not trust those authorities - but they have to
+          know who they are first (some are known).</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">53</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Message-based security</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Ties the security to the message</p><div class="itemizedlist"><ul><li><p>protects the data at rest</p></li><li><p>remains secure once it’s received</p></li><li><p>can use intermediaries who can’t read it</p></li><li><p>tied to a particular format</p></li><li><p>computationally expensive</p></li><li><p>difficult to implement and use</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><p>Ties the security to the message</p><div class="itemizedlist"><ul><li><p>protects the data at rest</p></li><li><p>remains secure once it’s received</p></li><li><p>can use intermediaries who can’t read it</p></li><li><p>tied to a particular format</p></li><li><p>computationally expensive</p></li><li><p>difficult to implement and use</p></li></ul></div></div><div class="speakernotes">
+        <p>Message based security ties the security to the actual message so it remains secure
+          even once it’s been received (we’re ignoring some security accelerators that strip out the
+          security on the way for performance reasons). The security is persistent so that you can
+          store the message (or part of the message; you don’t need to encrypt the whole thing) in
+          its secured form and still see who signed it two years later. You can also implement a
+          system where the message is sent via intermediaries, knowing they can’t read it. The
+          disadvantage of message-based security is that it is typically tied to a particular
+          message format (such as SOAP+WS-Security or S/MIME), is computationally expensive and
+          often relatively complex to implement and use. It’s especially complicated if you want
+          long-running message conversations, where you need to figure out how to correlate the
+          messages. </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">54</div></div></div><div class="foil titlefoil foilgroup"><div class="page"><div class="header"><h1>Securing Web Applications</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">55</div></div></div><div class="foil"><div class="page"><div class="header"><h1>OWASP Top Ten</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>List of the top ten attacks, how they work, how to prevent them. We’ll concentrate on
+        three important attacks: </p><div class="itemizedlist"><ul><li><p>SQL Injection </p></li><li><p>Cross-Site Scripting (XSS) </p></li><li><p>Cross-Site Request Forgery (CSRF)</p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><p>List of the top ten attacks, how they work, how to prevent them. We’ll concentrate on
+        three important attacks: </p><div class="itemizedlist"><ul><li><p>SQL Injection </p></li><li><p>Cross-Site Scripting (XSS) </p></li><li><p>Cross-Site Request Forgery (CSRF)</p></li></ul></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">56</div></div></div><div class="foil"><div class="page"><div class="header"><h1>SQL Injection</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div id="R.1.8.4.2" title="Little Bobby Drop Table" class="mediaobject center"><img src="images/xkcd327.png" alt="Little Bobby Drop Table" /><div class="caption"><p>http://xkcd.com/327/</p></div></div></div><div class="foil-notes"><div class="foilinset"><div id="R.1.8.4.2" title="Little Bobby Drop Table" class="mediaobject center"><img src="images/xkcd327.png" alt="Little Bobby Drop Table" /><div class="caption"><p>http://xkcd.com/327/</p></div></div></div><div class="speakernotes">
+        <p>Injection attacks, including SQL injection attacks. The attacker manages to send some
+          data to the system that is malicious and the system acts on that data. Any part of the
+          system can be attacked, so there are attacks using SQL queries, XPath or XQuery, or plain
+          XML. The injection can add unwanted data to a database, including giving the attacker
+          administrator privileges on your system. One way in which this can occur is when the
+          server trusts information from a form, or a query string on a URL. The attacker simply
+          adds some data to the form that changes the meaning of the query. E.g., the standard SQL
+          injection attack: </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">57</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Example code</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting other"><pre class="SQL">
+<span class="kw">String</span> <span class="var">query</span> = "<span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="var">accounts</span> <span class="kw">WHERE</span> <span class="var">custID</span> = 
+'" + request.getParameter("id") +"'";</pre></div><p>The attacker changes the query URL to <code class="code">http://example.com/app/accountView?id=' or
+          '1'='1</code> which leads to the complete query being</p><div class="programlisting other"><pre class="SQL">
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="var">accounts</span> <span class="kw">WHERE</span> <span class="var">custID ='' or  '1'='1'</span></pre></div><p><code class="code">'1'='1'</code> is always true, so the query returns the entire account
+        list.</p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting other"><pre class="SQL">
+<span class="kw">String</span> <span class="var">query</span> = "<span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="var">accounts</span> <span class="kw">WHERE</span> <span class="var">custID</span> = 
+'" + request.getParameter("id") +"'";</pre></div><p>The attacker changes the query URL to <code class="code">http://example.com/app/accountView?id=' or
+          '1'='1</code> which leads to the complete query being</p><div class="programlisting other"><pre class="SQL">
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> <span class="var">accounts</span> <span class="kw">WHERE</span> <span class="var">custID ='' or  '1'='1'</span></pre></div><p><code class="code">'1'='1'</code> is always true, so the query returns the entire account
+        list.</p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">58</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Preventing SQL Injection Attacks</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="itemizedlist"><ul><li><p>Stop writing dynamic queries and/or </p></li><li><p>Ensure malicious user-supplied input can’t do anything <div class="itemizedlist"><ul><li><p>use prepared statements </p></li><li><p>use stored procedures </p></li><li><p>escape user-supplied input </p></li><li><p>principle of least privilege </p></li><li><p>principle of white list input validation </p></li></ul></div>
+          </p></li></ul></div><p>Check the OWASP SQL Injection Cheat Sheet for more details</p></div><div class="foil-notes"><div class="foilinset"><div class="itemizedlist"><ul><li><p>Stop writing dynamic queries and/or </p></li><li><p>Ensure malicious user-supplied input can’t do anything <div class="itemizedlist"><ul><li><p>use prepared statements </p></li><li><p>use stored procedures </p></li><li><p>escape user-supplied input </p></li><li><p>principle of least privilege </p></li><li><p>principle of white list input validation </p></li></ul></div>
+          </p></li></ul></div><p>Check the OWASP SQL Injection Cheat Sheet for more details</p></div><div class="speakernotes">
+        <p>There are variations on this theme of course, but they all involve data that shouldn’t
+          be trusted but is. There’s a scary web site at
+          http://www.unixwiz.net/techtips/sql-injection.html that shows just how easy it is to gain
+          access to some databases where input hasn’t been properly sanitized. There are a number of
+          methods to try to stop SQL injection attacks. The safest method for all injection attacks
+          is to be paranoid and only allow the data you need to. </p>
+        <p>Prepared statements (also called parameterized queries) force the developer to first
+          define all the SQL code, and then pass in each parameter to the query later. This coding
+          style allows the database to distinguish between code and data, regardless of what user
+          input is supplied. In the example previously, the system would look for a customer id that
+          is literally “' or '1'='1” which won’t find anything. </p>
+        <p>Stored procedures are similar, but the code is stored in the database. </p>
+        <p>For escaping user input, you take advantage of the fact that each DBMS supports one or
+          more character escaping schemes specific to certain kinds of queries. If you then escape
+          all user supplied input using the proper escaping scheme for the database you are using,
+          the DBMS will not confuse that input with SQL code written by the developer, thus avoiding
+          any possible SQL injection vulnerabilities. </p>
+        <p>Least privilege is basic security: minimise what the account doing the work is allowed
+          to do. If your app only looks at data in the database, it doesn’t need to be allowed to
+          add data, so make sure the account it runs under doesn’t have that privilege. </p>
+        <p>White-list is similarly a basic security principle: only allow what you have to. If
+          your app doesn’t need to allow certain characters (e.g., for user names, you may choose to
+          not allow semi-colons in the name), don’t. n particular, screening out non-printing
+          characters is a good step for most text fields. </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">59</div></div></div><div class="foil"><div class="page"><div class="header"><h1>XSS attacks</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Cross-site scripting (aka CSS) </p><div class="itemizedlist"><ul><li><p>Malicious script tricks user’s browser into thinking it comes from a trusted source
+          </p></li><li><p>Can access cookies, security tokens, etc, as fully trusted </p></li></ul></div><p>Example: </p><div class="itemizedlist"><ul><li><p>comment site allows full HTML </p></li><li><p>attacking comment includes javascript that runs when victim loads the page </p></li><li><p>comment is on same site, so can access cookies etc defined by that site, including,
+            e.g., login info </p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><p>Cross-site scripting (aka CSS) </p><div class="itemizedlist"><ul><li><p>Malicious script tricks user’s browser into thinking it comes from a trusted source
+          </p></li><li><p>Can access cookies, security tokens, etc, as fully trusted </p></li></ul></div><p>Example: </p><div class="itemizedlist"><ul><li><p>comment site allows full HTML </p></li><li><p>attacking comment includes javascript that runs when victim loads the page </p></li><li><p>comment is on same site, so can access cookies etc defined by that site, including,
+            e.g., login info </p></li></ul></div></div><div class="speakernotes">
+        <p>OWASP calls this the most prevalent web application security flaw. It’s another case
+          where the application wrongly trusts some attacker-supplied data, and the cure, as for the
+          SQL injection attack we just talked about, is to make sure any user-supplied data is
+          validated or appropriately escaped, in case it’s really a malicious script. The web pages
+          today aren’t just static HTML. They are more dynamic, including scripts that change the
+          page in the user’s browser, without the server being involved. That means that a malicious
+          script that can trick the browser into thinking it came from the server originally will be
+          trusted, and can then change any part of the page, hijack the unsuspecting user’s browser,
+          or redirect the victim to a phishing or spoof site. Because the victim’s browser thinks
+          the malicious script comes from a trusted source, it lets it do anything - access cookies
+          or security tokens, for example. It’s called cross-site scripting because the original
+          versions attacked the target site from a different attack site. </p>
+        <p>The basic idea is best explained using a comment system. Let’s say the attacker goes
+          to a web site that allows comments with HTML. The attacker carefully crafts a comment to
+          include some javascript that runs when the victim loads the page in their browser. Since
+          the victim is on the trusted site, the attack code can steal cookies or other information
+          that is usually sand-boxed, including, for example, login information if the victim is
+          logged in at the trusted site. </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">60</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Variations of XSS</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="itemizedlist"><ul><li><p>Attacker crafts query URI and cons the victim into clicking on it from email </p></li><li><p>Attacker (mis)uses some HTML element <div class="itemizedlist"><ul><li><p>script element, to load external script </p></li><li><p>add onload attribute to body element </p></li><li><p>put a script in the src attribute of an img element </p></li><li><p>put script in rel=”stylesheet” attribute of link element </p></li><li><p>put script in background attribute of table element</p></li></ul></div></p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><div class="itemizedlist"><ul><li><p>Attacker crafts query URI and cons the victim into clicking on it from email </p></li><li><p>Attacker (mis)uses some HTML element <div class="itemizedlist"><ul><li><p>script element, to load external script </p></li><li><p>add onload attribute to body element </p></li><li><p>put a script in the src attribute of an img element </p></li><li><p>put script in rel=”stylesheet” attribute of link element </p></li><li><p>put script in background attribute of table element</p></li></ul></div></p></li></ul></div></div><div class="speakernotes">
+        <p>Another example is when the attacker crafts a query URL and cons the victim into
+          clicking on it (e.g., from an attack site or email); the victim goes to the trusted site
+          and doesn’t notice the odd characters after the “?” in the URL – which carry sufficient
+          code to steal the same information. </p>
+        <p>Variations of this attack exist using lots of different HTML elements. The best known
+          is the script element (as an external script that’s loaded, for example, or the comment
+          form changes above), but attacks can also work by changing the body element to include an
+          onload event or background attribute, putting a script in the src attribute of an image
+          element, putting a script in the rel = “stylesheet” attribute of a link element instead of
+          a stylesheet, or putting a script in the background attribute of a table element. </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">61</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Preventing XSS attacks</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Multi-layer prevention is best </p><div class="itemizedlist"><ul><li><p>only allow characters that make sense in the context <div class="itemizedlist"><ul><li><p>e.g., don’t allow input into a script </p></li><li><p>don’t allow non-printable characters in name fields </p></li></ul></div></p></li><li><p>ensure input data can’t change the HTML DOM tree </p></li><li><p>escape all HTML/XML significant characters with entities, e.g., &lt; </p></li><li><p>consider escaping all “special” characters with the right character or numeric
+            entity (ASCII code under 256) </p></li><li><p>escape JavaScript, CSS, and URIs appropriately </p></li></ul></div><p>Check the OWASP XSS Prevention Cheat Sheet</p></div><div class="foil-notes"><div class="foilinset"><p>Multi-layer prevention is best </p><div class="itemizedlist"><ul><li><p>only allow characters that make sense in the context <div class="itemizedlist"><ul><li><p>e.g., don’t allow input into a script </p></li><li><p>don’t allow non-printable characters in name fields </p></li></ul></div></p></li><li><p>ensure input data can’t change the HTML DOM tree </p></li><li><p>escape all HTML/XML significant characters with entities, e.g., &lt; </p></li><li><p>consider escaping all “special” characters with the right character or numeric
+            entity (ASCII code under 256) </p></li><li><p>escape JavaScript, CSS, and URIs appropriately </p></li></ul></div><p>Check the OWASP XSS Prevention Cheat Sheet</p></div><div class="speakernotes">
+        <p>Injecting UP: The most common way is to close the current context and start a new code
+          context. For example, this is what you do when you close an HTML attribute with a "&gt; and
+          start a new &lt;script&gt; tag. This attack closes the original context (going up in the
+          hierarchy) and then starts a new tag that will allow script code to execute. Remember that
+          you may be able to skip many layers up in the hierarchy when trying to break out of your
+          current context. For example, a &lt;/script&gt; tag may be able to terminate a script block
+          even if it is injected inside a quoted string inside a method call inside the script. This
+          happens because the HTML parser runs before the JavaScript parser. </p>
+        <p>Injecting DOWN: The less common way to perform XSS injection is to introduce a code
+          subcontext without closing the current context. For example, if the attacker is able to
+          change &lt;img src="...UNTRUSTED DATA HERE..." /&gt; into &lt;img
+          src="javascript:alert(document.cookie)" /&gt; they do not have to break out of the HTML
+          attribute context. Instead, they introduce a subcontext that allows scripting within the
+          src attribute (in this case a javascript url). Another example is the expression()
+          functionality in CSS properties. Even though you may not be able to escape a quoted CSS
+          property to inject up, you may be able to introduce something like
+          xss:expression(document.write(document.cookie)) without ever leaving the current context.
+        </p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">62</div></div></div><div class="foil"><div class="page"><div class="header"><h1>CSRF Attacks</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Cross-Site Request Forgery </p><div class="itemizedlist"><ul><li><p>victim is logged in somewhere </p></li><li><p>attacker convinces victim to run a script </p></li><li><p>script action is carried out, since victim is logged in </p></li></ul></div><p>Prevention: complicated </p><p>Good measures to not become a victim </p><div class="itemizedlist"><ul><li><p>log out of your bank site when you’re finished </p></li><li><p>don’t automatically save usernames and passwords to sensitive sites </p></li></ul></div></div><div class="foil-notes"><div class="foilinset"><p>Cross-Site Request Forgery </p><div class="itemizedlist"><ul><li><p>victim is logged in somewhere </p></li><li><p>attacker convinces victim to run a script </p></li><li><p>script action is carried out, since victim is logged in </p></li></ul></div><p>Prevention: complicated </p><p>Good measures to not become a victim </p><div class="itemizedlist"><ul><li><p>log out of your bank site when you’re finished </p></li><li><p>don’t automatically save usernames and passwords to sensitive sites </p></li></ul></div></div><div class="speakernotes">
+        <p>This one is also wide-spread, perhaps not quite as nasty as the other two, but worth
+          knowing about. It’s an exploit where the server carries out some action on behalf of the
+          victim because it trusts the victim, or, more to the point, trusts the victim’s browser.
+          The victim is authenticated at a site and is then tricked into sending a request to the
+          server to carry out the action. It’s also called session riding. As an example – the
+          victim carried out some business at their bank, and the authentication is still valid.
+          Let’s assume the authentication information is in a cookie. And the bank has a simple way
+          to move money from one account to another, something like </p>
+        <p>http://example.com/move?from=victim&amp;amount=1000&amp;to=attacker </p>
+        <p>Then if the attacker can convince the victim to click on an appropriate link, or view
+          an image where the source is a script, the action will be carried out because the victim
+          is still logged in and still has a valid cookie. There are defences against this attack,
+          but it’s more difficult than for the others, so it’s still a good idea to sign out of your
+          bank account or other high-security web site before browsing random forums or unknown web
+          sites that could be affected. And, to top it off, XSS is often used to introduce a CSRF
+          attack.&#8232;&#8232;Rhetorical question: are you paranoid enough yet? Let’s fix one of these issues
+          in our sample application. </p>
+        <p>Rhetorical question: are you paranoid enough yet? Let’s fix one of these issues in our
+          sample application.</p>
+      </div></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">63</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Exercise</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Identify and fix security issues in sample application</p></div><div class="foil-notes"><div class="foilinset"><p>Identify and fix security issues in sample application</p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">64</div></div></div><div class="foil"><div class="page"><div class="header"><h1>CSRF prevention</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="ruby"><span class="k">class</span> <span class="nc">AnnotatedShakespeare</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">use</span> <span class="no">OmniAuth</span><span class="o">::</span><span class="no">Builder</span> <span class="k">do</span>
+    <span class="n">provider</span> <span class="ss">:browser_id</span><span class="p">,</span> <span class="ss">:verify_url</span> <span class="o">=&gt;</span> <span class="s1">'...'</span>
+  <span class="k">end</span>
+  <span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span><span class="o">::</span><span class="no">AuthenticityToken</span>
+  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+  <span class="n">helpers</span> <span class="k">do</span>
+    <span class="k">def</span> <span class="nf">csrf_token</span>
+      <span class="n">session</span><span class="o">[</span><span class="ss">:csrf</span><span class="o">]</span> <span class="o">||=</span> <span class="no">SecureRandom</span><span class="o">.</span><span class="n">hex</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="ruby"><span class="k">class</span> <span class="nc">AnnotatedShakespeare</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">use</span> <span class="no">OmniAuth</span><span class="o">::</span><span class="no">Builder</span> <span class="k">do</span>
+    <span class="n">provider</span> <span class="ss">:browser_id</span><span class="p">,</span> <span class="ss">:verify_url</span> <span class="o">=&gt;</span> <span class="s1">'...'</span>
+  <span class="k">end</span>
+  <span class="n">use</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span><span class="o">::</span><span class="no">AuthenticityToken</span>
+  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+  <span class="n">helpers</span> <span class="k">do</span>
+    <span class="k">def</span> <span class="nf">csrf_token</span>
+      <span class="n">session</span><span class="o">[</span><span class="ss">:csrf</span><span class="o">]</span> <span class="o">||=</span> <span class="no">SecureRandom</span><span class="o">.</span><span class="n">hex</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">65</div></div></div><div class="foil"><div class="page"><div class="header"><h1>CSRF prevention</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;form</span> <span class="err">...</span> <span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"authenticity_token"</span> 
+    <span class="na">value=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">csrf_token</span> <span class="cp">%&gt;</span><span class="s">"</span> 
+    <span class="na">type=</span><span class="s">"hidden"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;textarea</span> <span class="na">name=</span><span class="s">"comment[body]"</span><span class="nt">&gt;&lt;/textarea&gt;</span>
+  <span class="nt">&lt;p&gt;&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Add comment"</span><span class="nt">&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;/form&gt;</span></pre></div><p><code class="code">views/show.erb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="html+erb"><span class="nt">&lt;form</span> <span class="err">...</span> <span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">"authenticity_token"</span> 
+    <span class="na">value=</span><span class="s">"</span><span class="cp">&lt;%=</span> <span class="n">csrf_token</span> <span class="cp">%&gt;</span><span class="s">"</span> 
+    <span class="na">type=</span><span class="s">"hidden"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;textarea</span> <span class="na">name=</span><span class="s">"comment[body]"</span><span class="nt">&gt;&lt;/textarea&gt;</span>
+  <span class="nt">&lt;p&gt;&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Add comment"</span><span class="nt">&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;/form&gt;</span></pre></div><p><code class="code">views/show.erb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">66</div></div></div><div class="foil"><div class="page"><div class="header"><h1>CSRF prevention</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="sidebar"><header class="sidebar-titlepage"><h3>Oh Noes!</h3></header><div class="sidebar-content"></div></div></div><div class="foil-notes"><div class="foilinset"><div class="sidebar"><header class="sidebar-titlepage"><h3>Oh Noes!</h3></header><div class="sidebar-content"></div></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">67</div></div></div><div class="foil"><div class="page"><div class="header"><h1>CSRF prevention, take 2</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><div class="programlisting highlight"><pre class="ruby"><span class="k">class</span> <span class="nc">OAAwareAuthenticityToken</span> <span class="o">&lt;</span> 
+      <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span><span class="o">::</span><span class="no">AuthenticityToken</span>
+  <span class="k">def</span> <span class="nf">accepts?</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">safe?</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">env</span><span class="o">[</span><span class="s1">'omniauth.auth'</span><span class="o">]</span>
+    <span class="k">super</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">AnnotatedShakespeare</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">use</span> <span class="no">OmniAuth</span><span class="o">::</span><span class="no">Builder</span> <span class="k">do</span>
+    <span class="n">provider</span> <span class="ss">:browser_id</span><span class="p">,</span> <span class="ss">:verify_url</span> <span class="o">=&gt;</span> <span class="s1">'...'</span>
+  <span class="k">end</span>
+  <span class="n">use</span> <span class="no">OAAwareAuthenticityToken</span>
+  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><div class="foil-notes"><div class="foilinset"><div class="programlisting highlight"><pre class="ruby"><span class="k">class</span> <span class="nc">OAAwareAuthenticityToken</span> <span class="o">&lt;</span> 
+      <span class="no">Rack</span><span class="o">::</span><span class="no">Protection</span><span class="o">::</span><span class="no">AuthenticityToken</span>
+  <span class="k">def</span> <span class="nf">accepts?</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">safe?</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kp">true</span> <span class="k">if</span> <span class="n">env</span><span class="o">[</span><span class="s1">'omniauth.auth'</span><span class="o">]</span>
+    <span class="k">super</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">class</span> <span class="nc">AnnotatedShakespeare</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+  <span class="n">use</span> <span class="no">OmniAuth</span><span class="o">::</span><span class="no">Builder</span> <span class="k">do</span>
+    <span class="n">provider</span> <span class="ss">:browser_id</span><span class="p">,</span> <span class="ss">:verify_url</span> <span class="o">=&gt;</span> <span class="s1">'...'</span>
+  <span class="k">end</span>
+  <span class="n">use</span> <span class="no">OAAwareAuthenticityToken</span>
+  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+<span class="k">end</span></pre></div><p><code class="code">lib/annotated_shakespeare.rb</code></p></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">68</div></div></div><div class="foil"><div class="page"><div class="header"><h1>XSS prevention</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><a href="javascript:clicknav('next')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></a></div><div class="foil-body"><p>Try pasting this into a comment box:</p><div class="programlisting highlight"><pre class="js"><span class="nx">I</span> <span class="nx">think</span> <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">();</span>
+<span class="nx">f</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'Hax0red'</span><span class="p">);</span><span class="nx">f</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">'authenticity_token'</span><span class="p">,</span> 
+<span class="nb">document</span><span class="p">.</span><span class="nx">forms</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">authenticity_token</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span><span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="k">new</span> 
+<span class="nx">XMLHttpRequest</span><span class="p">();</span> <span class="nx">r</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">'POST'</span><span class="p">,</span> <span class="s1">'/profile'</span><span class="p">);</span> 
+<span class="nx">r</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">f</span><span class="p">);</span><span class="o">&lt;</span><span class="err">/script&gt;Will is great.</span></pre></div></div><div class="foil-notes"><div class="foilinset"><p>Try pasting this into a comment box:</p><div class="programlisting highlight"><pre class="js"><span class="nx">I</span> <span class="nx">think</span> <span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span><span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">();</span>
+<span class="nx">f</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'Hax0red'</span><span class="p">);</span><span class="nx">f</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="s1">'authenticity_token'</span><span class="p">,</span> 
+<span class="nb">document</span><span class="p">.</span><span class="nx">forms</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">authenticity_token</span><span class="p">.</span><span class="nx">value</span><span class="p">);</span><span class="kd">var</span> <span class="nx">r</span> <span class="o">=</span> <span class="k">new</span> 
+<span class="nx">XMLHttpRequest</span><span class="p">();</span> <span class="nx">r</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="s1">'POST'</span><span class="p">,</span> <span class="s1">'/profile'</span><span class="p">);</span> 
+<span class="nx">r</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">f</span><span class="p">);</span><span class="o">&lt;</span><span class="err">/script&gt;Will is great.</span></pre></div></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">69</div></div></div><div class="foil"><div class="page"><div class="header"><h1>Resources</h1></div><div class="body"><div class="clicknav"><a href="javascript:clicknav('prev')"><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Prev]" /></a><img src="http://docbook.github.com/release/2.0.3/base/../slides/img/transparent.gif" alt="[Next]" /></div><div class="foil-body"><table border="0" summary="Simple list" class="simplelist"><tr><td><span class="member">http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html</span></td></tr><tr><td><span class="member">http://www.codeproject.com/Articles/9378/SQL-Injection-Attacks-and-Some-Tips-on-How-to-Prev</span></td></tr><tr><td><span class="member">https://www.schneier.com/blog/archives/2012/03/the_security_of_5.html</span></td></tr><tr><td><span class="member">http://www.slideshare.net/johnwilander/application-security-for-rich-internet-applicationss-jfokus-2012</span></td></tr><tr><td><span class="member">https://code.google.com/p/webgoat/</span></td></tr></table></div><div class="foil-notes"><div class="foilinset"><table border="0" summary="Simple list" class="simplelist"><tr><td><span class="member">http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html</span></td></tr><tr><td><span class="member">http://www.codeproject.com/Articles/9378/SQL-Injection-Attacks-and-Some-Tips-on-How-to-Prev</span></td></tr><tr><td><span class="member">https://www.schneier.com/blog/archives/2012/03/the_security_of_5.html</span></td></tr><tr><td><span class="member">http://www.slideshare.net/johnwilander/application-security-for-rich-internet-applicationss-jfokus-2012</span></td></tr><tr><td><span class="member">https://code.google.com/p/webgoat/</span></td></tr></table></div><p>No speaker notes for this foil.</p></div></div></div><div class="footer"><div class="license">Licensed under a Creative Commons Attribution-
+  <br />Noncommercial-Share Alike 3.0 Unported License</div><div class="content">www.xmlsummerschool.com</div><div class="foilnumber">70</div></div></div></body></html>

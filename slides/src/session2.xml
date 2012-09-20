@@ -88,6 +88,96 @@ PATCH     |             *            X           X                  |
           -----------------------------------------------------------
       </programlisting>
     </foil>
+    <foil>
+      <title>Verbs in URLs make Roy cry</title>
+      <itemizedlist>
+        <listitem>
+          <para><code>/getCustomerProfile</code></para>
+        </listitem>
+        <listitem>
+          <para><code>/deleteTheArticle</code></para>
+        </listitem>
+        <listitem>
+          <para><code>/fireNuclearMissiles</code></para>
+        </listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>URLs are nouns!</title>
+      <itemizedlist>
+        <listitem>
+          <para><code>/cities</code></para>
+        </listitem>
+        <listitem>
+          <para><code>/cities/London</code></para>
+          <para><code>/cities/Paris</code></para>
+          <para><code>/cities/Moscow</code></para>
+        </listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>GET</title>
+      <programlisting language="http"><![CDATA[
+      http://www.flickr.com/search?q=dog&w=commons&m=text
+]]></programlisting>
+      <programlisting language="http"><![CDATA[
+      GET /search?q=dog&w=commons&m=text
+      Host: http://www.flickr.com
+]]></programlisting>
+    </foil>
+    <foil>
+      <title>POST</title>
+      <para>Talk to an agent</para>
+      <programlisting language="http"><![CDATA[
+      POST /box-office
+      Host: http://www.flickr.com
+      Content-Type: application/x-www-form-urlencoded
+
+      date=20120912&performance=evening&number=4
+]]></programlisting>
+    </foil>
+    <foil>
+      <title>PUT</title>
+      <para>Replace the content</para>
+      <programlisting language="http"><![CDATA[
+      PUT /box-office
+      Host: http://www.flickr.com
+      Content-Type: application/x-www-form-urlencoded
+
+      date=20120912&performance=evening&number=4
+]]></programlisting>
+    </foil>
+    <foil>
+      <title>DELETE</title>
+      <para>Delete the resource</para>
+      <programlisting language="http"><![CDATA[
+      DELETE /box-office
+      Host: http://www.flickr.com
+]]></programlisting>
+    </foil>
+    <foil>
+      <title>HTTP Verbs</title>
+      <programlisting role="wide">
+method     safe    idempotent   semantics    resource     cacheable
+          -----------------------------------------------------------
+GET       |  X          X            X           X             X    |
+HEAD      |  X          X            X           X             X    |
+PUT       |             X            X           X                  |
+POST      |                                                    *    |
+DELETE    |             X            X           X                  |
+OPTIONS   |  X          X            X                              |
+          -----------------------------------------------------------
+PROPFIND  |  X          X            X           X             *    |
+PROPPATCH |             X            X           X                  |
+MKCOL     |             *            X           X                  |
+COPY      |             X            X           X                  |
+MOVE      |             ?            X           X                  |
+LOCK      |                          X           X                  |
+UNLOCK    |             X            X           X                  |
+PATCH     |             *            X           X                  |
+          -----------------------------------------------------------
+      </programlisting>
+    </foil>
   </foilgroup>
   <foilgroup>
     <title>Modelling Plays for our app</title>

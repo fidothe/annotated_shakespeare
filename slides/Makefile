@@ -12,6 +12,7 @@ TARGETS+=session4.html
 #TARGETS+=javascript.html
 TARGETS+=session5.html
 TARGETS+=session6.html
+TARGETS+=resources.html
 
 DEFUNCT=architecture.html
 

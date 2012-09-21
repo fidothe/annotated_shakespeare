@@ -1,0 +1,123 @@
+<?dbhtml pygments="true"?>
+<slides xml:lang="en" xmlns="http://docbook.org/ns/docbook"
+        xmlns:h="http://www.w3.org/1999/xhtml"
+  xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <info>
+    <title>Practical Web Applications</title>
+    <subtitle>Resources</subtitle>
+    <!-- authors are alphabetical by first name (I get sick of being listed last all the time, 
+so I always do this if I can) -->
+    <authorgroup>
+      <author>
+        <personname>
+          <firstname>Lauren</firstname>
+          <surname>Wood</surname>
+        </personname>
+        <affiliation>
+          <orgname>Textuality Services, Inc.</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Matt</firstname>
+          <surname>Patterson</surname>
+        </personname>
+        <affiliation>
+          <orgname>Constituent Parts, Ltd.</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Norman </firstname>
+          <surname>Walsh</surname>
+        </personname>
+        <affiliation>
+          <orgname>MarkLogic</orgname>
+        </affiliation>
+      </author>
+      <author>
+        <personname>
+          <firstname>Paul</firstname>
+          <surname>Downey</surname>
+        </personname>
+        <affiliation>
+          <orgname>GDS</orgname>
+        </affiliation>
+      </author>
+    </authorgroup>
+    <releaseinfo role="version">Version 1.0</releaseinfo>
+    <legalnotice>
+      <para>Alpha by first name</para>
+    </legalnotice>
+    <pubdate>2012-09-20</pubdate>
+    <copyright>
+      <year>2012</year>
+      <holder>Lauren Wood, Matt Patterson, Norm Walsh, Paul Downey</holder>
+    </copyright>
+    <h:script type="text/javascript" src="js/javascript-js.js"/>
+    <h:script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"/>
+    <h:script type="text/javascript" src="js/html-geoloc.js"/>
+    <h:link rel="stylesheet" type="text/css" href="css/html-css.css" />
+    <h:link rel="stylesheet" type="text/css" href="css/pygments.css" />
+    <h:meta name="timer" content="true"/>
+    <h:meta name="countdown" content="180:00"/>
+  </info>
+  <foilgroup>
+    <title>Useful resources</title>
+    <foil>
+      <title>Session 1</title>
+      <itemizedlist>
+        <listitem><para><link xlink:href="http://en.wikipedia.org/wiki/HTML">HTML</link></para></listitem>
+        <listitem><para><link xlink:href="http://ruby-lang.org/">Ruby</link></para></listitem>
+        <listitem><para><link xlink:href="http://sinatrarb.com/">Sinatra</link></para></listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>Session 2</title>
+      <itemizedlist>
+        <listitem><para><link xlink:href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">HTTP</link></para></listitem>
+        <listitem><para><link xlink:href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">The HTTP Spec</link></para></listitem>
+        <listitem><para><link xlink:href="http://www.w3.org/Provider/Style/URI.html">Cool URI's don't change</link></para></listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>Session 3</title>
+      <itemizedlist>
+        <listitem><para><link xlink:href="http://en.wikipedia.org/wiki/HTML5">HTML 5 - Wikipedia</link></para></listitem>
+        <listitem><para><link xlink:href="http://www.html5rocks.com/en/">HTML 5 Rocks</link></para></listitem>
+        <listitem><para><link xlink:href="http://nokogiri.org/">Nokogiri</link></para></listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>Session 4</title>
+      <itemizedlist>
+        <listitem><para><link xlink:href="http://martinfowler.com/eaaCatalog/index.html">Patterns of Enterprise Application Architecture</link></para></listitem>
+        <listitem><para><link xlink:href="http://datamapper.org/">DataMapper</link></para></listitem>
+        <listitem><para><link xlink:href="http://guides.rubyonrails.org/">Ruby on Rails Guides (for ActiveRecord)</link></para></listitem>
+        <listitem><para><link xlink:href="http://sqlite.org/">SQLite</link></para></listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>Session 5</title>
+      <itemizedlist>
+        <listitem><para><link xlink:href="http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html">http://www.moserware.com/2009/06/first-few-milliseconds-of-https.html</link></para></listitem>
+        <listitem><para><link xlink:href="http://www.codeproject.com/Articles/9378/SQL-Injection-Attacks-and-Some-Tips-on-How-to-Prev">http://www.codeproject.com/Articles/9378/SQL-Injection-Attacks-and-Some-Tips-on-How-to-Prev</link></para></listitem>
+        <listitem><para><link xlink:href="https://www.schneier.com/blog/archives/2012/03/the_security_of_5.html">https://www.schneier.com/blog/archives/2012/03/the_security_of_5.html</link></para></listitem>
+        <listitem><para><link xlink:href="http://www.slideshare.net/johnwilander/application-security-for-rich-internet-applicationss-jfokus-2012">http://www.slideshare.net/johnwilander/application-security-for-rich-internet-applicationss-jfokus-2012</link></para></listitem>
+        <listitem><para><link xlink:href="https://code.google.com/p/webgoat/">https://code.google.com/p/webgoat/</link></para></listitem>
+        <listitem><para><link xlink:href="http://omniauth.org/">http://omniauth.org/</link></para></listitem>
+        <listitem><para><link xlink:href="https://login.persona.org/about">Mozilla Persona</link></para></listitem>
+        <listitem><para><link xlink:href="http://oauth.net/">OAuth</link></para></listitem>
+      </itemizedlist>
+    </foil>
+    <foil>
+      <title>Session 6</title>
+      <itemizedlist>
+        <listitem><para><link xlink:href="http://jquery.com/">jQuery</link></para></listitem>
+        <!-- <listitem><para><link xlink:href=""></link></para></listitem> -->
+        <!-- <listitem><para><link xlink:href=""></link></para></listitem> -->
+      </itemizedlist>
+    </foil>
+  </foilgroup>
+</slides>
+  

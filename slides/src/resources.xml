@@ -68,8 +68,10 @@ so I always do this if I can) -->
       <title>Session 1</title>
       <itemizedlist>
         <listitem><para><link xlink:href="http://en.wikipedia.org/wiki/HTML">HTML</link></para></listitem>
+        <listitem><para><link xlink:href="http://github.com/">Github</link></para></listitem>
         <listitem><para><link xlink:href="http://ruby-lang.org/">Ruby</link></para></listitem>
         <listitem><para><link xlink:href="http://sinatrarb.com/">Sinatra</link></para></listitem>
+        <listitem><para><link xlink:href="http://git-scm.com/book/en/Getting-Started-Git-Basics">Git</link></para></listitem>
       </itemizedlist>
     </foil>
     <foil>
@@ -105,6 +107,7 @@ so I always do this if I can) -->
         <listitem><para><link xlink:href="https://www.schneier.com/blog/archives/2012/03/the_security_of_5.html">https://www.schneier.com/blog/archives/2012/03/the_security_of_5.html</link></para></listitem>
         <listitem><para><link xlink:href="http://www.slideshare.net/johnwilander/application-security-for-rich-internet-applicationss-jfokus-2012">http://www.slideshare.net/johnwilander/application-security-for-rich-internet-applicationss-jfokus-2012</link></para></listitem>
         <listitem><para><link xlink:href="https://code.google.com/p/webgoat/">https://code.google.com/p/webgoat/</link></para></listitem>
+        <listitem><para><link xlink:href="http://www.youtube.com/watch?v=2Ex8EEv-WPs">Yehuda Katz: Why Rails is hard<link></para></listitem>
         <listitem><para><link xlink:href="http://omniauth.org/">http://omniauth.org/</link></para></listitem>
         <listitem><para><link xlink:href="https://login.persona.org/about">Mozilla Persona</link></para></listitem>
         <listitem><para><link xlink:href="http://oauth.net/">OAuth</link></para></listitem>
